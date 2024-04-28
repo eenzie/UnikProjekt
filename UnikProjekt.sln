@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Api", "UnikProjekt.Api\UnikProjekt.Api.csproj", "{991E60BA-ABDF-46CA-A124-1A78EE8EBC4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Application", "UnikProjekt.Application\UnikProjekt.Application.csproj", "{6CB060C5-0258-48EC-A58E-C49DDE860322}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Domain", "UnikProjekt.Domain\UnikProjekt.Domain.csproj", "{7BA7760D-0CCA-4BE8-945D-5D157EDFB9C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Domain.Test", "UnikProjekt.Domain.Test\UnikProjekt.Domain.Test.csproj", "{EC7E8B44-D991-46A6-9CF1-B3B59475554D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Infrastructure", "UnikProjekt.Infrastructure\UnikProjekt.Infrastructure.csproj", "{741FAB2F-57DC-4025-A0E6-0A0DC44D1711}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.DatabaseMigration", "UnikProjekt.DatabaseMigration\UnikProjekt.DatabaseMigration.csproj", "{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{991E60BA-ABDF-46CA-A124-1A78EE8EBC4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{991E60BA-ABDF-46CA-A124-1A78EE8EBC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{991E60BA-ABDF-46CA-A124-1A78EE8EBC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{991E60BA-ABDF-46CA-A124-1A78EE8EBC4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CB060C5-0258-48EC-A58E-C49DDE860322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CB060C5-0258-48EC-A58E-C49DDE860322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB060C5-0258-48EC-A58E-C49DDE860322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CB060C5-0258-48EC-A58E-C49DDE860322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA7760D-0CCA-4BE8-945D-5D157EDFB9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA7760D-0CCA-4BE8-945D-5D157EDFB9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA7760D-0CCA-4BE8-945D-5D157EDFB9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA7760D-0CCA-4BE8-945D-5D157EDFB9C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC7E8B44-D991-46A6-9CF1-B3B59475554D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC7E8B44-D991-46A6-9CF1-B3B59475554D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC7E8B44-D991-46A6-9CF1-B3B59475554D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC7E8B44-D991-46A6-9CF1-B3B59475554D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{741FAB2F-57DC-4025-A0E6-0A0DC44D1711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{741FAB2F-57DC-4025-A0E6-0A0DC44D1711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{741FAB2F-57DC-4025-A0E6-0A0DC44D1711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{741FAB2F-57DC-4025-A0E6-0A0DC44D1711}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
