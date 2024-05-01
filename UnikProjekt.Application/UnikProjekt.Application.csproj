@@ -8,6 +8,12 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\Booking\BookingDto\" />
+    <Folder Include="Commands\Roles\Implementation\" />
+    <Folder Include="Queries\Roles\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
