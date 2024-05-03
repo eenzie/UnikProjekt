@@ -1,0 +1,98 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 150px;
+}
+
+.custom-box {
+    background-color: #006d77;
+    color: whitesmoke;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/*Menu box Overlapping Front picture*/
+.menu-container {
+    margin-bottom: 2rem;
+}
+
+
+.custom-box:hover {
+    background-color: #15616d;
+}
+
+.logo {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.custom-footer-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.custom-footer {
+    background-color: #F2F3F4;
+    padding: 20px;
+    margin-top: auto;
+    z-index: 1100;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0; 
+}
+
+.custom-header {
+    background-color: #006d77;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #006d77;
+    color: #ffffff;
+    padding: 10px;
+    margin-top: 0;
+}
+
+
+/*Website title color*/
+.custom-navbar .navbar-brand {
+    color: #ffffff; 
+}
+
+/*Navbar link color*/
+.custom-navbar .navbar-nav .nav-link {
+    color: #ffffff; 
+    }
+
+.custom-button {
+    background-color: #006d77;
+    color: white;
+}
+
+

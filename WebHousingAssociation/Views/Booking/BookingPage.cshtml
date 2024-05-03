@@ -1,0 +1,96 @@
+﻿@model WebHousingAssociation.Infrastructure.Contract.Dto.BookingCreateRequestDto
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opret Booking</title>
+    <link rel="stylesheet" href="site.css"> 
+</head>
+<body>
+    <div style="height: 100px;"></div>
+    <div class="container" style="max-width: 600px;">
+        <h2>Opret Booking</h2>
+        <form>
+            <div class="form-group">
+                <label for="bookingName">Navn på Booking:</label>
+                <input type="text" class="form-control" id="bookingName" @*value="@Model.ItemName">*@
+            </div>
+            <div class="form-group">
+                <label for="bookingQuantity">Antal af Booking Type:</label>
+                <input type="number" class="form-control" id="bookingQuantity"
+                @*value="@Model.Quantity">*@
+            </div>
+            <div class="form-group">
+                <label for="bookingPrice">Pris:</label>
+                <input type="number" class="form-control" id="bookingPrice" @*value="@Model.Price" *@
+            </div>
+            <!-- TODO tilføj de rigtige DTO'er' -->
+            <div class="form-group">
+                <label>Er prisen pr. booking eller pr. time?</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="pricePerBooking">
+                    <label class="form-check-label" for="pricePerBooking">Pr. Booking</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="pricePerHour">
+                    <label class="form-check-label" for="pricePerHour">Pr. Time</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Er det en service der kan bookes i flere dage?</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="multipleDaysService">
+                    <label class="form-check-label" for="multipleDaysService">Ja</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="singleDayService">
+                    <label class="form-check-label" for="singleDayService">Nej</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Hvor mange bookinger må en beboer have?</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="unlimitedBookings">
+                    <label class="form-check-label" for="unlimitedBookings">Ubegrænset</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="limitedBookings">
+                    <label class="form-check-label" for="limitedBookings">Begrænset</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Er der faste intervaller for bookingen?</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="fixedIntervals">
+                    <label class="form-check-label" for="fixedIntervals">Ja</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="flexibleIntervals">
+                    <label class="form-check-label" for="flexibleIntervals">Nej</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Kan man booke og "afhente" 24/7?</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="24-7Booking">
+                    <label class="form-check-label" for="24-7Booking">Ja</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="non-24-7Booking">
+                    <label class="form-check-label" for="non-24-7Booking">Nej</label>
+                </div>
+            </div>
+            <div class="mt-4">
+            <button type="submit" class="btn custom-button">Opret Booking</button>
+        </form>
+    </div>
+
+</body>
+</html>
+
