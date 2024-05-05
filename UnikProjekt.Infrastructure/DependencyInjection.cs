@@ -13,7 +13,7 @@ public static class DependencyInjection
         //services.AddDbContext<UnikDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
         //x => x.MigrationsAssembly("UnikProjekt.DatabaseMigration")));
 
-        //HUSK at tilføje domain services her når et interface er lavet
+        //TODO: HUSK at tilføje domain services her når et interface er lavet
         services.AddScoped<IUserDomainService, UserDomainService>();
 
         return services;

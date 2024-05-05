@@ -2,4 +2,5 @@
 
 public interface IUserQueries
 {
+    IEnumerable<UserDto> GetUserById(Guid userId);
 }

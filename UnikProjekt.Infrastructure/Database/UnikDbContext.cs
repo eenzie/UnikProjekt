@@ -12,7 +12,7 @@ public class UnikDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
-    //HUSK at tilføje DBSets!!!
+    //TODO: HUSK at tilføje DBSets!!!
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
