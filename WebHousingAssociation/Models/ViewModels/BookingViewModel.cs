@@ -1,6 +1,6 @@
-﻿namespace WebHousingAssociation.Infrastructure.Contract.Dto
+﻿namespace WebHousingAssociation.Models.ViewModels
 {
-    public class BookingCreateRequestDto
+    public class BookingViewModel
     {
         public int Id { get; set; }
         public string ItemName { get; set; }

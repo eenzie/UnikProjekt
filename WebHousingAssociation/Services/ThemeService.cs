@@ -40,7 +40,7 @@ namespace WebHousingAssociation.Services
                 // Brug standardværdier, hvis themeConfiguration er null
                 viewModel.ThemeColour = "#333333"; // Standard tema farve
                 viewModel.LogoPath = "/Logo/Bolig.png"; // Standard sti til logo
-                viewModel.Image = "/Images/FrontImage.jpg";
+                viewModel.Image = "/Images/FrontImage2.jpg";
             }
 
             // Hent data fra TextService

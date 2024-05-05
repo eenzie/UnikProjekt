@@ -1,0 +1,62 @@
+﻿@model WebHousingAssociation.Models.ViewModels.UserViewModel
+
+@{
+    Layout = Layout;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css"> 
+    <title>Opret Ny Bruger</title>
+</head>
+<body>
+    <div class="container mt-6" style="margin-top: 100px;">
+        <h2>Opret Ny Bruger</h2>
+        <form asp-action="Create" method="post">
+            <!-- Felter til oprettelse af bruger -->
+            <div class="form-group">
+                <label>Navn:</label>
+                <input type="text" class="form-control" asp-for="Name" required>
+            </div>
+            <div class="form-group">
+                <label>Adresse:</label>
+                <input type="text" class="form-control" id="addressInput" required>
+                <small class="form-text text-muted">Vælg adresse fra listen nedenfor</small>
+            </div>
+            <div class="form-group">
+                <label>Postnummer:</label>
+                <input type="text" class="form-control" id="postalCodeInput" required>
+            </div>
+            <div class="form-group">
+                <label>By:</label>
+                <input type="text" class="form-control" id="cityInput" required>
+            </div>
+            <div class="form-group">
+                <label>Mobil Telefon:</label>
+                <input type="text" class="form-control" asp-for="Phone" required>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" class="form-control" asp-for="Email" required>
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" class="form-control" asp-for="Password" required>
+            </div>
+            <div class="mt-4">
+            <button type="submit" class="btn custom-button">Opret Bruger</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DAWA API JS -->
+    <script src="https://dawa.aws.dk/adgangsadresser autocomplete/js"></script>
+
+</body>
+</html>

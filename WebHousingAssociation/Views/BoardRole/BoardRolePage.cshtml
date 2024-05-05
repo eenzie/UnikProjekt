@@ -15,6 +15,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Tilføjet stil for at skabe en margin mellem knappen og den næste menige bestyrelsesmedlemsformular */
+        .menige-group .menige {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -34,7 +40,7 @@
                     <option>Beboer 2</option>
                     <option>Beboer 3</option>
                 </select>
-                <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <span class="last-modified-date"></span></p>
+                <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <input type="date" class="change-date"></p>
             </div>
         </div>
         <hr />
@@ -51,41 +57,55 @@
                     <option>Beboer 2</option>
                     <option>Beboer 3</option>
                 </select>
-                <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <span class="last-modified-date"></span></p>
+                <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <input type="date" class="change-date"></p>
             </div>
         </div>
         <hr />
 
         <!-- Menige bestyrelsesmedlemmer -->
-        <div class="row">
+        <div class="row menige-group">
             <div class="col-md-3">
                 <label>Menige bestyrelsesmedlemmer</label>
             </div>
             <div class="col-md-9">
-                <select class="form-control form-control-sm board-role">
-                    <option value="">Vælg beboer</option>
-                    <option>Beboer 1</option>
-                    <option>Beboer 2</option>
-                    <option>Beboer 3</option>
-                </select>
-                <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <span class="last-modified-date"></span></p>
+                <div class="menige">
+                    <select class="form-control form-control-sm board-role">
+                        <option value="">Vælg beboer</option>
+                        <option>Beboer 1</option>
+                        <option>Beboer 2</option>
+                        <option>Beboer 3</option>
+                    </select>
+                    <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <input type="date" class="change-date"></p>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button type="button" class="btn add-member-button">Tilføj Menige Bestyrelsesmedlem</button>
+                    </div>
+                </div>
             </div>
         </div>
         <hr />
 
-        <!-- Suppleanter -->
-        <div class="row">
+        <!-- Suppleant -->
+        <div class="row suppleant-group">
             <div class="col-md-3">
                 <label>Suppleant</label>
             </div>
             <div class="col-md-9">
-                <select class="form-control form-control-sm board-role">
-                    <option value="">Vælg beboer</option>
-                    <option>Beboer 1</option>
-                    <option>Beboer 2</option>
-                    <option>Beboer 3</option>
-                </select>
-                <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <span class="last-modified-date"></span></p>
+                <div class="suppleant">
+                    <select class="form-control form-control-sm board-role">
+                        <option value="">Vælg beboer</option>
+                        <option>Beboer 1</option>
+                        <option>Beboer 2</option>
+                        <option>Beboer 3</option>
+                    </select>
+                    <p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <input type="date" class="change-date"></p>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button type="button" class="btn add-suppleant-button">Tilføj Suppleant</button>
+                    </div>
+                </div>
             </div>
         </div>
         <hr />
@@ -95,19 +115,54 @@
                 <button type="button" class="btn custom-button float-end">Gem</button>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-12"></div>
     </div>
 
     <script>
         $(document).ready(function () {
             // Dropdown change event handler
             $('.board-role').change(function () {
-                var selectedDate = new Date().toLocaleString();
-                $(this).next('.last-modified-date').text(selectedDate);
+                var selectedDate = new Date().toLocaleDateString();
+                $(this).parent().find('.change-date').val(selectedDate);
+            });
+
+            // Add menigt bestyrelsesmedlem button click event handler
+            $('.add-member-button').click(function () {
+                var newMemberSelect = '<div class="row menige">' +
+                    '<div class="col-md-4">' +
+                    '<label>Menige Bestyrelsesmedlem</label>' +
+                    '</div>' +
+                    '<div class="col-md-9">' +
+                    '<select class="form-control form-control-sm board-role">' +
+                    '<option value="">Vælg beboer</option>' +
+                    '<option>Beboer 1</option>' +
+                    '<option>Beboer 2</option>' +
+                    '<option>Beboer 3</option>' +
+                    '</select>' +
+                    '<p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <input type="date" class="change-date"></p>' +
+                    '</div>' +
+                    '</div>';
+                $('.menige-group').append(newMemberSelect);
+            });
+
+            // Add suppleant button click event handler
+            $('.add-suppleant-button').click(function () {
+                var newSuppleantSelect = '<div class="row suppleant">' +
+                    '<div class="col-md-4">' +
+                    '<label>Suppleant</label>' +
+                    '</div>' +
+                    '<div class="col-md-9">' +
+                    '<select class="form-control form-control-sm board-role">' +
+                    '<option value="">Vælg beboer</option>' +
+                    '<option>Beboer 1</option>' +
+                    '<option>Beboer 2</option>' +
+                    '<option>Beboer 3</option>' +
+                    '</select>' +
+                    '<p class="ml-2 mt-1 mb-0"><strong>Ændringsdato:</strong> <input type="date" class="change-date"></p>' +
+                    '</div>' +
+                    '</div>';
+                $('.suppleant-group').append(newSuppleantSelect);
             });
         });
     </script>
-
 </body>
 </html>
