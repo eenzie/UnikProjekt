@@ -3,6 +3,8 @@ using UnikProjekt.Application.Queries.Users;
 
 namespace UnikProjekt.Api.Controller;
 
+[Route("api/[controller]")]
+[ApiController]
 public class UserController : ControllerBase
 {
     private readonly IUserQueries _userQueries;
