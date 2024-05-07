@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnikProjekt.DatabaseMigrati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHousingAssociation", "WebHousingAssociation\WebHousingAssociation.csproj", "{3D47E285-5989-43AB-83C5-E91A216C4426}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3D47E285-5989-43AB-83C5-E91A216C4426}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D47E285-5989-43AB-83C5-E91A216C4426}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D47E285-5989-43AB-83C5-E91A216C4426}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

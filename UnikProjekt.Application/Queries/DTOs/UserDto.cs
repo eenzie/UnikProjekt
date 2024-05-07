@@ -1,4 +1,4 @@
-﻿namespace UnikProjekt.Application.Queries.Users;
+﻿namespace UnikProjekt.Application.Queries.DTOs;
 
 public class UserDto
 {

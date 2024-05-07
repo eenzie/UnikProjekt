@@ -11,12 +11,13 @@ public class User : Entity
 
     public User(Guid id, EmailAddress email, Name name, MobileNumber mobileNumber) : base(id)
     {
+        //TODO: INA: Add address
         Email = email;
         Name = name;
         MobileNumber = mobileNumber;
     }
 
-    public Name Name { get; init; }
+    public Name Name { get; set; }
     public EmailAddress Email { get; init; }   //TODO: INA: Find ud af om den skal være init?
     public MobileNumber MobileNumber { get; init; }
 }

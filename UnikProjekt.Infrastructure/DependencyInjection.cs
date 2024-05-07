@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UnikProjekt.Application.Commands.Users;
-using UnikProjekt.Application.Commands.Users.Implementation;
-using UnikProjekt.Application.Queries.Users;
+using UnikProjekt.Application.Commands;
+using UnikProjekt.Application.Commands.Implementation;
+using UnikProjekt.Application.Queries;
 using UnikProjekt.Domain.DomainService;
 using UnikProjekt.Infrastructure.Database;
 using UnikProjekt.Infrastructure.DomainServices;

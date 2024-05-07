@@ -17,5 +17,10 @@ public class UnikDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        //TODO: HJÆLP til seed database med records (complext properties)
+        //modelBuilder.Entity<User>()
+        //    .HasData(
+        //    new User(Guid.NewGuid(), new EmailAddress("test@test.com"), new Name("Test", "Tester"), new MobileNumber("88888888")));
     }
 }

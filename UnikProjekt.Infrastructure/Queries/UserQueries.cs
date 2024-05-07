@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UnikProjekt.Application.Queries.Users;
+using UnikProjekt.Application.Queries;
+using UnikProjekt.Application.Queries.DTOs;
 using UnikProjekt.Infrastructure.Database;
 
 namespace UnikProjekt.Infrastructure.Queries

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  unikprojekt.api:
+    image: ${DOCKER_REGISTRY-}unikprojektapi
+    build:
+      context: .
+      dockerfile: UnikProjekt.Api/Dockerfile

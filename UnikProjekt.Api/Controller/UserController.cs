@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UnikProjekt.Application.Queries.Users;
+using UnikProjekt.Application.Queries;
+using UnikProjekt.Application.Queries.DTOs;
 
 namespace UnikProjekt.Api.Controller;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class UserController : ControllerBase
 {
