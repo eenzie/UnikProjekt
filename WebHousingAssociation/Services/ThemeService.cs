@@ -15,27 +15,27 @@ namespace WebHousingAssociation.Services
 
         public async Task<CombinedViewModel> GetCombinedViewModel(string AssociationId)
         {
-
+            // TODO: En note: Dette er kommenteret ud pga. manglende data, hvilket giver en fejl da den ikke kan finde en del af stien. Med standardværdier kan hjemmesiden loades.
             // Opret stien til konfigurationsfilen relativt til rodstien for applikationen
-            string configurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "themeConfig.json");
+            //string configurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "themeConfig.json");
 
             // Læs konfigurationsfilen
-            string configJson = File.ReadAllText(configurationPath);
+            //string? configJson = File.ReadAllText(configurationPath);
 
             // Deserialiser JSON til en liste af ThemeConfiguration-objekter
-            List<ThemeConfiguration> themeConfigs = JsonConvert.DeserializeObject<List<ThemeConfiguration>>(configJson);
+            //List<ThemeConfiguration> themeConfigs = JsonConvert.DeserializeObject<List<ThemeConfiguration>>(configJson);
 
             // Find den rigtige ThemeConfiguration baseret på boligforenings-id
-            ThemeConfiguration themeConfiguration = themeConfigs.FirstOrDefault(x => x.AssociationId == AssociationId);
+            //ThemeConfiguration themeConfiguration = themeConfigs.FirstOrDefault(x => x.AssociationId == AssociationId);
 
             ThemeViewModel viewModel = new ThemeViewModel();
-            if (themeConfiguration != null)
-            {
-                viewModel.ThemeColour = themeConfiguration.ThemeColour;
-                viewModel.LogoPath = themeConfiguration.LogoPath;
-                viewModel.Image = themeConfiguration.Image;
-            }
-            else
+            //if (themeConfiguration != null)
+            //{
+            //    viewModel.ThemeColour = themeConfiguration.ThemeColour;
+            //    viewModel.LogoPath = themeConfiguration.LogoPath;
+            //    viewModel.Image = themeConfiguration.Image;
+            //}
+            //else
             {
                 // Brug standardværdier, hvis themeConfiguration er null
                 viewModel.ThemeColour = "#333333"; // Standard tema farve
