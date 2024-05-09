@@ -32,7 +32,7 @@ public class UserController : ControllerBase
     }
 
     // GET: api/Users
-    [HttpGet("ById, {userId}")]
+    [HttpGet("ById/{userId}")]
     public IEnumerable<UserDto> Get(Guid userId)
     {
         return _userQueries.GetUserById(userId);

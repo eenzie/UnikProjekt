@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHousingAssociation", "We
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Web", "UnikProjekt.Web\UnikProjekt.Web.csproj", "{DC1213C4-F240-4229-88D1-082817EAE6DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,8 +59,15 @@ Global
 		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC1213C4-F240-4229-88D1-082817EAE6DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC1213C4-F240-4229-88D1-082817EAE6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC1213C4-F240-4229-88D1-082817EAE6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC1213C4-F240-4229-88D1-082817EAE6DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C78F7531-5EC0-430A-A0D5-1DC6F5E5A0BC}
 	EndGlobalSection
 EndGlobal
