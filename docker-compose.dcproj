@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>4ddc9ad4-2f24-4e01-a97c-24b15560eb58</ProjectGuid>
+    <ProjectGuid>af3525d8-58e2-4365-9ffe-212526eb8a75</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>unikprojekt.api</DockerServiceName>

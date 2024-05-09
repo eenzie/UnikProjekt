@@ -1,10 +1,14 @@
+version: '3.4'
+
 services:
   unikprojekt.api:
     image: ${DOCKER_REGISTRY-}unikprojektapi
     build:
-      context: ./UnikProjekt.Api
+      context: .
       dockerfile: UnikProjekt.Api/Dockerfile
-  
-  mssql:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: UnikProjekt-mssql
+
+  webhousingassociation:
+    image: ${DOCKER_REGISTRY-}webhousingassociation
+    build:
+      context: .
+      dockerfile: WebHousingAssociation/Dockerfile
