@@ -25,7 +25,7 @@ namespace UnikProjekt.Web.Controllers
             return View(users);
         }
 
-        public ActionResult GetUserById(int id)
+        public ActionResult GetUserById(string id)
         {
             var users = _userService.GetUserById(id);
             return View(users);
