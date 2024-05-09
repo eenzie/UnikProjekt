@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using UnikProjekt.Domain.Entities;
+using UnikProjekt.Infrastructure.Database.EntityConfiguration;
 
 namespace UnikProjekt.Infrastructure.Database;
 
@@ -18,9 +19,7 @@ public class UnikDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        //TODO: HJÆLP til seed database med records (complext properties)
-        //modelBuilder.Entity<User>()
-        //    .HasData(
-        //    new User(Guid.NewGuid(), new EmailAddress("test@test.com"), new Name("Test", "Tester"), new MobileNumber("88888888")));
+        // TODO: HUSK at tilføje ApplyConfiguration for hver configuration!!
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 }
