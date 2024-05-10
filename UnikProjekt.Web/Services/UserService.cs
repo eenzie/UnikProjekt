@@ -10,25 +10,21 @@ namespace UnikProjekt.Web.Services
         {
             var result = new List<UserViewModel>();
 
-            var client = new RestClient("http://localhost:5062");
+            var options = new RestClientOptions("http://localhost:5062")
+            {
+                MaxTimeout = -1,
+            };
+            var client = new RestClient(options);
             var request = new RestRequest("/User", Method.Get);
             RestResponse response = client.Execute(request);
+
             var stringResponse = response.Content;
 
             var users = JsonConvert.DeserializeObject<List<UserViewModel>>(stringResponse);
 
             result.AddRange(users);
 
-
-            //var options = new RestClientOptions("http://localhost:5062")
-            //{
-            //    MaxTimeout = -1,
-            //};
-            //var client = new RestClient(options);
-            //var request = new RestRequest("/User", Method.Get);
-            //RestResponse response = client.Execute(request);
-
-
+            //TODO: ANH: Find ud af hvad der går galt med StatusCode delen, da den hopper direkte ned i Exception
             //if (response.StatusCode == HttpStatusCode.OK)
             //{
             //    var stringResponse = response.Content;
