@@ -3,11 +3,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UnikProjekt.Application.Commands;
 using UnikProjekt.Application.Commands.Implementation;
+using UnikProjekt.Application.Helpers;
 using UnikProjekt.Application.Queries;
+using UnikProjekt.Application.Repository;
 using UnikProjekt.Domain.DomainService;
 using UnikProjekt.Infrastructure.Database;
+using UnikProjekt.Infrastructure.Database.EntityConfiguration;
 using UnikProjekt.Infrastructure.DomainServices;
 using UnikProjekt.Infrastructure.Queries;
+using UnikProjekt.Infrastructure.Repositories;
 
 
 namespace UnikProjekt.Infrastructure;
@@ -24,9 +28,9 @@ public static class DependencyInjection
         services.AddScoped<IUserDomainService, UserDomainService>();
         services.AddScoped<IUserCommand, UserCommand>();
         services.AddScoped<IUserQueries, UserQueries>();
-        //services.AddScoped<IUserRepository>, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
-
 }

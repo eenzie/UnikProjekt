@@ -9,15 +9,26 @@ public class User : Entity
     {
     }
 
-    public User(Guid id, EmailAddress email, Name name, MobileNumber mobileNumber) : base(id)
+    internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber) : base(id)
     {
         //TODO: INA: Add address
-        Email = email;
         Name = name;
+        Email = email;
         MobileNumber = mobileNumber;
     }
 
     public Name Name { get; set; }
     public EmailAddress Email { get; init; }   //TODO: INA: Find ud af om den skal være init?
     public MobileNumber MobileNumber { get; init; }
+
+    public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber)
+    {
+        if (name == null) throw new ArgumentNullException(nameof(name));
+        if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
+        if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
+
+        var user = new User(Guid.NewGuid(), name, emailAddress, mobileNumber);
+
+        return user;
+    }
 }

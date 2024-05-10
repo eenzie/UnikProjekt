@@ -13,8 +13,14 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public User GetUser(Guid userId)
+    User IUserRepository.GetUser(Guid userId)
     {
         return _context.Users.Find(userId) ?? throw new Exception("User not found");
+    }
+
+    void IUserRepository.AddUser(User user)
+    {
+        _context.Users.Add(user);
+        _context.SaveChanges();
     }
 }

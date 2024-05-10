@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnikProjekt.Application.Commands;
+using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
 
@@ -9,10 +11,12 @@ namespace UnikProjekt.Api.Controller;
 public class UserController : ControllerBase
 {
     private readonly IUserQueries _userQueries;
+    private readonly IUserCommand _userCommand;
 
-    public UserController(IUserQueries userQueries)
+    public UserController(IUserQueries userQueries, IUserCommand userCommand)
     {
         _userQueries = userQueries;
+        _userCommand = userCommand;
     }
 
     //TODO: INA: AsUserDto Func nødvendig?
@@ -24,24 +28,39 @@ public class UserController : ControllerBase
     //            MobileNumber = x.MobileNumber.ToString()
     //        };
 
-    //GET: api/Users
+    //GET: User
     [HttpGet]
     public IEnumerable<UserDto> Get()
     {
         return _userQueries.GetAllUsers();
     }
 
-    // GET: api/Users
+    // GET: User
     [HttpGet("ById/{userId}")]
     public IEnumerable<UserDto> Get(Guid userId)
     {
         return _userQueries.GetUserById(userId);
     }
 
-    //GET: api/Users
+    //GET: User
     [HttpGet("ByName, {searchTerm}")]
     public IEnumerable<UserDto> Get(string searchTerm)
     {
         return _userQueries.GetUserByName(searchTerm);
+    }
+
+    //POST: User
+    [HttpPost("Create")]
+    public void CreateUser([FromBody] CreateUserDto user)
+    {
+        var userToCreate = new CreateUserDto
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            MobileNumber = user.MobileNumber
+        };
+
+        _userCommand.CreateUser(userToCreate);
     }
 }
