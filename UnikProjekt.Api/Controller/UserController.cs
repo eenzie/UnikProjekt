@@ -43,7 +43,7 @@ public class UserController : ControllerBase
     }
 
     //GET: User
-    [HttpGet("ByName, {searchTerm}")]
+    [HttpGet("ByName/{searchTerm}")]
     public IEnumerable<UserDto> Get(string searchTerm)
     {
         return _userQueries.GetUserByName(searchTerm);
@@ -62,5 +62,22 @@ public class UserController : ControllerBase
         };
 
         _userCommand.CreateUser(userToCreate);
+    }
+
+    //PUT: User
+    [HttpPut("Update")]
+    public void UpdateUser([FromBody] UpdateUserDto user)
+    {
+        var userToUpdate = new UpdateUserDto
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            MobileNumber = user.MobileNumber,
+            RowVersion = user.RowVersion
+        };
+
+        _userCommand.UpdateUser(userToUpdate);
     }
 }

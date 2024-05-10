@@ -6,5 +6,6 @@ namespace UnikProjekt.Application.Repository
     {
         User GetUser(Guid userId);
         void AddUser(User user);
+        void UpdateUser(User user);
     }
 }

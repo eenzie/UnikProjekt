@@ -50,8 +50,41 @@ public class UserCommand : IUserCommand
         }
     }
 
-    public void UpdateUser(UpdateUserDto updateUserDto)
+    void IUserCommand.UpdateUser(UpdateUserDto updateUserDto)
     {
+        try
+        {
+            _uow.BeginTransaction();   //Isolation level is default: Serialized
 
+            var user = _userRepository.GetUser(updateUserDto.Id);
+
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            var name = new Name(updateUserDto.FirstName, updateUserDto.LastName);
+            var email = new EmailAddress(updateUserDto.Email);
+            var mobileNumber = new MobileNumber(updateUserDto.MobileNumber);
+
+            user.Update(updateUserDto.Id, name, email, mobileNumber, updateUserDto.RowVersion);
+
+            _userRepository.UpdateUser(user);
+
+            _uow.Commit();
+
+        }
+        catch (Exception e)
+        {
+            try
+            {
+                _uow.Rollback();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Rollback failed: {ex.Message}", e);
+            }
+            throw;
+        }
     }
 }
