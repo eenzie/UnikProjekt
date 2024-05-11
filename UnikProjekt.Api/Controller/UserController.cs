@@ -19,15 +19,6 @@ public class UserController : ControllerBase
         _userCommand = userCommand;
     }
 
-    //TODO: INA: AsUserDto Func nødvendig?
-    //private static readonly Expression<Func<User, UserDto>> AsUserDto =
-    //        x => new UserDto
-    //        {
-    //            Name = x.Name.ToString(),
-    //            Email = x.Email.ToString(),
-    //            MobileNumber = x.MobileNumber.ToString()
-    //        };
-
     //GET: User
     [HttpGet]
     public IEnumerable<UserDto> Get()

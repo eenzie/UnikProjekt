@@ -49,18 +49,17 @@ namespace UnikProjekt.Web.Controllers
         // GET: UsersController/Create
         public ActionResult Create(CreateUserDto createUserDto)
         {
-            _userService.CreateUser(createUserDto);
-
             return View();
         }
 
         // POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(IFormCollection collection, CreateUserDto createUserDto)
         {
             try
             {
+                _userService.CreateUser(createUserDto);
                 return RedirectToAction(nameof(Index));
             }
             catch

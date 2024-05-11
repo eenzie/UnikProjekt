@@ -4,7 +4,6 @@ namespace UnikProjekt.Application.Commands.DTOs
 {
     public class CreateUserDto
     {
-        //TODO: INA: Fix CreateUserDto
         public record Name(
             [property: JsonProperty("FirstName")]
             string FirstName,
