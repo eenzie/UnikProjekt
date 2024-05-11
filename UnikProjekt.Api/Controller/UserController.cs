@@ -26,23 +26,37 @@ public class UserController : ControllerBase
         return _userQueries.GetAllUsers();
     }
 
-    // GET: User
-    [HttpGet("ById/{userId}")]
-    public IEnumerable<UserDto> Get(Guid userId)
+    // GET: User/5
+    [HttpGet("{id:guid}", Name = "GetUserById")]
+    public IActionResult GetUserById(Guid id)
     {
-        return _userQueries.GetUserById(userId);
+        var result = _userQueries.GetUserById(id);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
     }
 
-    //GET: User
-    [HttpGet("ByName/{searchTerm}")]
-    public IEnumerable<UserDto> Get(string searchTerm)
+    //GET: User/JohnDoe
+    [HttpGet("{name}", Name = "GetUserByName")]
+    public IActionResult GetUserByName(string name)
     {
-        return _userQueries.GetUserByName(searchTerm);
+        var result = _userQueries.GetUserByName(name);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
     }
 
     //POST: User
-    [HttpPost("Create")]
-    public void CreateUser([FromBody] CreateUserDto user)
+    [HttpPost(Name = "Create")]
+    public void Create([FromBody] CreateUserDto user)
     {
         var userToCreate = new CreateUserDto
         {
@@ -56,8 +70,8 @@ public class UserController : ControllerBase
     }
 
     //PUT: User
-    [HttpPut("Update")]
-    public void UpdateUser([FromBody] UpdateUserDto user)
+    [HttpPut(Name = "Update")]
+    public void Update([FromBody] UpdateUserDto user)
     {
         var userToUpdate = new UpdateUserDto
         {

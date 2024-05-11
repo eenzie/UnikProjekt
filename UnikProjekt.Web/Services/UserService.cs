@@ -46,18 +46,8 @@ namespace UnikProjekt.Web.Services
 
         public UserViewModel GetUserById(string id)
         {
-            //var client = new RestClient("http://localhost:5062");
-            //var request = new RestRequest($"/User/ById/{id}", Method.Get);
-            //RestResponse response = client.Execute(request);
-            //var stringResponse = response.Content;
-
-            //var user = JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
-
-            //return user;
-
-
             var client = new RestClient("http://localhost:5062");
-            var request = new RestRequest($"/User/ById/{id}", Method.Get);
+            var request = new RestRequest($"/User/{id}", Method.Get);
 
             var response = client.Execute(request);
 
@@ -81,13 +71,19 @@ namespace UnikProjekt.Web.Services
                 MaxTimeout = -1,
             };
             var client = new RestClient(options);
-            var request = new RestRequest($"/User/ByName/{name}", Method.Get);
+            var request = new RestRequest($"/User/{name}", Method.Get);
             RestResponse response = client.Execute(request);
-            var stringResponse = response.Content;
 
-            var user = JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
-
-            return user;
+            if (response.IsSuccessful)
+            {
+                var stringResponse = response.Content;
+                var user = JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
+                return user;
+            }
+            else
+            {
+                throw new Exception($"Status code: {response.StatusCode} Failed to get user by name {name}.");
+            }
         }
 
         public void CreateUser(CreateUserDto createUserDto)
