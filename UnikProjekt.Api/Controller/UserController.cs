@@ -54,6 +54,24 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("Search")]
+    public IActionResult Search(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return BadRequest("Name cannot be empty.");
+        }
+
+        var users = _userQueries.GetUserByName(name);
+
+        if (users == null || !users.Any())
+        {
+            return NotFound($"No users found with the name '{name}'.");
+        }
+
+        return Ok(users);
+    }
+
     //POST: User
     [HttpPost(Name = "Create")]
     public void Create([FromBody] CreateUserDto user)

@@ -45,6 +45,7 @@ namespace UnikProjekt.Infrastructure.Queries
             return result;
         }
 
+
         IEnumerable<UserDto> IUserQueries.GetUserByName(string searchTerm)
         {
             var result = _context.Users

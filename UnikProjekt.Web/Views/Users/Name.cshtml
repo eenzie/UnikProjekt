@@ -1,4 +1,4 @@
-﻿@model UnikProjekt.Web.Models.UserViewModel
+﻿@model List<UnikProjekt.Web.Models.UserViewModel>
 
 @{
     ViewData["Title"] = "Name";
@@ -6,37 +6,54 @@
 
 <h1>Name</h1>
 
-<div>
-    <h4>UserViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MobileNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MobileNumber)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+        <form class="d-flex" asp-action="Name" asp-controller="Users" method="get"> 
+    <input name="name" class="form-control me-1" type="search" placeholder="Søg" aria-label="Search">
+    <button class="btn btn-dark" type="submit">Søg</button>
+</form>
+    </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <a asp-action="Index" class="text-dark">Tilbage til listen</a>
+    </div>
+</div>
+
+@foreach (var user in Model)
+{
+    <div>
+        <h4>UserViewModel</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => user.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => user.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => user.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => user.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => user.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => user.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => user.MobileNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => user.MobileNumber)
+            </dd>
+        </dl>
+    </div>
+}
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

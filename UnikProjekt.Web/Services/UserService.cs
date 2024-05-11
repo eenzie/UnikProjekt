@@ -54,6 +54,7 @@ namespace UnikProjekt.Web.Services
             if (response.IsSuccessful)
             {
                 var stringResponse = response.Content;
+                Console.WriteLine(response.Content);
                 var user = JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
                 return user;
             }
@@ -63,7 +64,7 @@ namespace UnikProjekt.Web.Services
             }
         }
 
-        public UserViewModel GetUserByName(string name)
+        public List<UserViewModel> GetUserByName(string name)
         {
 
             var options = new RestClientOptions("http://localhost:5062")
@@ -77,7 +78,7 @@ namespace UnikProjekt.Web.Services
             if (response.IsSuccessful)
             {
                 var stringResponse = response.Content;
-                var user = JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
+                var user = JsonConvert.DeserializeObject<List<UserViewModel>>(stringResponse);
                 return user;
             }
             else
