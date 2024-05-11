@@ -145,8 +145,6 @@ namespace UnikProjekt.Web.Services
                 request.AddStringBody(body, DataFormat.Json);
 
                 var response = client.Execute(request);
-                //jeg tester ... 
-                Console.WriteLine("After API call.");
 
                 if (response.IsSuccessful)
                 {
@@ -167,6 +165,23 @@ namespace UnikProjekt.Web.Services
 
 
             //TODO: Anh popup message for response content
+        }
+
+        public UserViewModel EditUser(string id, UserViewModel updatedUser)
+        {
+            var options = new RestClientOptions("http://localhost:5062")
+            {
+                MaxTimeout = -1,
+            };
+            var client = new RestClient(options);
+            var request = new RestRequest("http://localhost:5062/User", Method.Put);
+            request.AddHeader("Content-Type", "application/json");
+            var body = JsonConvert.SerializeObject(updatedUser);
+
+            request.AddStringBody(body, DataFormat.Json);
+            RestResponse response = client.Execute(request);
+
+            return updatedUser;
         }
     }
 }

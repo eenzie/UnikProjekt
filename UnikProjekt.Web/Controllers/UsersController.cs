@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnikProjekt.Web.Models;
 using UnikProjekt.Web.Models.DTOs;
 using UnikProjekt.Web.Services;
 
@@ -77,10 +78,11 @@ namespace UnikProjekt.Web.Controllers
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, IFormCollection collection, UserViewModel userViewModel)
         {
             try
             {
+                _userService.EditUser(id.ToString(), userViewModel);
                 return RedirectToAction(nameof(Index));
             }
             catch
