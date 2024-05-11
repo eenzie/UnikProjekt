@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnikProjekt.Web.Models.DTOs;
 using UnikProjekt.Web.Services;
 
 namespace UnikProjekt.Web.Controllers
@@ -16,19 +17,27 @@ namespace UnikProjekt.Web.Controllers
         public ActionResult Index()
         {
             var users = _userService.GetAllUsers();
-            //var model = new List<UserViewModel>
-            //{
-            //  new UserViewModel { Id = 1, Email = "test@test.dk", Name = "1", MobileNumber = "88888888" },
-            // new UserViewModel { Id = 2, Email = "test2@test.dk", Name = "2", MobileNumber = "18888888" }
-            //};
 
             return View(users);
         }
 
-        public ActionResult GetUserById(string id)
+        public ActionResult Id(string id)
         {
-            var users = _userService.GetUserById(id);
-            return View(users);
+            var user = _userService.GetUserById(id);
+            return View(user);
+            //if (!Guid.TryParse(id, out Guid userId))
+            //{
+            //    return RedirectToAction("Error"); 
+            //}
+
+            //var user = _userService.GetUserById(userId);
+            //return View(user);
+        }
+
+        public ActionResult Name(string name)
+        {
+            var user = _userService.GetUserByName(name);
+            return View(user);
         }
 
         // GET: UsersController/Details/5
@@ -38,8 +47,10 @@ namespace UnikProjekt.Web.Controllers
         }
 
         // GET: UsersController/Create
-        public ActionResult Create()
+        public ActionResult Create(CreateUserDto createUserDto)
         {
+            _userService.CreateUser(createUserDto);
+
             return View();
         }
 

@@ -20,8 +20,4 @@
     <PackageReference Include="RestSharp" Version="110.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\UnikProjekt.Infrastructure\UnikProjekt.Infrastructure.csproj" />
-  </ItemGroup>
-
 </Project>

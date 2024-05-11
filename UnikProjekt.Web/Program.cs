@@ -16,14 +16,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 
-//builder.Services.AddDbContext<UnikDbContext>(options =>
-//{
-//    options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
-//    {
-//        sqlOptions.EnableRetryOnFailure();
-//    });
-//});
-
 builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
@@ -39,6 +31,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
