@@ -18,8 +18,8 @@ public class User : Entity
     }
 
     public Name Name { get; set; }
-    public EmailAddress Email { get; init; }   //TODO: INA: Find ud af om den skal være init?
-    public MobileNumber MobileNumber { get; init; }
+    public EmailAddress Email { get; set; }   //TODO: INA: Find ud af om den skal være init?
+    public MobileNumber MobileNumber { get; set; }
 
     public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber)
     {
@@ -30,5 +30,19 @@ public class User : Entity
         var user = new User(Guid.NewGuid(), name, emailAddress, mobileNumber);
 
         return user;
+    }
+    public void Update(Guid id, Name name, EmailAddress emailAddress, MobileNumber mobileNumber, byte[] rowVersion)
+    {
+        //TODO: INA: Clean up
+        //if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
+        if (name == null) throw new ArgumentNullException(nameof(name));
+        if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
+        if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
+
+        this.Name = name;
+        this.Email = emailAddress;
+        this.MobileNumber = mobileNumber;
+        //var user = new User(Guid.NewGuid(), name, emailAddress, mobileNumber);
+
     }
 }

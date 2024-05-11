@@ -23,4 +23,10 @@ public class UserRepository : IUserRepository
         _context.Users.Add(user);
         _context.SaveChanges();
     }
+
+    void IUserRepository.UpdateUser(User user)
+    {
+        _context.Update(user);
+        _context.SaveChanges();
+    }
 }
