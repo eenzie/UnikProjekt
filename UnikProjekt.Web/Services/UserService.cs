@@ -113,7 +113,7 @@ namespace UnikProjekt.Web.Services
                     MaxTimeout = -1,
                 };
                 var client = new RestClient(options);
-                var request = new RestRequest("/User/Create", Method.Post);
+                var request = new RestRequest("/User", Method.Post);
                 request.AddHeader("Content-Type", "application/json");
 
                 var body = JsonConvert.SerializeObject(createUserDto);

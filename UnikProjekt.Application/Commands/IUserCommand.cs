@@ -4,6 +4,6 @@ namespace UnikProjekt.Application.Commands;
 
 public interface IUserCommand
 {
-    void CreateUser(CreateUserDto createUserDto);
-    void UpdateUser(UpdateUserDto updateUserDto);
+    Guid CreateUser(CreateUserDto createUserDto);
+    Guid UpdateUser(UpdateUserDto updateUserDto);
 }

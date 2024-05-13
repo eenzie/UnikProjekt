@@ -18,10 +18,11 @@ public class UserRepository : IUserRepository
         return _context.Users.Find(userId) ?? throw new Exception("User not found");
     }
 
-    void IUserRepository.AddUser(User user)
+    Guid IUserRepository.AddUser(User user)
     {
         _context.Users.Add(user);
         _context.SaveChanges();
+        return user.Id;
     }
 
     void IUserRepository.UpdateUser(User user)

@@ -19,7 +19,13 @@ public class UserCommand : IUserCommand
         _services = services;
     }
 
-    void IUserCommand.CreateUser(CreateUserDto createUserDto)
+    /// <summary>
+    /// Creates new user
+    /// </summary>
+    /// <param name="createUserDto"></param>
+    /// <returns>Guid of created user</returns>
+    /// <exception cref="Exception"></exception>
+    Guid IUserCommand.CreateUser(CreateUserDto createUserDto)
     {
         try
         {
@@ -35,6 +41,7 @@ public class UserCommand : IUserCommand
 
             _uow.Commit();
 
+            return user.Id;
         }
         catch (Exception e)
         {
@@ -50,7 +57,13 @@ public class UserCommand : IUserCommand
         }
     }
 
-    void IUserCommand.UpdateUser(UpdateUserDto updateUserDto)
+    /// <summary>
+    /// Updates user details
+    /// </summary>
+    /// <param name="updateUserDto"></param>
+    /// <returns>Guid of the updated user</returns>
+    /// <exception cref="Exception"></exception>
+    Guid IUserCommand.UpdateUser(UpdateUserDto updateUserDto)
     {
         try
         {
@@ -76,6 +89,7 @@ public class UserCommand : IUserCommand
 
             _uow.Commit();
 
+            return user.Id;
         }
         catch (Exception e)
         {

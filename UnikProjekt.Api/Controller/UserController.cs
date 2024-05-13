@@ -21,14 +21,21 @@ public class UserController : ControllerBase
 
     //GET: User
     [HttpGet]
-    public IEnumerable<UserDto> Get()
+    public ActionResult<IEnumerable<UserDto>> Get()
     {
-        return _userQueries.GetAllUsers();
+        var result = _userQueries.GetAllUsers();
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
     }
 
     // GET: User/5
     [HttpGet("{id:guid}", Name = "GetUserById")]
-    public IActionResult GetUserById(Guid id)
+    public ActionResult<UserDto> GetUserById(Guid id)
     {
         var result = _userQueries.GetUserById(id);
 
@@ -54,11 +61,15 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-
     //POST: User
     [HttpPost(Name = "Create")]
-    public void Create([FromBody] CreateUserDto user)
+    public IActionResult Create([FromBody] CreateUserDto user)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var userToCreate = new CreateUserDto
         {
             FirstName = user.FirstName,
@@ -67,14 +78,25 @@ public class UserController : ControllerBase
             MobileNumber = user.MobileNumber
         };
 
-        _userCommand.CreateUser(userToCreate);
+        var userId = _userCommand.CreateUser(userToCreate);
 
+        if (userId == Guid.Empty)
+        {
+            return NotFound();
+        }
+
+        return CreatedAtAction("GetUserById", new { Id = userId }, userToCreate);
     }
 
     //PUT: User
     [HttpPut(Name = "Update")]
-    public void Update([FromBody] UpdateUserDto user)
+    public IActionResult Update([FromBody] UpdateUserDto user)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
         var userToUpdate = new UpdateUserDto
         {
             Id = user.Id,
@@ -85,6 +107,13 @@ public class UserController : ControllerBase
             RowVersion = user.RowVersion
         };
 
-        _userCommand.UpdateUser(userToUpdate);
+        var userId = _userCommand.UpdateUser(userToUpdate);
+
+        if (userId == Guid.Empty)
+        {
+            return NotFound();
+        }
+
+        return CreatedAtAction("GetUserById", new { Id = userId }, userToUpdate);
     }
 }

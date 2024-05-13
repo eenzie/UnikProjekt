@@ -23,7 +23,7 @@ public class User : Entity
     public MobileNumber MobileNumber { get; set; }
 
     [Timestamp]
-    public byte[] RowVersion { get; set; }
+    public byte[] RowVersion { get; protected set; } = [];
 
     public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber)
     {

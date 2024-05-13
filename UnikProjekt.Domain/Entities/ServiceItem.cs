@@ -1,4 +1,5 @@
-﻿using UnikProjekt.Domain.Shared;
+﻿using System.ComponentModel.DataAnnotations;
+using UnikProjekt.Domain.Shared;
 
 namespace UnikProjekt.Domain.Entities
 {
@@ -23,5 +24,8 @@ namespace UnikProjekt.Domain.Entities
         public int ServiceInterval { get; private set; }
         public DateTime OpenTime { get; private set; }
         public DateTime CloseTime { get; private set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; protected set; } = [];
     }
 }
