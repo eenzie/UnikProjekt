@@ -39,7 +39,7 @@ namespace UnikProjekt.Infrastructure.Queries
                     Email = x.Email.ToString(),
                     MobileNumber = x.MobileNumber.ToString(),
                     RowVersion = x.RowVersion
-                }).First();
+                }).FirstOrDefault();
         }
 
         IEnumerable<UserDto> IUserQueries.GetUserByName(string searchTerm)

@@ -68,6 +68,7 @@ public class UserController : ControllerBase
         };
 
         _userCommand.CreateUser(userToCreate);
+
     }
 
     //PUT: User

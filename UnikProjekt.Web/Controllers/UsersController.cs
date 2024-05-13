@@ -22,17 +22,10 @@ namespace UnikProjekt.Web.Controllers
             return View(users);
         }
 
-        public ActionResult Id(string id)
+        public ActionResult Id(Guid id)
         {
             var user = _userService.GetUserById(id);
             return View(user);
-            //if (!Guid.TryParse(id, out Guid userId))
-            //{
-            //    return RedirectToAction("Error"); 
-            //}
-
-            //var user = _userService.GetUserById(userId);
-            //return View(user);
         }
 
         public ActionResult Name(string name)
@@ -76,13 +69,13 @@ namespace UnikProjekt.Web.Controllers
         }
 
         // POST: UsersController/Edit/5
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection, UserViewModel userViewModel)
+        public ActionResult Edit(Guid id, IFormCollection collection, UserViewModel userViewModel)
         {
             try
             {
-                _userService.EditUser(id.ToString(), userViewModel);
+                _userService.EditUser(id, userViewModel);
                 return RedirectToAction(nameof(Index));
             }
             catch

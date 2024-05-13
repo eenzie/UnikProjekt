@@ -44,24 +44,40 @@ namespace UnikProjekt.Web.Services
             return result;
         }
 
-        public UserViewModel GetUserById(string id)
+        public UserViewModel GetUserById(Guid id)
         {
-            var client = new RestClient("http://localhost:5062");
+            var options = new RestClientOptions("http://localhost:5062")
+            {
+                MaxTimeout = -1,
+            };
+
+            var client = new RestClient(options);
             var request = new RestRequest($"/User/{id}", Method.Get);
+
 
             var response = client.Execute(request);
 
             if (response.IsSuccessful)
             {
                 var stringResponse = response.Content;
-                Console.WriteLine(response.Content);
-                var user = JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
-                return user;
+
+                try
+                {
+                    return JsonConvert.DeserializeObject<UserViewModel>(stringResponse);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Deserialization error: {ex.Message}");
+                    throw;
+                }
             }
-            else
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                throw new Exception($"Status code: {response.StatusCode} Failed to get user with ID {id}.");
+                return null;
             }
+
+            throw new Exception($"Status code: {response.StatusCode} Failed to get user with");
         }
 
         public List<UserViewModel> GetUserByName(string name)
@@ -89,47 +105,6 @@ namespace UnikProjekt.Web.Services
 
         public void CreateUser(CreateUserDto createUserDto)
         {
-            //var options = new RestClientOptions("http://localhost:5062")
-            //{
-            //    MaxTimeout = -1,
-            //};
-            //var client = new RestClient(options);
-            //var request = new RestRequest("/User/Create", Method.Post);
-            //request.AddHeader("Content-Type", "application/json");
-            //var body = JsonConvert.SerializeObject(new { createUserDto });
-            //request.AddStringBody(body, DataFormat.Json);
-            //RestResponse response = client.Execute(request);
-
-            //var stringResponse = response.Content;
-
-            //try
-            //{
-            //    var options = new RestClientOptions("http://localhost:5062")
-            //    {
-            //        MaxTimeout = -1,
-            //    };
-            //    var client = new RestClient(options);
-            //    var request = new RestRequest("/User/Create", Method.Post);
-            //    request.AddHeader("Content-Type", "application/json");
-
-            //    var body = JsonConvert.SerializeObject(createUserDto);
-            //    request.AddStringBody(body, DataFormat.Json);
-
-            //    var response = client.Execute(request);
-
-            //    if (response.IsSuccessful)
-            //    {
-            //        var stringResponse = response.Content;
-            //    }
-            //    else
-            //    {
-            //        var errorMessage = $"Error creating user: {response.ErrorMessage}";
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    var errorMessage = $"An unexpected error occurred: {ex.Message}";
-            //}
 
             try
             {
@@ -164,17 +139,17 @@ namespace UnikProjekt.Web.Services
             }
 
 
-            //TODO: Anh popup message for response content
+            //TODO: Anh required fields
         }
 
-        public UserViewModel EditUser(string id, UserViewModel updatedUser)
+        public UserViewModel EditUser(Guid id, UserViewModel updatedUser)
         {
             var options = new RestClientOptions("http://localhost:5062")
             {
                 MaxTimeout = -1,
             };
             var client = new RestClient(options);
-            var request = new RestRequest("http://localhost:5062/User", Method.Put);
+            var request = new RestRequest($"/User/{id}", Method.Put);
             request.AddHeader("Content-Type", "application/json");
             var body = JsonConvert.SerializeObject(updatedUser);
 
