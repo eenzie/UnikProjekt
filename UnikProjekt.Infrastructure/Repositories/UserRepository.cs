@@ -26,7 +26,12 @@ public class UserRepository : IUserRepository
 
     void IUserRepository.UpdateUser(User user)
     {
+
+        //TODO: INA: fix concurrency
+        //_context.Update(user).Property(x => x.RowVersion).OriginalValue = rowVersion;
+
         _context.Update(user);
+        //_context.Entry(user).Property(p => p.RowVersion).OriginalValue = rowVersion;
         _context.SaveChanges();
     }
 }

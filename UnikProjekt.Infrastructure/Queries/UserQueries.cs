@@ -27,9 +27,9 @@ namespace UnikProjekt.Infrastructure.Queries
                 .ToList();
         }
 
-        IEnumerable<UserDto> IUserQueries.GetUserById(Guid userId)
+        UserDto IUserQueries.GetUserById(Guid userId)
         {
-            var result = _context.Users
+            return _context.Users
                 .AsNoTracking()
                 .Where(x => x.Id == userId)
                 .Select(x => new UserDto
@@ -39,12 +39,8 @@ namespace UnikProjekt.Infrastructure.Queries
                     Email = x.Email.ToString(),
                     MobileNumber = x.MobileNumber.ToString(),
                     RowVersion = x.RowVersion
-                })
-                .ToList();
-
-            return result;
+                }).First();
         }
-
 
         IEnumerable<UserDto> IUserQueries.GetUserByName(string searchTerm)
         {

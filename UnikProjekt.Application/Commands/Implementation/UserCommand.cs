@@ -54,8 +54,9 @@ public class UserCommand : IUserCommand
     {
         try
         {
-            _uow.BeginTransaction();   //Isolation level is default: Serialized
+            _uow.BeginTransaction(); //TODO: INA: Check isolation level correct for Update?
 
+            //READ
             var user = _userRepository.GetUser(updateUserDto.Id);
 
             if (user == null)
@@ -67,8 +68,10 @@ public class UserCommand : IUserCommand
             var email = new EmailAddress(updateUserDto.Email);
             var mobileNumber = new MobileNumber(updateUserDto.MobileNumber);
 
+            //DO IT
             user.Update(updateUserDto.Id, name, email, mobileNumber, updateUserDto.RowVersion);
 
+            //SAVE
             _userRepository.UpdateUser(user);
 
             _uow.Commit();

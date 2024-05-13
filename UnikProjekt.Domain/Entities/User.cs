@@ -1,4 +1,5 @@
-﻿using UnikProjekt.Domain.Shared;
+﻿using System.ComponentModel.DataAnnotations;
+using UnikProjekt.Domain.Shared;
 using UnikProjekt.Domain.Value;
 
 namespace UnikProjekt.Domain.Entities;
@@ -21,6 +22,9 @@ public class User : Entity
     public EmailAddress Email { get; set; }
     public MobileNumber MobileNumber { get; set; }
 
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
+
     public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
@@ -41,5 +45,6 @@ public class User : Entity
         this.Name = name;
         this.Email = emailAddress;
         this.MobileNumber = mobileNumber;
+        this.RowVersion = rowVersion;
     }
 }
