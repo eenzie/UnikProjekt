@@ -5,12 +5,12 @@ namespace UnikProjekt.Domain.Entities
 {
     public class ServiceItem : Entity
     {
-        internal ServiceItem() : base(Guid.NewGuid())
+        internal ServiceItem()
         {
         }
 
         public ServiceItem(Guid id, string serviceName, string serviceType,
-            int serviceInterval, DateTime openTime, DateTime closeTime) : base(id)
+            int serviceInterval, DateTime openTime, DateTime closeTime)
         {
             ServiceName = serviceName;
             ServiceType = serviceType;

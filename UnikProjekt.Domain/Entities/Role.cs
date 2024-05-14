@@ -5,11 +5,11 @@ namespace UnikProjekt.Domain.Entities;
 
 public class Role : Entity
 {
-    internal Role() : base(Guid.NewGuid())
+    internal Role()
     {
     }
 
-    public Role(Guid id, string rolename, int securityLevel) : base(id)
+    public Role(Guid id, string rolename, int securityLevel)
     {
         RoleName = rolename;
         SecurityLevel = securityLevel;

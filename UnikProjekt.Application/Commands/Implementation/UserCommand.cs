@@ -82,10 +82,12 @@ public class UserCommand : IUserCommand
             var mobileNumber = new MobileNumber(updateUserDto.MobileNumber);
 
             //DO IT
-            user.Update(updateUserDto.Id, name, email, mobileNumber, updateUserDto.RowVersion);
+            user.Update(name, email, mobileNumber);
+            user.RowVersion = updateUserDto.RowVersion;
+
 
             //SAVE
-            _userRepository.UpdateUser(user);
+            _userRepository.UpdateUser(user, updateUserDto.RowVersion);
 
             _uow.Commit();
 

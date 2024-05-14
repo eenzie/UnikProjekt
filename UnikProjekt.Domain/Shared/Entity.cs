@@ -2,10 +2,10 @@
 
 namespace UnikProjekt.Domain.Shared;
 
-public abstract class Entity(Guid id)
+public abstract class Entity
 {
-    public Guid Id { get; init; } = id;
+    public Guid Id { get; init; }
 
     [Timestamp]
-    public byte[] RowVersion { get; private set; } = [];
+    public byte[] RowVersion { get; set; }
 }

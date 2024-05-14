@@ -1,16 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UnikProjekt.Domain.Shared;
+﻿using UnikProjekt.Domain.Shared;
 using UnikProjekt.Domain.Value;
 
 namespace UnikProjekt.Domain.Entities;
 
 public class User : Entity
 {
-    internal User() : base(Guid.NewGuid())
+    internal User()
     {
+
     }
 
-    internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber) : base(id)
+    internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber)
     {
         //TODO: INA: Add address
         Name = name;
@@ -22,8 +22,6 @@ public class User : Entity
     public EmailAddress Email { get; set; }
     public MobileNumber MobileNumber { get; set; }
 
-    [Timestamp]
-    public byte[] RowVersion { get; protected set; } = [];
 
     public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber)
     {
@@ -35,9 +33,8 @@ public class User : Entity
 
         return user;
     }
-    public void Update(Guid id, Name name, EmailAddress emailAddress, MobileNumber mobileNumber, byte[] rowVersion)
+    public void Update(Name name, EmailAddress emailAddress, MobileNumber mobileNumber)
     {
-        if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
         if (name == null) throw new ArgumentNullException(nameof(name));
         if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
         if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
@@ -45,6 +42,5 @@ public class User : Entity
         this.Name = name;
         this.Email = emailAddress;
         this.MobileNumber = mobileNumber;
-        this.RowVersion = rowVersion;
     }
 }

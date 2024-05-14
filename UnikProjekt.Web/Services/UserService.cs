@@ -103,8 +103,9 @@ namespace UnikProjekt.Web.Services
             }
         }
 
-        public void CreateUser(CreateUserDto createUserDto)
+        public UserViewModel CreateUser(CreateUserDto createUserDto)
         {
+            var result = new UserViewModel();
 
             try
             {
@@ -123,13 +124,20 @@ namespace UnikProjekt.Web.Services
 
                 if (response.IsSuccessful)
                 {
+                    var stringResponse = response.Content;
+
+
+
                     var successMessage = "User created successfully!";
                     Console.WriteLine(successMessage);
+                    return result;
+
                 }
                 else
                 {
                     var errorMessage = $"Error creating user. StatusCode: {response.StatusCode}, Content: {response.Content}";
                     Console.WriteLine(errorMessage);
+                    return null;
                 }
             }
             catch (Exception ex)
@@ -137,7 +145,7 @@ namespace UnikProjekt.Web.Services
                 var errorMessage = $"An unexpected error occurred: {ex.Message}";
                 Console.WriteLine(errorMessage);
             }
-
+            return null;
 
             //TODO: Anh required fields
         }
