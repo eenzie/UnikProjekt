@@ -8,6 +8,6 @@ public record RoleDates(DateOnly StartDate, DateOnly EndDate) : RecordWithValida
 
     protected override void Validate()
     {
-        if (StartDate > EndDate) throw new ArgumentException("Arrival date must be before departure date");
+        if (StartDate > EndDate) throw new ArgumentException("Start date must be before end date");
     }
 }

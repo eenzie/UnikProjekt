@@ -9,14 +9,14 @@ namespace UnikProjekt.Application.Commands.Implementation;
 public class UserCommand : IUserCommand
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserRoleRepository _userRoleRepository;
+    private readonly IRoleRepository _roleRepository;
     private readonly IUnitOfWork _uow;
     private readonly IServiceProvider _services;
 
-    public UserCommand(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IUnitOfWork uow, IServiceProvider services)
+    public UserCommand(IUserRepository userRepository, IRoleRepository roleRepository, IUnitOfWork uow, IServiceProvider services)
     {
         _userRepository = userRepository;
-        _userRoleRepository = userRoleRepository;
+        _roleRepository = roleRepository;
         _uow = uow;
         _services = services;
     }
@@ -40,9 +40,9 @@ public class UserCommand : IUserCommand
                                       createUserDto.StreetNumber,
                                       createUserDto.PostCode,
                                       createUserDto.City);
-            var roles = _userRoleRepository.GetUserRoles(createUserDto.UserRoles);
+            //var roles = _roleRepository.GetRoles(createUserDto.RoleIds);
 
-            var user = User.Create(name, email, mobileNumber, address, roles);
+            var user = User.Create(name, email, mobileNumber, address);
 
             _userRepository.AddUser(user);
 
@@ -91,10 +91,10 @@ public class UserCommand : IUserCommand
                                       updateUserDto.StreetNumber,
                                       updateUserDto.PostCode,
                                       updateUserDto.City);
-            var roles = _userRoleRepository.GetUserRoles(updateUserDto.UserRoles);
+            //var roles = _roleRepository.GetRoles(updateUserDto.RoleIds);
 
             //DO IT
-            user.Update(name, email, mobileNumber, address, roles);
+            user.Update(name, email, mobileNumber, address);
             user.RowVersion = updateUserDto.RowVersion;
 
 

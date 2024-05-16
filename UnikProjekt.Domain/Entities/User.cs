@@ -10,13 +10,12 @@ public class User : Entity
 
     }
 
-    internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber, Address address, List<UserRole> userRoles)
+    internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber, Address address)
     {
         Name = name;
         Email = email;
         MobileNumber = mobileNumber;
         Address = address;
-        UserRoles = userRoles;
     }
 
     public Name Name { get; set; }
@@ -25,25 +24,23 @@ public class User : Entity
     public Address Address { get; set; }
     public List<UserRole> UserRoles { get; set; }
 
-    public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address, List<UserRole> userRoles)
+    public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
         if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
         if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
         if (address == null) throw new ArgumentNullException(nameof(address));
-        if (userRoles == null) throw new ArgumentNullException(nameof(userRoles));
 
-        var user = new User(Guid.NewGuid(), name, emailAddress, mobileNumber, address, userRoles);
+        var user = new User(Guid.NewGuid(), name, emailAddress, mobileNumber, address);
 
         return user;
     }
-    public void Update(Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address, List<UserRole> userRoles)
+    public void Update(Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
         if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
         if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
         if (address == null) throw new ArgumentNullException(nameof(address));
-        if (userRoles == null) throw new ArgumentNullException(nameof(userRoles));
 
         this.Name = name;
         this.Email = emailAddress;

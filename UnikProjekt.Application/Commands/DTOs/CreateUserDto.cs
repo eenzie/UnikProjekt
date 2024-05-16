@@ -26,6 +26,6 @@ namespace UnikProjekt.Application.Commands.DTOs
         public string StreetNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        public List<Guid> UserRoles { get; set; }
+        //public List<string> RoleIds { get; set; }
     }
 }

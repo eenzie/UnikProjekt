@@ -84,8 +84,10 @@ public class UserController : ControllerBase
             Email = user.Email,
             MobileNumber = user.MobileNumber,
             Street = user.Street,
-            City = user.City,
-            PostCode = user.PostCode
+            StreetNumber = user.StreetNumber,
+            PostCode = user.PostCode,
+            City = user.City
+            //RoleIds = user.RoleIds
         };
 
         var userId = _userCommand.CreateUser(userToCreate);
@@ -117,6 +119,10 @@ public class UserController : ControllerBase
             LastName = user.LastName,
             Email = user.Email,
             MobileNumber = user.MobileNumber,
+            Street = user.Street,
+            StreetNumber = user.StreetNumber,
+            PostCode = user.PostCode,
+            City = user.City,
             RowVersion = user.RowVersion
         };
 
