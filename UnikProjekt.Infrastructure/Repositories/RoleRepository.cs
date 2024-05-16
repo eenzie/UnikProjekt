@@ -48,36 +48,25 @@ public class RoleRepository : IRoleRepository
             {
                 Console.WriteLine($"Invalid role ID format: {roleId}");
             }
-
-            //-------------------------------------
-            //var role = _context.Roles.FirstOrDefault(x => x.Id == roleId);
-
-            //if (role != null)
-            //{
-            //    result.Add(role);
-            //}
-            //else
-            //{
-            //    Console.WriteLine($"Role not found with id: {roleId}");
-            //}
-            //-------------------------------------
-            //result.Add(_context.Roles.First(x => x.Id == roleId));
         }
         return result;
     }
 
     Role IRoleRepository.GetRole(Guid roleId)
     {
-        throw new NotImplementedException();
+        return _context.Roles.Find(roleId) ?? throw new Exception("Role not found");
     }
 
     Guid IRoleRepository.AddRole(Role role)
     {
-        throw new NotImplementedException();
+        _context.Roles.Add(role);
+        _context.SaveChanges();
+        return role.Id;
     }
 
     void IRoleRepository.UpdateRole(Role role, byte[] rowVersion)
     {
-        throw new NotImplementedException();
+        _context.Entry(role).Property(p => p.RowVersion).OriginalValue = rowVersion;
+        _context.SaveChanges();
     }
 }

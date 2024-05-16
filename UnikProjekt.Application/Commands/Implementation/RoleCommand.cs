@@ -2,7 +2,6 @@
 using UnikProjekt.Application.Helpers;
 using UnikProjekt.Application.Repository;
 using UnikProjekt.Domain.Entities;
-using UnikProjekt.Domain.Value;
 
 namespace UnikProjekt.Application.Commands.Implementation;
 
@@ -24,8 +23,6 @@ public class RoleCommand : IRoleCommand
         try
         {
             _uow.BeginTransaction();   //Isolation level is default: Serialized
-
-            var roleDates = new RoleDates(createRoleDto.StartDate, createRoleDto.EndDate);
 
             var role = Role.Create(createRoleDto.RoleName);
 
@@ -63,13 +60,9 @@ public class RoleCommand : IRoleCommand
                 throw new Exception("Role not found");
             }
 
-            var roleDates = new RoleDates(updateRoleDto.StartDate,
-                                      updateRoleDto.EndDate);
-
             //DO IT
             role.Update(updateRoleDto.RoleName);
             role.RowVersion = updateRoleDto.RowVersion;
-
 
             //SAVE
             _roleRepository.UpdateRole(role, updateRoleDto.RowVersion);

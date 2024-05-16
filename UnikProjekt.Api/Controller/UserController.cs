@@ -47,7 +47,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     /// <summary>
-    /// GET: User/JohnDoe
+    /// GET: User/Abc
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
@@ -65,11 +65,11 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
-    /// POST: User - Creates a new user
+    /// POST: User
     /// </summary>
     /// <param name="user"></param>
     /// <returns>400 BadRequest, 404 NotFound, 201 Created</returns>
-    [HttpPost(Name = "Create")]
+    [HttpPost(Name = "CreateUser")]
     public IActionResult Create([FromBody] CreateUserDto user)
     {
         if (!ModelState.IsValid)
@@ -87,7 +87,6 @@ public class UserController : ControllerBase
             StreetNumber = user.StreetNumber,
             PostCode = user.PostCode,
             City = user.City
-            //RoleIds = user.RoleIds
         };
 
         var userId = _userCommand.CreateUser(userToCreate);
@@ -100,11 +99,11 @@ public class UserController : ControllerBase
         return CreatedAtAction("GetUserById", new { Id = userId }, userToCreate);
     }
     /// <summary>
-    /// PUT: User - Updates user
+    /// PUT: User
     /// </summary>
     /// <param name="user"></param>
     /// <returns>400 BadRequest, 404 NotFound, 201 Created</returns>
-    [HttpPut(Name = "Update")]
+    [HttpPut(Name = "UpdateUser")]
     public IActionResult Update([FromBody] UpdateUserDto user)
     {
         if (!ModelState.IsValid)

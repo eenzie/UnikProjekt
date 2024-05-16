@@ -28,11 +28,33 @@ public class RoleQueries : IRoleQueries
 
     RoleDto? IRoleQueries.GetRoleById(Guid roleId)
     {
-        throw new NotImplementedException();
+        var role = _context.Roles
+        .AsNoTracking()   //LOAD
+            .Where(x => x.Id == roleId)
+            .Select(x => new RoleDto  //TRANSFORM
+            {
+                Id = x.Id,
+                RoleName = x.RoleName.ToString(),
+                RowVersion = x.RowVersion
+            })
+            .FirstOrDefault();
+
+        return role;  //RETURN
     }
 
     IEnumerable<RoleDto> IRoleQueries.GetRoleByName(string roleName)
     {
-        throw new NotImplementedException();
+        var result = _context.Roles
+       .AsNoTracking()
+           .Where(x => x.RoleName.Contains(roleName))
+           .Select(x => new RoleDto
+           {
+               Id = x.Id,
+               RoleName = x.RoleName.ToString(),
+               RowVersion = x.RowVersion
+           })
+           .ToList();
+
+        return result;
     }
 }

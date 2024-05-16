@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Application.Commands;
+using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
 
@@ -7,7 +8,7 @@ using UnikProjekt.Application.Queries.DTOs;
 
 namespace UnikProjekt.Api.Controller
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
@@ -20,7 +21,7 @@ namespace UnikProjekt.Api.Controller
             _roleCommand = roleCommand;
         }
 
-        // GET: api/<RoleController>
+        // GET: Role
         [HttpGet]
         public ActionResult<IEnumerable<RoleDto>> Get()
         {
@@ -34,30 +35,89 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-
-        // GET api/<RoleController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET Role/5
+        [HttpGet("{id:guid}", Name = "GetRoleById")]
+        public ActionResult<RoleDto> GetRoleById(Guid id)
         {
-            return "value";
+            var result = _roleQueries.GetRoleById(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
-        // POST api/<RoleController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        //GET: Role/Abc
+        [HttpGet("{name}", Name = "GetRoleByName")]
+        public IActionResult GetRoleByName(string name)
         {
+            var result = _roleQueries.GetRoleByName(name);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
-        // PUT api/<RoleController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // POST Role
+        [HttpPost(Name = "CreateRole")]
+        public IActionResult Create([FromBody] CreateRoleDto user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roleToCreate = new CreateRoleDto
+            {
+                RoleName = user.RoleName
+            };
+
+            var roleId = _roleCommand.CreateRole(roleToCreate);
+
+            if (roleId == Guid.Empty)
+            {
+                return NotFound();
+            }
+            //Http Status code '201 Created'
+            return CreatedAtAction("GetRoleById", new { Id = roleId }, roleToCreate);
         }
 
-        // DELETE api/<RoleController>/5
+        // PUT Role
+        [HttpPut(Name = "UpdateRole")]
+        public IActionResult Update([FromBody] UpdateRoleDto role)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var roleToUpdate = new UpdateRoleDto
+            {
+                Id = role.Id,
+                RoleName = role.RoleName,
+                RowVersion = role.RowVersion
+            };
+
+            var roleId = _roleCommand.UpdateRole(roleToUpdate);
+
+            if (roleId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction("GetUserById", new { Id = roleId }, roleToUpdate);
+        }
+
+        // DELETE Role/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void DeleteRole(int id)
         {
+            //TODO: INA: DeleteRole to be implemented
         }
     }
 }

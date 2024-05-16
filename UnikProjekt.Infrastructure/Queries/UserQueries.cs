@@ -28,7 +28,6 @@ public class UserQueries : IUserQueries
                 Email = x.Email.ToString(),
                 MobileNumber = x.MobileNumber.ToString(),
                 Address = x.Address.ToString(),
-                //RoleIds = x.UserRoles.Select(r => r.RoleId.ToString()).ToList(),
                 RowVersion = x.RowVersion
             })
             .ToList();
@@ -51,7 +50,6 @@ public class UserQueries : IUserQueries
                 Email = x.Email.ToString(),
                 MobileNumber = x.MobileNumber.ToString(),
                 Address = x.Address.ToString(),
-                //RoleIds = x.UserRoles.Select(r => r.RoleId.ToString()).ToList(),
                 RowVersion = x.RowVersion
             })
             .FirstOrDefault();
@@ -77,7 +75,6 @@ public class UserQueries : IUserQueries
                 Email = x.Email.ToString(),
                 MobileNumber = x.MobileNumber.ToString(),
                 Address = x.Address.ToString(),
-                //RoleIds = x.UserRoles.Select(r => r.RoleId.ToString()).ToList(),
                 RowVersion = x.RowVersion
             })
             .ToList();
