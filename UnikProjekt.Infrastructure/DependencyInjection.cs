@@ -29,6 +29,9 @@ public static class DependencyInjection
         services.AddScoped<IUserCommand, UserCommand>();
         services.AddScoped<IUserQueries, UserQueries>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IDocumentCommand, DocumentCommand>();
+        services.AddScoped<IDocumentQueries, DocumentQueries>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

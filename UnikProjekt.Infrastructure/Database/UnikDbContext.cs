@@ -13,6 +13,8 @@ public class UnikDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Document> Documents { get; set; }
+
     //TODO: HUSK at tilføje DBSets!!!
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
