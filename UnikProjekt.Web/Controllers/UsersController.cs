@@ -1,59 +1,65 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Web.Models;
 using UnikProjekt.Web.Models.DTOs;
-using UnikProjekt.Web.Services;
+using UnikProjekt.Web.ProxyServices;
 
 namespace UnikProjekt.Web.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UserService _userService;
+        //private readonly UserService _userService;
+        private readonly IUserServiceProxy _userServiceProxy;
 
-        public UsersController(UserService userService)
+        public UsersController(/*UserService userService,*/ IUserServiceProxy userServiceProxy)
         {
-            _userService = userService;
+            //_userService = userService;
+            _userServiceProxy = userServiceProxy;
+
         }
 
         //GET: UsersController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = _userService.GetAllUsers();
-
+            var users = await _userServiceProxy.GetAllUsers();
             return View(users);
         }
 
-        public ActionResult Id(Guid id)
+        public async Task<IActionResult> Id(Guid id)
         {
-            var user = _userService.GetUserById(id);
+            var user = await _userServiceProxy.GetUserById(id);
             return View(user);
         }
 
-        public ActionResult Name(string name)
+        public async Task<IActionResult> Name(string name)
         {
-            var user = _userService.GetUserByName(name);
+            var user = await _userServiceProxy.GetUserByName(name);
             return View(user);
         }
 
-        // GET: UsersController/Details/5
-        public ActionResult Details(int id)
+        //// GET: UsersController/Details/5
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var user = await _userServiceProxy.GetUserById(id);
+            return View("EditDetails", user);
+        }
+
+        //// GET: UsersController/Create
+        [Authorize]
+        public async Task<IActionResult> Create(CreateUserDto createUserDto)
         {
             return View();
         }
 
-        // GET: UsersController/Create
-        public ActionResult Create(CreateUserDto createUserDto)
-        {
-            return View();
-        }
-
-        // POST: UsersController/Create
+        //// POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection, CreateUserDto createUserDto)
+        public async Task<IActionResult> Create(IFormCollection collection, CreateUserDto createUserDto)
         {
             try
             {
-                _userService.CreateUser(createUserDto);
+                await _userServiceProxy.CreateUser(createUserDto);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -63,26 +69,57 @@ namespace UnikProjekt.Web.Controllers
         }
 
         // GET: UsersController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(Guid id)
         {
+            //var user = await _userServiceProxy.GetUserById(id);
+            //return View(user);
             return View();
         }
 
         // POST: UsersController/Edit/5
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Guid id, IFormCollection collection, UserViewModel userViewModel)
+        public async Task<IActionResult> Edit(Guid id, /*IFormCollection collection,*/ UserViewModel userViewModel)
         {
             try
             {
-                _userService.EditUser(id, userViewModel);
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(userViewModel);
+                }
+
+                var updatedUser = _userServiceProxy.EditUser(id, userViewModel);
+                if (updatedUser != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Failed to update user.");
+                    return View(userViewModel);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError("", "An unexpected error occurred: " + ex.Message);
+                return View(userViewModel);
             }
         }
+
+        //[HttpGet]
+        public ActionResult Search(string id)
+        {
+            if (Guid.TryParse(id, out Guid userId))
+            {
+                var user = _userServiceProxy.GetUserById(userId);
+                return View("EditDetails", user);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
 
         // GET: UsersController/Delete/5
         public ActionResult Delete(int id)

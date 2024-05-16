@@ -1,22 +1,33 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Web.Data;
-using UnikProjekt.Web.Services;
+using UnikProjekt.Web.ProxyServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(connectionString,
+//   x => x.MigrationsAssembly("UnikProject.Web.Data.Migrations")));
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-
-builder.Services.AddScoped<UserService>();
+//IHttpClientFactory
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
 
 var app = builder.Build();
 
