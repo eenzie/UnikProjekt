@@ -1,5 +1,5 @@
 ﻿namespace UnikProjekt.Application.Queries;
 
-public interface IBookingQuery
+public interface IBookingQueries
 {
 }

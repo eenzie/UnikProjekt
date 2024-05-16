@@ -27,10 +27,6 @@ public class UserRepository : IUserRepository
 
     void IUserRepository.UpdateUser(User user, byte[] rowVersion)
     {
-
-        //TODO: INA: fix concurrency
-
-        //_context.Update(user);
         _context.Entry(user).Property(p => p.RowVersion).OriginalValue = rowVersion;
         _context.SaveChanges();
     }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UnikProjekt.Domain.Shared;
+﻿using UnikProjekt.Domain.Shared;
 
 namespace UnikProjekt.Domain.Entities;
 
@@ -9,15 +8,26 @@ public class Role : Entity
     {
     }
 
-    public Role(Guid id, string rolename, int securityLevel)
+    public Role(Guid id, string rolename)
     {
         RoleName = rolename;
-        SecurityLevel = securityLevel;
+
     }
 
-    public string RoleName { get; private set; }
-    public int SecurityLevel { get; private set; }
+    public string RoleName { get; set; }
+    public List<UserRole>? UserRoles { get; set; }
 
-    [Timestamp]
-    public byte[] RowVersion { get; protected set; } = [];
+    public static Role Create(string roleName)
+    {
+        if (roleName == null) throw new ArgumentNullException(nameof(roleName));
+
+        return new Role(Guid.NewGuid(), roleName);
+    }
+
+    public void Update(string roleName)
+    {
+        if (roleName == null) throw new ArgumentNullException(nameof(roleName));
+
+        this.RoleName = roleName;
+    }
 }

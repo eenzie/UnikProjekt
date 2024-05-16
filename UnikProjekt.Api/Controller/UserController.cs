@@ -46,8 +46,11 @@ public class UserController : ControllerBase
 
         return Ok(result);
     }
-
-    //GET: User/JohnDoe
+    /// <summary>
+    /// GET: User/JohnDoe
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     [HttpGet("{name}", Name = "GetUserByName")]
     public IActionResult GetUserByName(string name)
     {
@@ -61,7 +64,11 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    //POST: User
+    /// <summary>
+    /// POST: User - Creates a new user
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns>400 BadRequest, 404 NotFound, 201 Created</returns>
     [HttpPost(Name = "Create")]
     public IActionResult Create([FromBody] CreateUserDto user)
     {
@@ -75,7 +82,10 @@ public class UserController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            MobileNumber = user.MobileNumber
+            MobileNumber = user.MobileNumber,
+            Street = user.Street,
+            City = user.City,
+            PostCode = user.PostCode
         };
 
         var userId = _userCommand.CreateUser(userToCreate);
@@ -84,11 +94,14 @@ public class UserController : ControllerBase
         {
             return NotFound();
         }
-
+        //Http Status code '201 Created'
         return CreatedAtAction("GetUserById", new { Id = userId }, userToCreate);
     }
-
-    //PUT: User
+    /// <summary>
+    /// PUT: User - Updates user
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns>400 BadRequest, 404 NotFound, 201 Created</returns>
     [HttpPut(Name = "Update")]
     public IActionResult Update([FromBody] UpdateUserDto user)
     {
