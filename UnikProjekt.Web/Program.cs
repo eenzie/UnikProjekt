@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Web.Data;
 using UnikProjekt.Web.ProxyServices;
+using UnikProjekt.Web.UserManagement.Requirements;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(
+        "ResidenceRequirementPolicy",
+        policyBuilder => policyBuilder.AddRequirements(
+            new ResidenceRequirement()
+        ));
 });
 
 var app = builder.Build();
