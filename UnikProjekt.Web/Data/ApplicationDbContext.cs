@@ -9,5 +9,7 @@ namespace UnikProjekt.Web.Data
             : base(options)
         {
         }
+
+        //public DbSet<ApplicationUser> applicationUser { get; set; }
     }
 }
