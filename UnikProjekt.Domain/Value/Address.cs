@@ -1,6 +1,10 @@
-﻿namespace UnikProjekt.Domain.Value;
+﻿using UnikProjekt.Domain.Shared;
 
-public record Address(string Street, string StreetNumber, string PostCode, string City);
+namespace UnikProjekt.Domain.Value;
+
+public record Address(string Street, string StreetNumber, string PostCode, string City) : RecordWithValidation;
+
+
 
 //TODO: DAWA validering kræver nok at vi har noget logik, så skal nok ikke være en record.
 //Den skal valideres i constructoren via DAWA

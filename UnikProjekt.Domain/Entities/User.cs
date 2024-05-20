@@ -5,9 +5,9 @@ namespace UnikProjekt.Domain.Entities;
 
 public class User : Entity
 {
+    //TODO: INA: Tjek om vi kan implementere Base Guid Id igen?
     internal User()
     {
-
     }
 
     internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber, Address address)

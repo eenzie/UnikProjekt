@@ -1,5 +1,7 @@
-﻿namespace UnikProjekt.Infrastructure.Queries;
+﻿using UnikProjekt.Application.Queries;
 
-public class UserRoleQueries
+namespace UnikProjekt.Infrastructure.Queries;
+
+public class UserRoleQueries : IUserRoleQueries
 {
 }

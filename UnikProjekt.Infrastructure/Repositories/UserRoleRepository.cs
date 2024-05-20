@@ -23,4 +23,10 @@ public class UserRoleRepository : IUserRoleRepository
         }
         return result;
     }
+
+    void IUserRoleRepository.AddUserRole(UserRole userRole)
+    {
+        _context.UserRoles.Add(userRole);
+        _context.SaveChanges();
+    }
 }

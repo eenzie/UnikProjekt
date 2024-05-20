@@ -4,8 +4,6 @@ using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace UnikProjekt.Api.Controller
 {
     [Route("[controller]")]
@@ -110,7 +108,7 @@ namespace UnikProjekt.Api.Controller
                 return NotFound();
             }
 
-            return CreatedAtAction("GetUserById", new { Id = roleId }, roleToUpdate);
+            return CreatedAtAction("GetRoleById", new { Id = roleId }, roleToUpdate);
         }
 
         // DELETE Role/5

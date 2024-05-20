@@ -9,14 +9,12 @@ namespace UnikProjekt.Application.Commands.Implementation;
 public class UserCommand : IUserCommand
 {
     private readonly IUserRepository _userRepository;
-    private readonly IRoleRepository _roleRepository;
     private readonly IUnitOfWork _uow;
     private readonly IServiceProvider _services;
 
-    public UserCommand(IUserRepository userRepository, IRoleRepository roleRepository, IUnitOfWork uow, IServiceProvider services)
+    public UserCommand(IUserRepository userRepository, IUnitOfWork uow, IServiceProvider services)
     {
         _userRepository = userRepository;
-        _roleRepository = roleRepository;
         _uow = uow;
         _services = services;
     }
@@ -40,7 +38,6 @@ public class UserCommand : IUserCommand
                                       createUserDto.StreetNumber,
                                       createUserDto.PostCode,
                                       createUserDto.City);
-            //var roles = _roleRepository.GetRoles(createUserDto.RoleIds);
 
             var user = User.Create(name, email, mobileNumber, address);
 
@@ -91,7 +88,6 @@ public class UserCommand : IUserCommand
                                       updateUserDto.StreetNumber,
                                       updateUserDto.PostCode,
                                       updateUserDto.City);
-            //var roles = _roleRepository.GetRoles(updateUserDto.RoleIds);
 
             //DO IT
             user.Update(name, email, mobileNumber, address);

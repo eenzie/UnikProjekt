@@ -98,6 +98,7 @@ public class UserController : ControllerBase
         //Http Status code '201 Created'
         return CreatedAtAction("GetUserById", new { Id = userId }, userToCreate);
     }
+
     /// <summary>
     /// PUT: User
     /// </summary>

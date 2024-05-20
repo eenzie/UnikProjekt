@@ -26,10 +26,10 @@ public static class DependencyInjection
         //services.AddScoped<IUserDomainService, UserDomainService>();
         services.AddScoped<IUserCommand, UserCommand>();
         services.AddScoped<IRoleCommand, RoleCommand>();
-        //services.AddScoped<IUserRoleCommand, UserRollCommand>();
+        services.AddScoped<IUserRoleCommand, UserRoleCommand>();
         services.AddScoped<IUserQueries, UserQueries>();
         services.AddScoped<IRoleQueries, RoleQueries>();
-        //services.AddScoped<IUserRoleQueries, UserRoleQueries>();
+        services.AddScoped<IUserRoleQueries, UserRoleQueries>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
