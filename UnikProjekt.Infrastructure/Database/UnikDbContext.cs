@@ -12,9 +12,13 @@ public class UnikDbContext : DbContext
     }
 
     //TODO: HUSK at tilføje DBSets!!!
+    //TODO: Tilføj Configuration til Bookings
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<Booking> Bookings { get; set; }
+    public DbSet<BookingLine> BookingLines { get; set; }
+    public DbSet<BookingLineItem> BookingLineItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
