@@ -1,37 +1,39 @@
-﻿using UnikProjekt.Domain.Shared;
-using UnikProjekt.Domain.Value;
+﻿using UnikProjekt.Domain.Value;
 
 namespace UnikProjekt.Domain.Entities;
 
-public class User : Entity
+public class User
 {
-    //TODO: INA: Tjek om vi kan implementere Base Guid Id igen?
+    //Note: User entity arver ikke fra Entity, da Guid bliver oprettet af Identity i UI
+    //og overdrages ved CreateUser
     internal User()
     {
     }
 
     internal User(Guid id, Name name, EmailAddress email, MobileNumber mobileNumber, Address address)
     {
+        Id = id;
         Name = name;
         Email = email;
         MobileNumber = mobileNumber;
         Address = address;
     }
-
+    public Guid Id { get; set; }  //Note: Arver ikke fra Entity
     public Name Name { get; set; }
     public EmailAddress Email { get; set; }
     public MobileNumber MobileNumber { get; set; }
     public Address Address { get; set; }
     public List<UserRole> UserRoles { get; set; }
+    public byte[] RowVersion { get; set; }
 
-    public static User Create(Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address)
+    public static User Create(Guid id, Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
         if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
         if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
         if (address == null) throw new ArgumentNullException(nameof(address));
 
-        var user = new User(Guid.NewGuid(), name, emailAddress, mobileNumber, address);
+        var user = new User(id, name, emailAddress, mobileNumber, address);
 
         return user;
     }

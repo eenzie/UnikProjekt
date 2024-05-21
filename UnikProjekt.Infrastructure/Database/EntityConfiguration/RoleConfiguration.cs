@@ -8,7 +8,9 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
-        builder.Property(e => e.RoleName);
+        //builder.Property(e => e.RoleName);
         builder.HasMany(e => e.UserRoles);
+
+        builder.Property(e => e.RowVersion).IsRowVersion();
     }
 }
