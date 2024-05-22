@@ -1,0 +1,55 @@
+﻿@model UnikProjekt.Web.Models.DocumentViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Upload Dokomenter</h1>
+
+<h4>Dokument</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="DocumentTitle" class="control-label"></label>
+                <input asp-for="DocumentTitle" class="form-control" />
+                <span asp-validation-for="DocumentTitle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DocumentContent" class="control-label"></label>
+                <input asp-for="DocumentContent" class="form-control" type="file" />
+                <span asp-validation-for="DocumentContent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateModified" class="control-label"></label>
+                <input asp-for="DateModified" class="form-control" readonly />
+                <span asp-validation-for="DateModified" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" readonly />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Tilbage til listen</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
