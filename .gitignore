@@ -397,3 +397,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /UnikProjekt.Api/appsettings.json
+/UnikProjekt.Web/appsettings.json
+/UnikProjekt.Web/appsettings.json

@@ -11,9 +11,10 @@ public class UnikDbContext : DbContext
     {
     }
 
-    public DbSet<User> Users { get; set; }
-
     //TODO: HUSK at tilføje DBSets!!!
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,5 +22,7 @@ public class UnikDbContext : DbContext
 
         // TODO: HUSK at tilføje ApplyConfiguration for hver configuration!!
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
     }
 }

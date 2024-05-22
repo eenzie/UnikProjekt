@@ -34,8 +34,12 @@ public class UserCommand : IUserCommand
             var name = new Name(createUserDto.FirstName, createUserDto.LastName);
             var email = new EmailAddress(createUserDto.Email);
             var mobileNumber = new MobileNumber(createUserDto.MobileNumber);
+            var address = new Address(createUserDto.Street,
+                                      createUserDto.StreetNumber,
+                                      createUserDto.PostCode,
+                                      createUserDto.City);
 
-            var user = User.Create(name, email, mobileNumber);
+            var user = User.Create(name, email, mobileNumber, address);
 
             _userRepository.AddUser(user);
 
@@ -67,7 +71,7 @@ public class UserCommand : IUserCommand
     {
         try
         {
-            _uow.BeginTransaction(); //TODO: INA: Check isolation level correct for Update?
+            _uow.BeginTransaction(); //Isolation level is default: Serialized
 
             //READ
             var user = _userRepository.GetUser(updateUserDto.Id);
@@ -80,9 +84,13 @@ public class UserCommand : IUserCommand
             var name = new Name(updateUserDto.FirstName, updateUserDto.LastName);
             var email = new EmailAddress(updateUserDto.Email);
             var mobileNumber = new MobileNumber(updateUserDto.MobileNumber);
+            var address = new Address(updateUserDto.Street,
+                                      updateUserDto.StreetNumber,
+                                      updateUserDto.PostCode,
+                                      updateUserDto.City);
 
             //DO IT
-            user.Update(name, email, mobileNumber);
+            user.Update(name, email, mobileNumber, address);
             user.RowVersion = updateUserDto.RowVersion;
 
 

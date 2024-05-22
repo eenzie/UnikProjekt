@@ -13,5 +13,18 @@ namespace UnikProjekt.Application.Commands.DTOs
         public string LastName { get; set; }
         public string Email { get; set; }
         public string MobileNumber { get; set; }
+        public record Address(
+            [property: JsonProperty("Street")]
+            string Street,
+            [property: JsonProperty("StreetNumber")]
+            string StreetNumber,
+            [property: JsonProperty("PostCode")]
+            string PostCode,
+            [property: JsonProperty("City")]
+            string City);
+        public string Street { get; set; }
+        public string StreetNumber { get; set; }
+        public string PostCode { get; set; }
+        public string City { get; set; }
     }
 }

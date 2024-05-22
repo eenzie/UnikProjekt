@@ -46,8 +46,11 @@ public class UserController : ControllerBase
 
         return Ok(result);
     }
-
-    //GET: User/JohnDoe
+    /// <summary>
+    /// GET: User/Abc
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     [HttpGet("{name}", Name = "GetUserByName")]
     public IActionResult GetUserByName(string name)
     {
@@ -61,8 +64,12 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    //POST: User
-    [HttpPost(Name = "Create")]
+    /// <summary>
+    /// POST: User
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns>400 BadRequest, 404 NotFound, 201 Created</returns>
+    [HttpPost(Name = "CreateUser")]
     public IActionResult Create([FromBody] CreateUserDto user)
     {
         if (!ModelState.IsValid)
@@ -75,7 +82,11 @@ public class UserController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            MobileNumber = user.MobileNumber
+            MobileNumber = user.MobileNumber,
+            Street = user.Street,
+            StreetNumber = user.StreetNumber,
+            PostCode = user.PostCode,
+            City = user.City
         };
 
         var userId = _userCommand.CreateUser(userToCreate);
@@ -84,12 +95,16 @@ public class UserController : ControllerBase
         {
             return NotFound();
         }
-
+        //Http Status code '201 Created'
         return CreatedAtAction("GetUserById", new { Id = userId }, userToCreate);
     }
 
-    //PUT: User
-    [HttpPut(Name = "Update")]
+    /// <summary>
+    /// PUT: User
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns>400 BadRequest, 404 NotFound, 201 Created</returns>
+    [HttpPut(Name = "UpdateUser")]
     public IActionResult Update([FromBody] UpdateUserDto user)
     {
         if (!ModelState.IsValid)
@@ -104,6 +119,10 @@ public class UserController : ControllerBase
             LastName = user.LastName,
             Email = user.Email,
             MobileNumber = user.MobileNumber,
+            Street = user.Street,
+            StreetNumber = user.StreetNumber,
+            PostCode = user.PostCode,
+            City = user.City,
             RowVersion = user.RowVersion
         };
 

@@ -4,14 +4,11 @@ using UnikProjekt.Domain.Entities;
 
 namespace UnikProjekt.Infrastructure.Database.EntityConfiguration;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+internal class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<Role> builder)
     {
-        //builder.OwnsOne(e => e.Name);
-        //builder.OwnsOne(e => e.Email);
-        //builder.OwnsOne(e => e.MobileNumber);
-        //builder.OwnsOne(e => e.Address);
+        //builder.Property(e => e.RoleName);
         builder.HasMany(e => e.UserRoles);
 
         builder.Property(e => e.RowVersion).IsRowVersion();
