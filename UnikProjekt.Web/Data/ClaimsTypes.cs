@@ -7,7 +7,7 @@
             "SuperAdmin",
             "Admin",
             "User",
-            "reader"
+            "Reader"
         };
     }
 }

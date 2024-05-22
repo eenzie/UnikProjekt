@@ -16,6 +16,7 @@ using UnikProjekt.Web.Data;
 using UnikProjekt.Web.Models;
 using UnikProjekt.Web.Models.DTOs;
 using UnikProjekt.Web.ProxyServices;
+using UnikProjekt.Web.Services;
 
 namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 {
@@ -29,6 +30,8 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<ApplicationUser> _roleManager;
         private readonly IUserServiceProxy _userServiceProxy;
+        private readonly HttpClient _httpClient;
+        private readonly UserClaimsService _userClaimsService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -37,7 +40,9 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<ApplicationUser> roleManager,
-            IUserServiceProxy userServiceProxy)
+            IUserServiceProxy userServiceProxy,
+            HttpClient httpClient,
+            UserClaimsService userClaimsService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +52,8 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _roleManager = roleManager;
             _userServiceProxy = userServiceProxy;
+            _httpClient = httpClient;
+            _userClaimsService = userClaimsService;
         }
 
         /// <summary>
@@ -112,7 +119,9 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             //[ValidateNever]
             //public IEnumerable<SelectListItem> RoleList { get; set; }
 
-
+            [Required]
+            [Display(Name = "Fornavn")]
+            public string FirstName { get; set; }
         }
 
 
@@ -141,9 +150,10 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 
                 var user = new ApplicationUser
                 {
+                    FirstName = Input.FirstName,
                     UserName = Input.Email,
                     Email = Input.Email,
-                    Address = Input.Address
+                    //Address = Input.Address
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -158,9 +168,8 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, Input.Role);
 
 
-                    //await _userManager.AddClaimAsync(user, ClaimTypes.Admin);
                     //If the role exist in our ClaimsTypes, add the role
-                    if (ClaimsTypes.UserTypeList.Contains(Input.Role))
+                    if (ClaimsTypes.UserTypeList.Equals(Input.Role))
                     {
                         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, Input.Role));
                     }
@@ -175,33 +184,26 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                     var createUserDto = new CreateUserDto
                     {
                         Id = Guid.Parse(user.Id),
+                        FirstName = user.FirstName,
                         UserName = user.UserName,
                         UserEmail = user.Email,
-                        UserAddress = user.Address
+                        //UserAddress = user.Address
                     };
 
                     // Map til CreateUserDto hvor userId (identity userId) sættes som Id
-                    //sender den id som dto til API - den skal pakkes ind - vi skal lave en Dto, som
-                    //sendes til API
-                    //Calling our API - sending createUserDto to our API
-                    IUserServiceProxy _userServiceProxy = new UserServiceProxy(new HttpClient());
-                    await _userServiceProxy.CreateUserAsync(createUserDto);
+                    //Calling our API through UserServiceProxy - sending createUserDto to our API
+                    var apiResponse = await _userServiceProxy.CreateUserAsync(createUserDto);
+
+                    //Adding claims based on the users role
+                    await _userClaimsService.AssignClaimsAsync(user, Input.Role);
 
 
 
-
-
-                    //_userServiceProxy.CreateUser(new CreateUserDto());
-
-
-                    //IUserServiceProxy test = new UserServiceProxy(new HttpClient());
-
-
-                    // Map til CreateUserDto hvor userId sættes som Id
-                    //test.CreateUser(new Models.DTOs.CreateUserDto());
-
-                    // lav kald til API (via UserService) for Create User(userId,user,
-                    // med userID, som så laver ID i backend
+                    //var response = await _userServiceProxy.PostAsJsonAsync("http://localhost:5062/api/account", createUserDto);
+                    //if (response.IsSuccessStatusCode is false)
+                    //{
+                    //    throw new Exception("Failed to post user");
+                    //}
 
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

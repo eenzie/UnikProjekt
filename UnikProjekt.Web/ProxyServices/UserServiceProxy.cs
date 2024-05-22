@@ -99,5 +99,12 @@ namespace UnikProjekt.Web.ProxyServices
             var httpResponseMessage = await _httpClient.PostAsJsonAsync("api/Controller", createDocumentDto);
             return await httpResponseMessage.Content.ReadFromJsonAsync<DocumentViewModel>();
         }
+
+        async Task<UserRoleViewModel> IUserServiceProxy.CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto)
+        {
+            var httpResponseMessage = await _httpClient.PostAsJsonAsync("UserRole", createUserRoleDto);
+            return await httpResponseMessage.Content.ReadFromJsonAsync<UserRoleViewModel>();
+        }
     }
 }
+

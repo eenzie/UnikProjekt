@@ -13,6 +13,8 @@ namespace UnikProjekt.Web.ProxyServices
 
         Task<DocumentViewModel> CreateDocumentAsync(CreateDocumentDto createDocumentDto);
 
+        Task<UserRoleViewModel> CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto);
+
 
     }
 

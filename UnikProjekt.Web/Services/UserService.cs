@@ -57,5 +57,15 @@ namespace UnikProjekt.Web.Services
 
             return await response.Content.ReadFromJsonAsync<DocumentViewModel>();
         }
+
+        async Task<UserRoleViewModel> IUserServiceProxy.CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("UserRole/Create", createUserRoleDto);
+
+            //Exception
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<UserRoleViewModel>();
+        }
     }
 }

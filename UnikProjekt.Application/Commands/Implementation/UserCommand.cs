@@ -39,7 +39,7 @@ public class UserCommand : IUserCommand
                                       createUserDto.PostCode,
                                       createUserDto.City);
 
-            var user = User.Create(name, email, mobileNumber, address);
+            var user = User.Create(createUserDto.Id, name, email, mobileNumber, address);
 
             _userRepository.AddUser(user);
 
