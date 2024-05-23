@@ -28,10 +28,10 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserServiceProxy _userServiceProxy;
-        private readonly HttpClient _httpClient;
         private readonly UserClaimsService _userClaimsService;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -41,7 +41,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager,
             IUserServiceProxy userServiceProxy,
-            HttpClient httpClient,
             UserClaimsService userClaimsService)
         {
             _userManager = userManager;
@@ -52,7 +51,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _roleManager = roleManager;
             _userServiceProxy = userServiceProxy;
-            _httpClient = httpClient;
             _userClaimsService = userClaimsService;
         }
 
@@ -119,6 +117,9 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             //[ValidateNever]
             //public IEnumerable<SelectListItem> RoleList { get; set; }
 
+            //[ValidateNever]
+            //public IEnumerable<SelectListItem> RoleList { get; set; }
+
             [Required]
             [Display(Name = "Fornavn")]
             public string FirstName { get; set; }
@@ -155,6 +156,7 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    //The user gets a role based on the input
                     await _userManager.AddToRoleAsync(user, Input.Role);
 
 
@@ -205,11 +207,15 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new
+                        {
+                            email = Input.Email,
+                            returnUrl = returnUrl
+                        });
                     }
                     else
                     {
@@ -227,7 +233,7 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
