@@ -6,11 +6,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using UnikProjekt.Web.Data;
@@ -23,24 +22,24 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<ApplicationUser> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserServiceProxy _userServiceProxy;
         private readonly HttpClient _httpClient;
         private readonly UserClaimsService _userClaimsService;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<ApplicationUser> roleManager,
+            RoleManager<IdentityRole> roleManager,
             IUserServiceProxy userServiceProxy,
             HttpClient httpClient,
             UserClaimsService userClaimsService)
@@ -183,7 +182,7 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 
                     // Map til CreateUserDto hvor userId (identity userId) sættes som Id
                     //Calling our API through UserServiceProxy - sending createUserDto to our API
-                    var apiResponse = await _userServiceProxy.CreateUserAsync(createUserDto);
+                    await _userServiceProxy.CreateUserAsync(createUserDto);
 
                     //Adding claims based on the users role
                     await _userClaimsService.AssignClaimsAsync(user, Input.Role);
@@ -232,23 +231,23 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }
