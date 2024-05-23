@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Application.Commands;
 using UnikProjekt.Application.Commands.DTOs;
-using UnikProjekt.Application.Commands.Implementation;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
-using UnikProjekt.Infrastructure.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace UnikProjekt.Api.Controller
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class DocumentController : ControllerBase
     {
@@ -89,7 +87,7 @@ namespace UnikProjekt.Api.Controller
                 return NotFound();
             }
 
-            return CreatedAtAction("GetUserById", new { Id = documentId }, documentToCreate);
+            return CreatedAtAction("Create", new { Id = documentId }, documentToCreate);
         }
     }
 }

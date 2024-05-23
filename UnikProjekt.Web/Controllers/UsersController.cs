@@ -46,7 +46,7 @@ namespace UnikProjekt.Web.Controllers
         }
 
         //// GET: UsersController/Create
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Create(CreateUserDto createUserDto)
         {
             return View();

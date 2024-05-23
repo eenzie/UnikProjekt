@@ -9,10 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using UnikProjekt.Web.Data;
 using UnikProjekt.Web.Models;
 using UnikProjekt.Web.Models.DTOs;
 using UnikProjekt.Web.ProxyServices;
@@ -108,21 +106,40 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            public string? Role { get; set; }
+            public string Role { get; set; }
 
             [Required]
             [Display(Name = "Adresse")]
             public string Address { get; set; }
 
-            //[ValidateNever]
-            //public IEnumerable<SelectListItem> RoleList { get; set; }
-
-            //[ValidateNever]
-            //public IEnumerable<SelectListItem> RoleList { get; set; }
-
             [Required]
             [Display(Name = "Fornavn")]
             public string FirstName { get; set; }
+
+            // Tilføj andre nødvendige felter til API-oprettelsen
+            [Required]
+            [Display(Name = "Efternavn")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Mobilnummer")]
+            public string MobileNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Gadenavn")]
+            public string Street { get; set; }
+
+            [Required]
+            [Display(Name = "Husnummer")]
+            public string StreetNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Postnummer")]
+            public string PostCode { get; set; }
+
+            [Required]
+            [Display(Name = "By")]
+            public string City { get; set; }
         }
 
 
@@ -136,68 +153,54 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+
             if (ModelState.IsValid)
             {
-                //var user = CreateUser();
-
                 var user = new ApplicationUser
                 {
                     FirstName = Input.FirstName,
+                    LastName = Input.LastName,
                     UserName = Input.Email,
                     Email = Input.Email,
-                    //Address = Input.Address
+                    MobileNumber = Input.MobileNumber,
+                    Street = Input.Street,
+                    StreetNumber = Input.StreetNumber,
+                    PostCode = Input.PostCode,
+                    City = Input.City
                 };
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    //The user gets a role based on the input
                     await _userManager.AddToRoleAsync(user, Input.Role);
+                    await _userClaimsService.AssignClaimsAsync(user, Input.Role, isNewUser: true);
 
-
-                    //If the role exist in our ClaimsTypes, add the role
-                    if (ClaimsTypes.UserTypeList.Equals(Input.Role))
-                    {
-                        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, Input.Role));
-                    }
-                    else
-                    {
-                        _logger.LogWarning($"Role {Input.Role} is not recognized.");
-                    }
-
-
-                    var userId = await _userManager.GetUserIdAsync(user);
-
+                    // Opret bruger i API
                     var createUserDto = new CreateUserDto
                     {
-                        Id = Guid.Parse(user.Id),
-                        FirstName = user.FirstName,
-                        UserName = user.UserName,
-                        UserEmail = user.Email,
-                        //UserAddress = user.Address
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        Email = Input.Email,
+                        MobileNumber = Input.MobileNumber,
+                        Street = Input.Street,
+                        StreetNumber = Input.StreetNumber,
+                        PostCode = Input.PostCode,
+                        City = Input.City
                     };
 
-                    // Map til CreateUserDto hvor userId (identity userId) sættes som Id
-                    //Calling our API through UserServiceProxy - sending createUserDto to our API
-                    await _userServiceProxy.CreateUserAsync(createUserDto);
+                    var apiResult = await _userServiceProxy.CreateUserAsync(createUserDto);
+                    if (apiResult == null)
+                    {
+                        _logger.LogError("Failed to create user in the external system.");
+                        ModelState.AddModelError(string.Empty, "Failed to create user in the external system.");
+                        return Page();
+                    }
 
-                    //Adding claims based on the users role
-                    await _userClaimsService.AssignClaimsAsync(user, Input.Role);
-
-
-
-                    //var response = await _userServiceProxy.PostAsJsonAsync("http://localhost:5062/api/account", createUserDto);
-                    //if (response.IsSuccessStatusCode is false)
-                    //{
-                    //    throw new Exception("Failed to post user");
-                    //}
-
-
+                    var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -211,11 +214,7 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new
-                        {
-                            email = Input.Email,
-                            returnUrl = returnUrl
-                        });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
@@ -229,7 +228,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 

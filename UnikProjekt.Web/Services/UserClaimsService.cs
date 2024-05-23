@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using UnikProjekt.Web.Data;
 using UnikProjekt.Web.Models;
 
 namespace UnikProjekt.Web.Services
@@ -13,33 +14,57 @@ namespace UnikProjekt.Web.Services
             _userManager = userManager;
         }
 
-        public async Task AssignClaimsAsync(ApplicationUser user, string role)
+        public async Task AssignClaimsAsync(ApplicationUser user, string role, bool isNewUser)
         {
+            IList<Claim> claims = new List<Claim>();
 
-            switch (role)
+            if (isNewUser)
             {
-                case "Beboer":
-                case "Menig":
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "Reader"));
-                    break;
-                case "Sekretær":
-                case "Kasser":
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "User"));
-                    break;
-                case "NæstFormand":
-                case "Formand":
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "Admin"));
-                    break;
-                case "Admin":
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "SuperAdmin"));
-                    break;
-                default:
-                    Console.WriteLine($"Ukendt rolle: {role}");
-                    break;
+                switch (role)
+                {
+                    case "Beboer":
+                        claims.Add(new Claim(ClaimTypes.Role, ClaimsTypes.UserTypeList[3])); // Reader
+                        break;
+                    case "Admin":
+                        claims.Add(new Claim(ClaimTypes.Role, ClaimsTypes.UserTypeList[0])); // SuperAdmin
+                        break;
+                    default:
+                        Console.WriteLine($"Ukendt rolle: {role}");
+                        break;
+                }
+            }
+            else
+            {
+                switch (role)
+                {
+                    case "Beboer":
+                    case "Menig":
+                        claims.Add(new Claim(ClaimTypes.Role, ClaimsTypes.UserTypeList[3])); // Reader
+                        break;
+                    case "Sekretær":
+                    case "Kasser":
+                        claims.Add(new Claim(ClaimTypes.Role, ClaimsTypes.UserTypeList[2])); // User
+                        break;
+                    case "NæstFormand":
+                    case "Formand":
+                        claims.Add(new Claim(ClaimTypes.Role, ClaimsTypes.UserTypeList[1])); // Admin
+                        break;
+                    case "Admin":
+                        claims.Add(new Claim(ClaimTypes.Role, ClaimsTypes.UserTypeList[0])); // SuperAdmin
+                        break;
+                    default:
+                        Console.WriteLine($"Ukendt rolle: {role}");
+                        break;
+                }
+            }
 
+            // Tildel alle claims til brugeren
+            foreach (var claim in claims)
+            {
+                await _userManager.AddClaimAsync(user, claim);
             }
         }
-
     }
+
 }
 
