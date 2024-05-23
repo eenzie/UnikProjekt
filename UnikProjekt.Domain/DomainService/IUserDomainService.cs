@@ -1,8 +1,6 @@
-﻿using UnikProjekt.Domain.Value;
-
-namespace UnikProjekt.Domain.DomainService;
+﻿namespace UnikProjekt.Domain.DomainService;
 
 public interface IUserDomainService
 {
-    bool UserExistsWithEmail(EmailAddress email);
+    bool UserExistsWithEmail(string email);
 }

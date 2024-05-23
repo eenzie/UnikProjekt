@@ -79,6 +79,7 @@ public class UserController : ControllerBase
 
         var userToCreate = new CreateUserDto
         {
+            Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
@@ -93,10 +94,10 @@ public class UserController : ControllerBase
 
         if (userId == Guid.Empty)
         {
-            return NotFound();
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error creating the user");
         }
         //Http Status code '201 Created'
-        return CreatedAtAction("GetUserById", new { Id = userId }, userToCreate);
+        return StatusCode(StatusCodes.Status201Created);
     }
 
     /// <summary>

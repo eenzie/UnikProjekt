@@ -33,56 +33,41 @@ public class UserCommand : IUserCommand
     /// <exception cref="Exception"></exception>
     Guid IUserCommand.CreateUser(CreateUserDto createUserDto)
     {
-        try
+        //Checks that email is unique
+        var duplicateUserEmail = _userDomainService.UserExistsWithEmail(createUserDto.Email);
+        //var emailIsUnique = true;
+
+        if (duplicateUserEmail)
         {
-            _uow.BeginTransaction();   //Isolation level is default: Serialized
+            throw new Exception($"User with that email already exists");
+        }
 
-            var name = new Name(createUserDto.FirstName,
-                                createUserDto.LastName);
-            var email = new EmailAddress(createUserDto.Email);
-            var mobileNumber = new MobileNumber(createUserDto.MobileNumber);
-            var address = new Address(createUserDto.Street,
-                                      createUserDto.StreetNumber,
-                                      createUserDto.PostCode,
-                                      createUserDto.City);
+        //Check that address can be validated
+        var addressIsValidated = _addressDomainService.ValidateAddress(createUserDto.Street,
+                                                                       createUserDto.StreetNumber,
+                                                                       createUserDto.PostCode,
+                                                                       createUserDto.City);
 
-            //Checks that email is unique
-            var emailIsUnique = _userDomainService.UserExistsWithEmail(email);
+        if (!addressIsValidated)
+        {
+            throw new Exception($"Invalid address");
+        }
 
-            //Check that address can be validated
-            var addressIsValidated = _addressDomainService
-                .ValidateAddress(createUserDto.Street,
-                                 createUserDto.StreetNumber,
-                                 createUserDto.PostCode,
-                                 createUserDto.City);
-
-            if (!emailIsUnique)
+        else
+        {
+            try
             {
-                try
-                {
-                    _uow.Rollback();
-                    throw new Exception($"User with that email already exists");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Rollback failed: {ex.Message}");
-                }
-            }
+                _uow.BeginTransaction();   //Isolation level is default: Serialized
 
-            if (!addressIsValidated)
-            {
-                try
-                {
-                    _uow.Rollback();
-                    throw new Exception($"Invalid address");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Rollback failed: {ex.Message}");
-                }
-            }
-            else
-            {
+                var name = new Name(createUserDto.FirstName,
+                                    createUserDto.LastName);
+                var email = new EmailAddress(createUserDto.Email);
+                var mobileNumber = new MobileNumber(createUserDto.MobileNumber);
+                var address = new Address(createUserDto.Street,
+                                          createUserDto.StreetNumber,
+                                          createUserDto.PostCode,
+                                          createUserDto.City);
+
                 var user = User.Create(createUserDto.Id, name, email, mobileNumber, address);
 
                 _userRepository.AddUser(user);
@@ -91,18 +76,18 @@ public class UserCommand : IUserCommand
 
                 return user.Id;
             }
-        }
-        catch (Exception e)
-        {
-            try
+            catch (Exception e)
             {
-                _uow.Rollback();
+                try
+                {
+                    _uow.Rollback();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Rollback failed: {ex.Message}", e);
+                }
+                throw;
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Rollback failed: {ex.Message}", e);
-            }
-            throw;
         }
     }
 
