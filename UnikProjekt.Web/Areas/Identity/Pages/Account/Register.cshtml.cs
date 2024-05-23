@@ -154,7 +154,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -176,10 +175,21 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role);
+                    if (!string.IsNullOrWhiteSpace(Input.Role))
+                    {
+                        if (await _roleManager.RoleExistsAsync(Input.Role))
+                        {
+                            await _userManager.AddToRoleAsync(user, Input.Role);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, $"Role '{Input.Role}' does not exist.");
+                            return Page();
+                        }
+                    }
+
                     await _userClaimsService.AssignClaimsAsync(user, Input.Role, isNewUser: true);
 
-                    // Opret bruger i API
                     var createUserDto = new CreateUserDto
                     {
                         FirstName = Input.FirstName,
