@@ -4,7 +4,6 @@ namespace UnikProjekt.Web.Models
 {
     public class DocumentViewModel
     {
-        [Required]
         [Display(Name = "Document indhold")]
         public IFormFile DocumentContent { get; set; } // IFormFile bruges til filupload i ASP.NET Core
 
@@ -18,6 +17,6 @@ namespace UnikProjekt.Web.Models
 
         // Dato for sidste ændring
         [Display(Name = "Ændringsdato")]
-        public DateTime DateModified { get; set; } = DateTime.Now;
+        public DateTime DateModified { get; set; }
     }
 }
