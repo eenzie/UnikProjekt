@@ -129,15 +129,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            //Input = new InputModel()
-            //{
-            //    RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-            //    {
-            //        Text = i,
-            //        Value = i
-            //    })
-            //};
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

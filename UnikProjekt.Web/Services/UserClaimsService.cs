@@ -15,53 +15,31 @@ namespace UnikProjekt.Web.Services
 
         public async Task AssignClaimsAsync(ApplicationUser user, string role)
         {
+
             switch (role)
             {
-                case "SuperAdmin":
-                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role));
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "SuperUserPermission"));
+                case "Beboer":
+                case "Menig":
+                    await _userManager.AddClaimAsync(user, new Claim("Permission", "Reader"));
+                    break;
+                case "Sekretær":
+                case "Kasser":
+                    await _userManager.AddClaimAsync(user, new Claim("Permission", "User"));
+                    break;
+                case "NæstFormand":
+                case "Formand":
+                    await _userManager.AddClaimAsync(user, new Claim("Permission", "Admin"));
                     break;
                 case "Admin":
-                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role));
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "AdminPermission"));
-                    break;
-                case "User":
-                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role));
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "UserPermission"));
-                    break;
-                case "Reader":
-                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role));
-                    await _userManager.AddClaimAsync(user, new Claim("Permission", "ReaderPermission"));
+                    await _userManager.AddClaimAsync(user, new Claim("Permission", "SuperAdmin"));
                     break;
                 default:
                     Console.WriteLine($"Ukendt rolle: {role}");
                     break;
 
-
-                    //eller giver det her bedre mening: 
-                    switch (role)
-                    {
-                        case "Beboer":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "Reader"));
-                        case "Menig":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "Reader"));
-                        case "Sekretær":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "User"));
-                        case "Kasser":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "User"));
-                        case "NæstFormand":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "Admin"));
-                        case "Formand":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "Admin"));
-                        case "Admin":
-                            await _userManager.AddClaimAsync(user, new Claim("Permission", "SuperAdmin"));
-                        default:
-                            Console.WriteLine($"Ukendt rolle: {role}");
-                            break;
-
-                    }
             }
-
         }
+
     }
 }
+

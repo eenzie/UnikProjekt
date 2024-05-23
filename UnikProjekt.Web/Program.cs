@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Web.Data;
-using UnikProjekt.Web.Models;
 using UnikProjekt.Web.ProxyServices;
 
 
@@ -21,11 +20,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //builder.Services.AddDefaultIdentity<IdentityUser>()
-builder.Services.AddDefaultIdentity<ApplicationUser>()
+//builder.Services.AddDefaultIdentity<ApplicationUser>()
+//    .AddDefaultTokenProviders()
+//    .AddRoles<IdentityRole>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddControllersWithViews();
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
 
 //IHttpClientFactory
 builder.Services.AddControllersWithViews();
