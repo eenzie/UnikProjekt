@@ -38,7 +38,7 @@ namespace UnikProjekt.Api.Controller
 
         // GET api/<BookingController>/5
         [HttpGet("{id:guid}", Name = "GetBookingById")]
-        public ActionResult<BookingDto> Get(Guid id)
+        public ActionResult<BookingDto> GetBookingById(Guid id)
         {
             var result = _bookingQueries.GetBookingById(id);
 
@@ -50,22 +50,22 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        //[HttpGet("{id:guid}", Name = "GetBookingByUser")]
-        //public ActionResult<BookingDto> Get()
-        //{
-        //    var result = _bookingQueries.GetBookingByUser(id);
+        [HttpGet("{id:guid}", Name = "GetBookingByUser")]
+        public ActionResult<BookingDto> GetBookingByUser(Guid userId)
+        {
+            var result = _bookingQueries.GetBookingByUser(userId);
 
-        //    if (result == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (result == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         // POST api/<BookingController>
         [HttpPost(Name = "CreateBooking")]
-        public IActionResult Post([FromBody] CreateBookingDto bookingDto)
+        public IActionResult Post([FromBody] CreateBookingDto createBookingDto)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,10 @@ namespace UnikProjekt.Api.Controller
 
             var bookingToCreate = new CreateBookingDto
             {
-                
+                UserId = createBookingDto.UserId,
+                DateBooked = createBookingDto.DateBooked,
+                Items = createBookingDto.Items,
+                BookingComment = createBookingDto.BookingComment
             };
 
             var bookingId = _bookingCommand.CreateBooking(bookingToCreate);
@@ -84,12 +87,12 @@ namespace UnikProjekt.Api.Controller
                 return NotFound();
             }
             //Http Status code '201 Created'
-            return CreatedAtAction("GetBookingById", new { Id = bookingId }, bookingToCreate);
+            return CreatedAtAction("CreateBooking", new { Id = bookingId }, bookingToCreate);
         }
 
         // PUT api/<BookingController>/5
         [HttpPut(Name = "UpdateBooking")]
-        public IActionResult Put([FromBody] UpdateBookingDto booking)
+        public IActionResult Put([FromBody] UpdateBookingDto updateBookingDto)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +101,12 @@ namespace UnikProjekt.Api.Controller
 
             var bookingToUpdate = new UpdateBookingDto
             {
-
+                Id = updateBookingDto.Id,
+                UserId = updateBookingDto.UserId,
+                DateBooked = updateBookingDto.DateBooked,
+                Items = updateBookingDto.Items,
+                BookingComment = updateBookingDto.BookingComment,
+                RowVersion = updateBookingDto.RowVersion
             };
 
             var bookingId = _bookingCommand.UpdateBooking(bookingToUpdate);
@@ -108,9 +116,7 @@ namespace UnikProjekt.Api.Controller
                 return NotFound();
             }
             //Http Status code '201 Created'
-            return CreatedAtAction("GetBookingById", new { Id = bookingId }, bookingToUpdate);
+            return CreatedAtAction("UpdateBooking", new { Id = bookingId }, bookingToUpdate);
         }
-
-        
     }
 }

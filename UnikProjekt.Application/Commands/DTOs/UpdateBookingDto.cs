@@ -8,5 +8,11 @@ namespace UnikProjekt.Application.Commands.DTOs
 {
     public class UpdateBookingDto
     {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime DateBooked { get; set; }
+        public List<UpdateBookingLineDto> Items { get; set; }
+        public string BookingComment { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

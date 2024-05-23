@@ -10,11 +10,11 @@ using UnikProjekt.Domain.Value;
 
 namespace UnikProjekt.Domain.Entities
 {
-    public class BookingLineItem : Entity
+    public class BookingItem : Entity
     {
-        internal BookingLineItem() { }
+        internal BookingItem() { }
 
-        public BookingLineItem(Guid id, string serviceName, decimal price, decimal deposit, DateTime intervalStart, DateTime intervalEnd, int maximumBookingTimeInMinutes)
+        public BookingItem(Guid id, string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
         {
             //TODO: Create a validity checker for interval times (can't end before it starts)
             // Pre-conditions
@@ -24,11 +24,11 @@ namespace UnikProjekt.Domain.Entities
             Deposit = deposit;
             IntervalStart = intervalStart;
             IntervalEnd = intervalEnd;
-            MaximumBookingTimeInMinutes = maximumBookingTimeInMinutes;
+            BookingTimeInMinutes = maximumBookingTimeInMinutes;
 
             // Logic
 
-            var timeSlots = CalculateTimeSlots(IntervalStart, IntervalEnd, MaximumBookingTimeInMinutes);
+            var timeSlots = CalculateTimeSlots(IntervalStart, IntervalEnd, BookingTimeInMinutes);
 
             // Post-conditions
 
@@ -37,25 +37,25 @@ namespace UnikProjekt.Domain.Entities
 
         public string ServiceName { get; set; }
         public decimal Price { get; set; }
-        public decimal Deposit { get; set; }
-        public DateTime IntervalStart { get; set; }
-        public DateTime IntervalEnd { get; set; }
-        public int MaximumBookingTimeInMinutes { get; set; }
+        public decimal? Deposit { get; set; }
+        public TimeOnly IntervalStart { get; set; }
+        public TimeOnly IntervalEnd { get; set; }
+        public int BookingTimeInMinutes { get; set; }
         public int TimeSlots { get; set; }
 
-        public static BookingLineItem Create(string serviceName, decimal price, decimal deposit, DateTime intervalStart, DateTime intervalEnd, int maximumBookingTimeInMinutes)
+        public static BookingItem Create(string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
         {
             if (serviceName == null) throw new ArgumentNullException(nameof(serviceName));
             if (price == null) throw new ArgumentNullException(nameof(price));
             if (deposit == null) throw new ArgumentNullException(nameof(deposit));
             if (maximumBookingTimeInMinutes == null) throw new ArgumentNullException(nameof(maximumBookingTimeInMinutes));
+            
+            var bookingItem = new BookingItem(Guid.NewGuid(), serviceName, price, deposit, intervalStart, intervalEnd, maximumBookingTimeInMinutes);
 
-            var bookingLineItem = new BookingLineItem(Guid.NewGuid(), serviceName, price, deposit, intervalStart, intervalEnd, maximumBookingTimeInMinutes);
-
-            return bookingLineItem;
+            return bookingItem;
         }
 
-        public void Update(string serviceName, decimal price, decimal deposit, DateTime intervalStart, DateTime intervalEnd, int maximumBookingTimeInMinutes)
+        public void Update(string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
         {
             if (serviceName == null) throw new ArgumentNullException(nameof(serviceName));
             if (price == null) throw new ArgumentNullException(nameof(price));
@@ -67,15 +67,24 @@ namespace UnikProjekt.Domain.Entities
             this.Deposit = deposit;
             this.IntervalStart = intervalStart;
             this.IntervalEnd = intervalEnd;
-            this.MaximumBookingTimeInMinutes = maximumBookingTimeInMinutes;
+            this.BookingTimeInMinutes = maximumBookingTimeInMinutes;
 
-            this.TimeSlots = CalculateTimeSlots(IntervalStart, IntervalEnd, MaximumBookingTimeInMinutes);
+            this.TimeSlots = CalculateTimeSlots(IntervalStart, IntervalEnd, BookingTimeInMinutes);
         }
 
-        private int CalculateTimeSlots(DateTime intervalStart, DateTime intervalEnd, int maximumBookingTimeInMinutes)
+        private int CalculateTimeSlots(TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
         {
             //TODO: Implement timeslot logic
             return 1;
+        }
+
+        private bool ValidateIntervals(TimeOnly intervalStart, TimeOnly intervalEnd) 
+        {
+            if (intervalStart > intervalEnd)
+            {
+                return false;
+            }
+            return true;
         }
     }
 

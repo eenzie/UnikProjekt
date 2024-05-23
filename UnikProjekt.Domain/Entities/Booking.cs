@@ -24,23 +24,26 @@ namespace UnikProjekt.Domain.Entities
 
             // Logic
 
-            var totalPrice = CalculateTotalPrice(Items);
+            var subTotal = CalculateTotalPrice(Items);
+            var moms = 1.25M;
+            var totalPrice = subTotal * moms;
 
             // Post-conditions
 
+            SubTotal = subTotal;
             TotalPrice = totalPrice;
         }
-
+        
         public User User { get; set; }
         public DateTime DateBooked { get; set; }
         public List<BookingLine> Items { get; set; }
         public string BookingComment { get; set; }
+        public decimal SubTotal { get; set; }
         public decimal TotalPrice { get; set; }
 
         public static Booking Create(User user, DateTime dateBooked, List<BookingLine> items, string bookingComment)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (dateBooked == null) throw new ArgumentNullException(nameof(dateBooked));
             if (bookingComment == null) throw new ArgumentNullException(nameof(bookingComment));
 
             var booking = new Booking(Guid.NewGuid(), user, dateBooked, items, bookingComment);
@@ -51,7 +54,6 @@ namespace UnikProjekt.Domain.Entities
         public void Update(User user, DateTime dateBooked, List<BookingLine> items, string bookingComment)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (dateBooked == null) throw new ArgumentNullException(nameof(dateBooked));
             if (bookingComment == null) throw new ArgumentNullException(nameof(bookingComment));
 
             this.User = user;
@@ -63,8 +65,8 @@ namespace UnikProjekt.Domain.Entities
 
         private decimal CalculateTotalPrice(List<BookingLine> items)
         { 
-            var totalPrice = items.Sum(x => x.TotalPrice);
-            return totalPrice;
+            var subTotal = items.Sum(x => x.ItemPrice);
+            return subTotal;
         }
     }
 }

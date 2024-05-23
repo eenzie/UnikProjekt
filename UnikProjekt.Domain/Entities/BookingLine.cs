@@ -11,56 +11,44 @@ namespace UnikProjekt.Domain.Entities
     {
         internal BookingLine() { }
 
-        public BookingLine(Guid id, BookingLineItem bookingLineItem, int quantity, DateTime bookingStart, DateTime bookingEnd)
+        public BookingLine(Guid id, BookingItem bookingItem, DateTime bookingStart, DateTime bookingEnd)
         {
-            // Pre-conditions
-            
-            BookingLineItem = bookingLineItem;
-            Quantity = quantity;
+            BookingItem = bookingItem;
             BookingStart = bookingStart;
             BookingEnd = bookingEnd;
-
-            // Logic
-
-            var totalPrice = CalculateTotalPrice(BookingLineItem, quantity);
-
-            // Post-conditions
-
-            TotalPrice = totalPrice;
+            ItemPrice = bookingItem.Price;
         }
 
-        public BookingLineItem BookingLineItem { get; set; }
-        public int Quantity { get; set; }
+        public Booking Booking { get; set; }
+        public BookingItem BookingItem { get; set; }
         public DateTime BookingStart { get; set; }
         public DateTime BookingEnd { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal ItemPrice { get; set; }
 
-        public static BookingLine Create(BookingLineItem bookingLineItem, int quantity, DateTime bookingStart, DateTime bookingEnd)
+        public static BookingLine Create(BookingItem bookingItem, DateTime bookingStart, DateTime bookingEnd)
         {
-            if (bookingLineItem == null) throw new ArgumentNullException(nameof(bookingLineItem));
-            if (quantity == null) throw new ArgumentNullException(nameof(quantity));
+            if (bookingItem == null) throw new ArgumentNullException(nameof(bookingItem));
 
-            var bookingLine = new BookingLine(Guid.NewGuid(), bookingLineItem, quantity, bookingStart, bookingEnd);
+            
+
+            var bookingLine = new BookingLine(Guid.NewGuid(), bookingItem, bookingStart, bookingEnd);
 
             return bookingLine;
         }
 
-        public void Update(BookingLineItem bookingLineItem, int quantity, DateTime bookingStart, DateTime bookingEnd)
+        public void Update(BookingItem bookingItem, DateTime bookingStart, DateTime bookingEnd)
         {
-            if (bookingLineItem == null) throw new ArgumentNullException(nameof(bookingLineItem));
-            if (quantity == null) throw new ArgumentNullException(nameof(quantity));
+            if (bookingItem == null) throw new ArgumentNullException(nameof(bookingItem));
 
-            this.BookingLineItem = bookingLineItem;
-            this.Quantity = quantity;
+            this.BookingItem = bookingItem;
             this.BookingStart = bookingStart;
             this.BookingEnd = bookingEnd;
-
-            TotalPrice = CalculateTotalPrice(BookingLineItem, quantity);
+            this.ItemPrice = bookingItem.Price;
         }
-        private decimal CalculateTotalPrice(BookingLineItem bookingLineItem, int quantity)
+
+        private void ValidateBookingDates(DateTime bookingStart, DateTime bookingEnd)
         {
-            var totalPrice = bookingLineItem.Price * quantity;
-            return totalPrice;
+            if (bookingStart > bookingEnd) throw new ArgumentException("Start of booking must be before end of booking");
         }
     }
 }

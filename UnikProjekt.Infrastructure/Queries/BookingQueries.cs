@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
+using UnikProjekt.Domain.Entities;
 using UnikProjekt.Infrastructure.Database;
 
 namespace UnikProjekt.Infrastructure.Queries
@@ -21,22 +22,139 @@ namespace UnikProjekt.Infrastructure.Queries
 
         IEnumerable<BookingDto> IBookingQueries.GetAllBookings()
         {
-            return _context.Bookings.AsNoTracking()
-            .Select(x => new BookingDto
-            {
-                
-            })
-            .ToList();
+            var bookings = _context.Bookings.AsNoTracking()
+                .Include(x => x.User)
+                .Include(x => x.Items)
+                .ThenInclude(x => x.BookingItem)
+                .Select(x => new BookingDto
+                {
+                    Id = x.Id,
+                    User = new UserDto() 
+                        {
+                            Id = x.User.Id,
+                            Name = x.User.Name.ToString(),
+                            Email = x.User.Email.ToString(),
+                            MobileNumber = x.User.MobileNumber.ToString(),
+                            Address = x.User.Address.ToString(),
+                            RowVersion = x.User.RowVersion
+                        },
+                    DateBooked = x.DateBooked,
+                    Items = x.Items.Select(x => new BookingLineDto 
+                        { 
+                            Id = x.Id,
+                            BookingItem = new BookingItemDto()
+                            {
+                                Id = x.BookingItem.Id,
+                                ServiceName = x.BookingItem.ServiceName,
+                                Price = x.BookingItem.Price,
+                                Deposit = x.BookingItem.Deposit,
+                                IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                                IntervalEnd = x.BookingItem.IntervalEnd,
+                                BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
+                                TimeSlots = x.BookingItem.TimeSlots,
+                                RowVersion = x.BookingItem.RowVersion
+                            }
+                        }).ToList(),
+                    BookingComment = x.BookingComment,
+                    SubTotal = x.SubTotal,
+                    TotalPrice = x.TotalPrice,
+                    RowVersion = x.RowVersion
+                })
+                .ToList();
+
+            return bookings;
         }
 
         BookingDto? IBookingQueries.GetBookingById(Guid bookingId)
         {
-            throw new NotImplementedException();
+            var booking = _context.Bookings.AsNoTracking()
+               .Include(x => x.User)
+               .Include(x => x.Items)
+               .ThenInclude(x => x.BookingItem)
+               .Where(x => x.Id == bookingId)
+               .Select(x => new BookingDto
+               {
+                   Id = x.Id,
+                   User = new UserDto()
+                   {
+                       Id = x.User.Id,
+                       Name = x.User.Name.ToString(),
+                       Email = x.User.Email.ToString(),
+                       MobileNumber = x.User.MobileNumber.ToString(),
+                       Address = x.User.Address.ToString(),
+                       RowVersion = x.User.RowVersion
+                   },
+                   DateBooked = x.DateBooked,
+                   Items = x.Items.Select(x => new BookingLineDto
+                   {
+                       Id = x.Id,
+                       BookingItem = new BookingItemDto()
+                       {
+                           Id = x.BookingItem.Id,
+                           ServiceName = x.BookingItem.ServiceName,
+                           Price = x.BookingItem.Price,
+                           Deposit = x.BookingItem.Deposit,
+                           IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                           IntervalEnd = x.BookingItem.IntervalEnd,
+                           BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
+                           TimeSlots = x.BookingItem.TimeSlots,
+                           RowVersion = x.BookingItem.RowVersion
+                       }
+                   }).ToList(),
+                   BookingComment = x.BookingComment,
+                   SubTotal = x.SubTotal,
+                   TotalPrice = x.TotalPrice,
+                   RowVersion = x.RowVersion
+               })
+               .FirstOrDefault();
+
+            return booking;
         }
 
         IEnumerable<BookingDto> IBookingQueries.GetBookingByUser(Guid userId)
         {
-            throw new NotImplementedException();
+            var bookings = _context.Bookings.AsNoTracking()
+               .Include(x => x.User)
+               .Include(x => x.Items)
+               .ThenInclude(x => x.BookingItem)
+               .Where(x => x.User.Id == userId)
+               .Select(x => new BookingDto
+               {
+                   Id = x.Id,
+                   User = new UserDto()
+                   {
+                       Id = x.User.Id,
+                       Name = x.User.Name.ToString(),
+                       Email = x.User.Email.ToString(),
+                       MobileNumber = x.User.MobileNumber.ToString(),
+                       Address = x.User.Address.ToString(),
+                       RowVersion = x.User.RowVersion
+                   },
+                   DateBooked = x.DateBooked,
+                   Items = x.Items.Select(x => new BookingLineDto
+                   {
+                       Id = x.Id,
+                       BookingItem = new BookingItemDto()
+                       {
+                           Id = x.BookingItem.Id,
+                           ServiceName = x.BookingItem.ServiceName,
+                           Price = x.BookingItem.Price,
+                           Deposit = x.BookingItem.Deposit,
+                           IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                           IntervalEnd = x.BookingItem.IntervalEnd,
+                           BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
+                           TimeSlots = x.BookingItem.TimeSlots,
+                           RowVersion = x.BookingItem.RowVersion
+                       }
+                   }).ToList(),
+                   BookingComment = x.BookingComment,
+                   SubTotal = x.SubTotal,
+                   TotalPrice = x.TotalPrice,
+                   RowVersion = x.RowVersion
+               })
+               .ToList();
+
+            return bookings;
         }
     }
 }

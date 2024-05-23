@@ -18,7 +18,7 @@ public class UnikDbContext : DbContext
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingLine> BookingLines { get; set; }
-    public DbSet<BookingLineItem> BookingLineItems { get; set; }
+    public DbSet<BookingItem> BookingItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,5 +28,6 @@ public class UnikDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingConfiguration());
     }
 }

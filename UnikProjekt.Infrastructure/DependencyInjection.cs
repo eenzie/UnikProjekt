@@ -28,14 +28,17 @@ public static class DependencyInjection
         services.AddScoped<IRoleCommand, RoleCommand>();
         services.AddScoped<IUserRoleCommand, UserRoleCommand>();
         services.AddScoped<IBookingCommand, BookingCommand>();
+        services.AddScoped<IBookingItemCommand, BookingItemCommand>();
         services.AddScoped<IUserQueries, UserQueries>();
         services.AddScoped<IRoleQueries, RoleQueries>();
         services.AddScoped<IUserRoleQueries, UserRoleQueries>();
         services.AddScoped<IBookingQueries, BookingQueries>();
+        services.AddScoped<IBookingItemQueries, BookingItemQueries>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IBookingItemRepository, BookingItemRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
