@@ -12,22 +12,22 @@ namespace UnikProjekt.Web.Services
             _httpClient = httpClient;
         }
 
-        async Task<IEnumerable<UserViewModel>?> IUserServiceProxy.GetAllUsersAsync()
+        async Task<IEnumerable<UserViewModel>?> IUserServiceProxy.GetAllUsers()
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>($"User");
         }
 
-        async Task<UserViewModel?> IUserServiceProxy.GetUserByIdAsync(Guid id)
+        async Task<UserViewModel?> IUserServiceProxy.GetUserById(Guid id)
         {
             return await _httpClient.GetFromJsonAsync<UserViewModel>($"User/{id}");
         }
 
-        async Task<IEnumerable<UserViewModel>> IUserServiceProxy.GetUserByNameAsync(string name)
+        async Task<IEnumerable<UserViewModel>> IUserServiceProxy.GetUserByName(string name)
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>($"User/{name}");
         }
 
-        async Task<UserViewModel> IUserServiceProxy.CreateUserAsync(CreateUserDto createUserDto)
+        async Task<UserViewModel> IUserServiceProxy.CreateUser(CreateUserDto createUserDto)
         {
             var response = await _httpClient.PostAsJsonAsync("User/Create", createUserDto);
 
@@ -37,7 +37,7 @@ namespace UnikProjekt.Web.Services
             return await response.Content.ReadFromJsonAsync<UserViewModel>();
         }
 
-        async Task<UserViewModel> IUserServiceProxy.EditUserAsync(Guid id, UserViewModel updatedUser)
+        async Task<UserViewModel> IUserServiceProxy.EditUser(Guid id, UserViewModel updatedUser)
         {
             var response = await _httpClient.PutAsJsonAsync("User/Edit", updatedUser);
 
@@ -48,12 +48,11 @@ namespace UnikProjekt.Web.Services
 
         }
 
-        async Task<DocumentViewModel> IUserServiceProxy.CreateDocumentAsync(CreateDocumentDto createDocumentDto)
-        {
-            var response = await _httpClient.PostAsJsonAsync("Document/Create", createDocumentDto);
+        //    public async Task<IEnumerable<UserViewModel>?> GetAllUsers()
+        //    {
+        //        return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>($"user/");
 
-            //Exception
-            response.EnsureSuccessStatusCode();
+        //        //var result = new List<UserViewModel>();
 
             return await response.Content.ReadFromJsonAsync<DocumentViewModel>();
         }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Web.Data;
+using UnikProjekt.Web.Models;
 using UnikProjekt.Web.ProxyServices;
 
 
