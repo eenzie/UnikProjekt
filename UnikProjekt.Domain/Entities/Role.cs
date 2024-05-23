@@ -11,10 +11,9 @@ public class Role : Entity
     public Role(Guid id, string rolename)
     {
         RoleName = rolename;
-
     }
 
-    public string RoleName { get; set; }
+    public string RoleName { get; private set; }
     public List<UserRole>? UserRoles { get; set; }
 
     public static Role Create(string roleName)

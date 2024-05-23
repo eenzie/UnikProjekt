@@ -18,7 +18,7 @@ namespace UnikProjekt.Infrastructure.DomainServices
         /// </summary>
         /// <param name="email"></param>
         /// <returns>true if a user already exists</returns>
-        public bool UserExistsWithEmail(EmailAddress email)
+        bool IUserDomainService.UserExistsWithEmail(EmailAddress email)
         {
             return _context.Users.Any(x => x.Email == email);
         }

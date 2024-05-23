@@ -1,6 +1,7 @@
 ﻿using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Helpers;
 using UnikProjekt.Application.Repository;
+using UnikProjekt.Domain.DomainService;
 using UnikProjekt.Domain.Entities;
 using UnikProjekt.Domain.Value;
 
@@ -10,13 +11,18 @@ public class UserCommand : IUserCommand
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _uow;
-    private readonly IServiceProvider _services;
+    private readonly IUserDomainService _userDomainService;
+    private readonly IAddressDomainService _addressDomainService;
 
-    public UserCommand(IUserRepository userRepository, IUnitOfWork uow, IServiceProvider services)
+    public UserCommand(IUserRepository userRepository,
+                       IUnitOfWork uow,
+                       IUserDomainService userDomainService,
+                       IAddressDomainService addressDomainService)
     {
         _userRepository = userRepository;
         _uow = uow;
-        _services = services;
+        _userDomainService = userDomainService;
+        _addressDomainService = addressDomainService;
     }
 
     /// <summary>
@@ -31,7 +37,8 @@ public class UserCommand : IUserCommand
         {
             _uow.BeginTransaction();   //Isolation level is default: Serialized
 
-            var name = new Name(createUserDto.FirstName, createUserDto.LastName);
+            var name = new Name(createUserDto.FirstName,
+                                createUserDto.LastName);
             var email = new EmailAddress(createUserDto.Email);
             var mobileNumber = new MobileNumber(createUserDto.MobileNumber);
             var address = new Address(createUserDto.Street,
@@ -39,13 +46,51 @@ public class UserCommand : IUserCommand
                                       createUserDto.PostCode,
                                       createUserDto.City);
 
-            var user = User.Create(name, email, mobileNumber, address);
+            //Checks that email is unique
+            var emailIsUnique = _userDomainService.UserExistsWithEmail(email);
 
-            _userRepository.AddUser(user);
+            //Check that address can be validated
+            var addressIsValidated = _addressDomainService
+                .ValidateAddress(createUserDto.Street,
+                                 createUserDto.StreetNumber,
+                                 createUserDto.PostCode,
+                                 createUserDto.City);
 
-            _uow.Commit();
+            if (!emailIsUnique)
+            {
+                try
+                {
+                    _uow.Rollback();
+                    throw new Exception($"User with that email already exists");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Rollback failed: {ex.Message}");
+                }
+            }
 
-            return user.Id;
+            if (!addressIsValidated)
+            {
+                try
+                {
+                    _uow.Rollback();
+                    throw new Exception($"Invalid address");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Rollback failed: {ex.Message}");
+                }
+            }
+            else
+            {
+                var user = User.Create(createUserDto.Id, name, email, mobileNumber, address);
+
+                _userRepository.AddUser(user);
+
+                _uow.Commit();
+
+                return user.Id;
+            }
         }
         catch (Exception e)
         {
