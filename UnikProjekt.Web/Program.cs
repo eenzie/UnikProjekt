@@ -43,6 +43,7 @@ builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
 builder.Services.AddScoped<UserClaimsService>();
 
 
+
 //builder.Services.AddAuthorization(options =>
 //{
 //    options.AddPolicy(
