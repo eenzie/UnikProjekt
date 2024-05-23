@@ -4,6 +4,7 @@ namespace UnikProjekt.Application.Commands.DTOs
 {
     public class CreateUserDto
     {
+        public Guid Id { get; set; }
         public record Name(
             [property: JsonProperty("FirstName")]
             string FirstName,

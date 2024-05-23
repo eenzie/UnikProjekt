@@ -6,6 +6,9 @@ namespace UnikProjekt.Web.UserManagement.Handler
 {
     public class ResidenceRequirementHandler : AuthorizationHandler<ResidenceRequirement>
     {
+        //Hvis man fx vil have at Man både skal være admin og formand til at kunne tilgå noget specifik
+        //så kan man lave den her... og så søg på IAuthorize.. for at se hvordan man får den implementeret
+        //i controlleren 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ResidenceRequirement requirement)
         {
             var hasAddressClaim = context.User.HasClaim(ClaimTypes.StreetAddress, " ");

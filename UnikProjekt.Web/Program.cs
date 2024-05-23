@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Web.Data;
 using UnikProjekt.Web.ProxyServices;
-using UnikProjekt.Web.UserManagement.Requirements;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +19,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
+//builder.Services.AddDefaultIdentity<IdentityUser>()
+//builder.Services.AddDefaultIdentity<ApplicationUser>()
+//    .AddDefaultTokenProviders()
+//    .AddRoles<IdentityRole>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddControllersWithViews();
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
 
 //IHttpClientFactory
 builder.Services.AddControllersWithViews();
@@ -31,14 +40,19 @@ builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
     client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
 });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy(
-        "ResidenceRequirementPolicy",
-        policyBuilder => policyBuilder.AddRequirements(
-            new ResidenceRequirement()
-        ));
-});
+
+
+
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy(
+//        "ResidenceRequirementPolicy",
+//        policyBuilder => policyBuilder.AddRequirements(
+//            new ResidenceRequirement()
+//        ));
+//});
+
+
 
 var app = builder.Build();
 
