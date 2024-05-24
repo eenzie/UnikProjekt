@@ -63,9 +63,9 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        //POST: User
-        [HttpPost(Name = "Create")]
-        public IActionResult Create([FromBody] CreateDocumentDto document)
+        //POST: Document
+        [HttpPost(Name = "CreateDocument")]
+        public IActionResult CreateDocument([FromBody] CreateDocumentDto document)
         {
             if (!ModelState.IsValid)
             {
