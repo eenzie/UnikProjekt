@@ -44,28 +44,4 @@ public class AddressDomainService : IAddressDomainService
             }
         }
     }
-
-
-    //public async Task<bool> ValidateAddressAsync(string street, string streetNumber, string postCode, string city)
-    //{
-    //    var url = $"https://api.dataforsyningen.dk/datavask/adresser?betegnelse={street} {streetNumber}, {postCode} {city}";
-
-    //    var result = await _httpClient.GetFromJsonAsync<Root>(url);
-
-    //    if (result == null)
-    //    {
-    //        throw new Exception("Failed to get a valid response from the API.");
-    //    }
-
-    //    switch (result.Kategori)
-    //    {
-    //        case "A":
-    //        case "B":
-    //            return true;
-    //        case "C":
-    //            return false;
-    //        default:
-    //            throw new Exception("Unknown category received.");
-    //    }
-    //}
 }

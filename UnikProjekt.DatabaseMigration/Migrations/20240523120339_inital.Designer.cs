@@ -12,15 +12,15 @@ using UnikProjekt.Infrastructure.Database;
 namespace UnikProjekt.DatabaseMigration.Migrations
 {
     [DbContext(typeof(UnikDbContext))]
-    [Migration("20240516115146_initialCreate")]
-    partial class initialCreate
+    [Migration("20240523120339_inital")]
+    partial class inital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -36,10 +36,8 @@ namespace UnikProjekt.DatabaseMigration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
