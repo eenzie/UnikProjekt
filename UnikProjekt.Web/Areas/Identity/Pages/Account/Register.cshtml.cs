@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
@@ -120,9 +121,35 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             //[ValidateNever]
             //public IEnumerable<SelectListItem> RoleList { get; set; }
 
+            public Guid Id { get; set; }
+
             [Required]
             [Display(Name = "Fornavn")]
             public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Efternavn")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Mobilnummer")]
+            public string MobileNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Gadenavn")]
+            public string Street { get; set; }
+
+            [Required]
+            [Display(Name = "Husnummer")]
+            public string StreetNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Postnummer")]
+            public string PostCode { get; set; }
+
+            [Required]
+            [Display(Name = "By")]
+            public string City { get; set; }
         }
 
 
@@ -143,9 +170,15 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                 var user = new ApplicationUser
                 {
                     FirstName = Input.FirstName,
+                    LastName = Input.LastName,
                     UserName = Input.Email,
                     Email = Input.Email,
-                    //Address = Input.Address
+                    MobileNumber = Input.MobileNumber,
+                    Street = Input.Street,
+                    StreetNumber = Input.StreetNumber,
+                    PostCode = Input.PostCode,
+                    City = Input.City
+                    //TODO: ANH: Add List of roles and Start/end Dates
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -170,24 +203,39 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                         _logger.LogWarning($"Role {Input.Role} is not recognized.");
                     }
 
-
+                    // Gets the user Id of the newly created Identity
                     var userId = await _userManager.GetUserIdAsync(user);
+                    //D betyder Guid formatere til 32 digits med bindestreng
+                    var userIdGuid = Guid.ParseExact(userId, "D");
 
                     var createUserDto = new CreateUserDto
                     {
-                        Id = Guid.Parse(user.Id),
-                        FirstName = user.FirstName,
-                        UserName = user.UserName,
-                        UserEmail = user.Email,
-                        //UserAddress = user.Address
+                        Id = userIdGuid,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        Email = Input.Email,
+                        MobileNumber = Input.MobileNumber,
+                        Street = Input.Street,
+                        StreetNumber = Input.StreetNumber,
+                        PostCode = Input.PostCode,
+                        City = Input.City
                     };
+
 
                     // Map til CreateUserDto hvor userId (identity userId) sættes som Id
                     //Calling our API through UserServiceProxy - sending createUserDto to our API
                     await _userServiceProxy.CreateUserAsync(createUserDto);
 
+                    //TODO: ANH: Tjek om det var en succes, hvis ja, opret så UserRole med UserId og RoleId
+                    // roller er fx beboer, formand osv. 
+                    //await _userServiceProxy.CreateUserRoleAsync();
+
+                    //TODO:ANH: UserRoleReturneres of er succes? Hvis ja, så asign claim ud fra det?
+
                     //Adding claims based on the users role
-                    await _userClaimsService.AssignClaimsAsync(user, Input.Role);
+                    await _userClaimsService.AssignClaimsAsync(user, Input.Role, isNewUser: true);
+
+
 
 
 
