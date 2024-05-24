@@ -25,23 +25,27 @@ public static class DependencyInjection
         x => x.MigrationsAssembly("UnikProjekt.DatabaseMigration")));
 
         //TODO: HUSK at tilføje domain services her når et interface er lavet
-        //services.AddScoped<IUserDomainService, UserDomainService>();
-        services.AddScoped<IBookingDomainService, BookingDomainService>();
         services.AddScoped<IUserCommand, UserCommand>();
         services.AddScoped<IRoleCommand, RoleCommand>();
         services.AddScoped<IUserRoleCommand, UserRoleCommand>();
         services.AddScoped<IBookingCommand, BookingCommand>();
         services.AddScoped<IBookingItemCommand, BookingItemCommand>();
+        services.AddScoped<IDocumentCommand, DocumentCommand>();
         services.AddScoped<IUserQueries, UserQueries>();
         services.AddScoped<IRoleQueries, RoleQueries>();
         services.AddScoped<IUserRoleQueries, UserRoleQueries>();
         services.AddScoped<IBookingQueries, BookingQueries>();
         services.AddScoped<IBookingItemQueries, BookingItemQueries>();
+        services.AddScoped<IDocumentQueries, DocumentQueries>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IBookingItemRepository, BookingItemRepository>();
+        services.AddScoped<IUserDomainService, UserDomainService>();
+        services.AddScoped<IAddressDomainService, AddressDomainService>();
+        services.AddScoped<IBookingDomainService, BookingDomainService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

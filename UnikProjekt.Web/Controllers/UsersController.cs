@@ -21,19 +21,19 @@ namespace UnikProjekt.Web.Controllers
         //GET: UsersController
         public async Task<IActionResult> Index()
         {
-            var users = await _userServiceProxy.GetAllUsers();
+            var users = await _userServiceProxy.GetAllUsersAsync();
             return View(users);
         }
 
         public async Task<IActionResult> Id(Guid id)
         {
-            var user = await _userServiceProxy.GetUserById(id);
+            var user = await _userServiceProxy.GetUserByIdAsync(id);
             return View(user);
         }
 
         public async Task<IActionResult> Name(string name)
         {
-            var user = await _userServiceProxy.GetUserByName(name);
+            var user = await _userServiceProxy.GetUserByNameAsync(name);
             return View(user);
         }
 
@@ -41,7 +41,7 @@ namespace UnikProjekt.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var user = await _userServiceProxy.GetUserById(id);
+            var user = await _userServiceProxy.GetUserByIdAsync(id);
             return View("EditDetails", user);
         }
 
@@ -59,7 +59,7 @@ namespace UnikProjekt.Web.Controllers
         {
             try
             {
-                await _userServiceProxy.CreateUser(createUserDto);
+                await _userServiceProxy.CreateUserAsync(createUserDto);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -88,7 +88,7 @@ namespace UnikProjekt.Web.Controllers
                     return View(userViewModel);
                 }
 
-                var updatedUser = _userServiceProxy.EditUser(id, userViewModel);
+                var updatedUser = _userServiceProxy.EditUserAsync(id, userViewModel);
                 if (updatedUser != null)
                 {
                     return RedirectToAction(nameof(Index));
@@ -111,7 +111,7 @@ namespace UnikProjekt.Web.Controllers
         {
             if (Guid.TryParse(id, out Guid userId))
             {
-                var user = _userServiceProxy.GetUserById(userId);
+                var user = _userServiceProxy.GetUserByIdAsync(userId);
                 return View("EditDetails", user);
             }
             else

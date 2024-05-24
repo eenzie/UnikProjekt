@@ -2,5 +2,5 @@
 
 public interface IAddressDomainService
 {
-    //TODO: INA: Address domain service required?
+    bool ValidateAddress(string street, string streetNumber, string postCode, string city);
 }

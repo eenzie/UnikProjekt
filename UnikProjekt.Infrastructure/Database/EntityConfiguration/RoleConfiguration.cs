@@ -10,5 +10,7 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
         builder.Property(e => e.RoleName);
         builder.HasMany(e => e.UserRoles);
+
+        ////builder.Property(e => e.RowVersion).IsRowVersion();
     }
 }

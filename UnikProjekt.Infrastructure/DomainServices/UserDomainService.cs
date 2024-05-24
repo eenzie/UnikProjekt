@@ -1,5 +1,4 @@
 ﻿using UnikProjekt.Domain.DomainService;
-using UnikProjekt.Domain.Value;
 using UnikProjekt.Infrastructure.Database;
 
 namespace UnikProjekt.Infrastructure.DomainServices
@@ -18,9 +17,9 @@ namespace UnikProjekt.Infrastructure.DomainServices
         /// </summary>
         /// <param name="email"></param>
         /// <returns>true if a user already exists</returns>
-        public bool UserExistsWithEmail(EmailAddress email)
+        bool IUserDomainService.UserExistsWithEmail(string email)
         {
-            return _context.Users.Any(x => x.Email == email);
+            return _context.Users.Any(x => x.Email.Value == email);
         }
     }
 }

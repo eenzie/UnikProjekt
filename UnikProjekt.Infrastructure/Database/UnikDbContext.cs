@@ -20,6 +20,10 @@ public class UnikDbContext : DbContext
     public DbSet<BookingLine> BookingLines { get; set; }
     public DbSet<BookingItem> BookingItems { get; set; }
 
+    public DbSet<Document> Documents { get; set; }
+
+    //TODO: HUSK at tilføje DBSets!!!
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

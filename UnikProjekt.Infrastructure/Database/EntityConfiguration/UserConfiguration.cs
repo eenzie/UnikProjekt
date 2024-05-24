@@ -13,5 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.OwnsOne(e => e.MobileNumber);
         builder.OwnsOne(e => e.Address);
         builder.HasMany(e => e.UserRoles);
+
+        builder.Property(e => e.RowVersion).IsRowVersion();
     }
 }

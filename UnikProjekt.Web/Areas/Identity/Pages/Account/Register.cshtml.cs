@@ -2,40 +2,46 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using UnikProjekt.Web.Data;
+using UnikProjekt.Web.Models;
+using UnikProjekt.Web.Models.DTOs;
+using UnikProjekt.Web.ProxyServices;
+using UnikProjekt.Web.Services;
 
 namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUserServiceProxy _userServiceProxy;
+        private readonly UserClaimsService _userClaimsService;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager,
+            IUserServiceProxy userServiceProxy,
+            UserClaimsService userClaimsService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +49,9 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
+            _userServiceProxy = userServiceProxy;
+            _userClaimsService = userClaimsService;
         }
 
         /// <summary>
@@ -97,6 +106,23 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            public string? Role { get; set; }
+
+            [Required]
+            [Display(Name = "Adresse")]
+            public string Address { get; set; }
+
+            //[ValidateNever]
+            //public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            //[ValidateNever]
+            //public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            [Required]
+            [Display(Name = "Fornavn")]
+            public string FirstName { get; set; }
         }
 
 
@@ -112,7 +138,15 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                //var user = CreateUser();
+
+                var user = new ApplicationUser
+                {
+                    FirstName = Input.FirstName,
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    //Address = Input.Address
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -122,7 +156,48 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    //The user gets a role based on the input
+                    await _userManager.AddToRoleAsync(user, Input.Role);
+
+
+                    //If the role exist in our ClaimsTypes, add the role
+                    if (ClaimsTypes.UserTypeList.Equals(Input.Role))
+                    {
+                        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, Input.Role));
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Role {Input.Role} is not recognized.");
+                    }
+
+
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    var createUserDto = new CreateUserDto
+                    {
+                        Id = Guid.Parse(user.Id),
+                        FirstName = user.FirstName,
+                        UserName = user.UserName,
+                        UserEmail = user.Email,
+                        //UserAddress = user.Address
+                    };
+
+                    // Map til CreateUserDto hvor userId (identity userId) sættes som Id
+                    //Calling our API through UserServiceProxy - sending createUserDto to our API
+                    await _userServiceProxy.CreateUserAsync(createUserDto);
+
+                    //Adding claims based on the users role
+                    await _userClaimsService.AssignClaimsAsync(user, Input.Role);
+
+
+
+                    //var response = await _userServiceProxy.PostAsJsonAsync("http://localhost:5062/api/account", createUserDto);
+                    //if (response.IsSuccessStatusCode is false)
+                    //{
+                    //    throw new Exception("Failed to post user");
+                    //}
+
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -132,11 +207,15 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new
+                        {
+                            email = Input.Email,
+                            returnUrl = returnUrl
+                        });
                     }
                     else
                     {
@@ -154,27 +233,27 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }
