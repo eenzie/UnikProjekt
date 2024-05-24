@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Web.Data;
+using UnikProjekt.Web.Models;
 using UnikProjekt.Web.ProxyServices;
+using UnikProjekt.Web.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,16 +22,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //builder.Services.AddDefaultIdentity<IdentityUser>()
-//builder.Services.AddDefaultIdentity<ApplicationUser>()
-//    .AddDefaultTokenProviders()
-//    .AddRoles<IdentityRole>()
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddControllersWithViews();
-
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews();
+
+
 builder.Services.AddControllersWithViews();
 
 
@@ -40,6 +39,8 @@ builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
     client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
 });
 
+
+builder.Services.AddScoped<UserClaimsService>();
 
 
 
@@ -52,7 +53,7 @@ builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
 //        ));
 //});
 
-
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -74,6 +75,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

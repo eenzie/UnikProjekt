@@ -96,7 +96,7 @@ namespace UnikProjekt.Web.ProxyServices
 
         async Task<DocumentViewModel> IUserServiceProxy.CreateDocumentAsync(CreateDocumentDto createDocumentDto)
         {
-            var httpResponseMessage = await _httpClient.PostAsJsonAsync("api/Controller", createDocumentDto);
+            var httpResponseMessage = await _httpClient.PostAsJsonAsync("api/Document", createDocumentDto);
             return await httpResponseMessage.Content.ReadFromJsonAsync<DocumentViewModel>();
         }
 

@@ -16,6 +16,10 @@ public class UnikDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
 
+    public DbSet<Document> Documents { get; set; }
+
+    //TODO: HUSK at tilføje DBSets!!!
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
