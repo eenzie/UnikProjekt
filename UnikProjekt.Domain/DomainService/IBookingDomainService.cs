@@ -1,7 +1,8 @@
-﻿namespace UnikProjekt.Domain.DomainService;
+﻿using UnikProjekt.Domain.Entities;
+
+namespace UnikProjekt.Domain.DomainService;
 
 public interface IBookingDomainService
 {
-
-    // TODO: To be implemented
+    IEnumerable<BookingLine> OtherBookings(Booking booking);
 }

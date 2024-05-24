@@ -55,7 +55,6 @@ namespace UnikProjekt.Infrastructure.Queries
                                 RowVersion = x.BookingItem.RowVersion
                             }
                         }).ToList(),
-                    BookingComment = x.BookingComment,
                     SubTotal = x.SubTotal,
                     TotalPrice = x.TotalPrice,
                     RowVersion = x.RowVersion
@@ -101,7 +100,6 @@ namespace UnikProjekt.Infrastructure.Queries
                            RowVersion = x.BookingItem.RowVersion
                        }
                    }).ToList(),
-                   BookingComment = x.BookingComment,
                    SubTotal = x.SubTotal,
                    TotalPrice = x.TotalPrice,
                    RowVersion = x.RowVersion
@@ -147,7 +145,6 @@ namespace UnikProjekt.Infrastructure.Queries
                            RowVersion = x.BookingItem.RowVersion
                        }
                    }).ToList(),
-                   BookingComment = x.BookingComment,
                    SubTotal = x.SubTotal,
                    TotalPrice = x.TotalPrice,
                    RowVersion = x.RowVersion

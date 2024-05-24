@@ -16,7 +16,6 @@ namespace UnikProjekt.Domain.Entities
 
         public BookingItem(Guid id, string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
         {
-            //TODO: Create a validity checker for interval times (can't end before it starts)
             // Pre-conditions
             
             ServiceName = serviceName;
@@ -51,6 +50,10 @@ namespace UnikProjekt.Domain.Entities
             if (maximumBookingTimeInMinutes == null) throw new ArgumentNullException(nameof(maximumBookingTimeInMinutes));
             
             var bookingItem = new BookingItem(Guid.NewGuid(), serviceName, price, deposit, intervalStart, intervalEnd, maximumBookingTimeInMinutes);
+            if (!bookingItem.ValidateIntervals(intervalStart, intervalEnd))
+            {
+                throw new ArgumentException("Start of service interval must be before end of service interval");
+            }
 
             return bookingItem;
         }

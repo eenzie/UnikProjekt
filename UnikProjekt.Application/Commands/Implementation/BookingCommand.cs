@@ -13,15 +13,15 @@ public class BookingCommand : IBookingCommand
     private readonly IBookingRepository _bookingRepository;
     private readonly IBookingItemRepository _bookingItemRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceProvider _services;
 
-    public BookingCommand(IUnitOfWork uow, IBookingRepository bookingRepository, IServiceProvider serviceProvider, IUserRepository userRepository, IBookingItemRepository bookingItemRepository)
+    public BookingCommand(IUnitOfWork uow, IBookingRepository bookingRepository, IServiceProvider services, IUserRepository userRepository, IBookingItemRepository bookingItemRepository)
     {
         _uow = uow;
         _bookingRepository = bookingRepository;
         _bookingItemRepository = bookingItemRepository;
         _userRepository = userRepository;
-        _serviceProvider = serviceProvider;
+        _services = services;
     }
 
     Guid IBookingCommand.CreateBooking(CreateBookingDto createBookingDto)
@@ -38,7 +38,7 @@ public class BookingCommand : IBookingCommand
                 _bookingItemRepository.GetBookingItem(x.BookingItemId), x.BookingStart, x.BookingEnd
                 )).ToList();
 
-            var booking = Booking.Create(user, createBookingDto.DateBooked, bookingLines, createBookingDto.BookingComment);
+            var booking = Booking.Create(user, createBookingDto.DateBooked, bookingLines, _services);
 
             _bookingRepository.AddBooking(booking);
 
@@ -76,13 +76,13 @@ public class BookingCommand : IBookingCommand
             var user = _userRepository.GetUser(updateBookingDto.UserId);
 
             //TODO: Figure out logic for updating lines in booking
-            //booking.Items.ForEach(BookingLine.Update(_bookingItemRepository.GetBookingItem(),
-            //                                                                    BookingStart,
+            //booking.Items.ForEach(BookingLine.Update(_bookingItemRepository.GetBookingItem(bookin),
+            //                                                                    BookingStart
             //                                                                    BookingEnd)).ToList();
 
             var bookingLines = new List<BookingLine>();
 
-            booking.Update(user, updateBookingDto.DateBooked, bookingLines, updateBookingDto.BookingComment);
+            booking.Update(user, updateBookingDto.DateBooked, bookingLines, _services);
             booking.RowVersion = updateBookingDto.RowVersion;
 
             _bookingRepository.UpdateBooking(booking, booking.RowVersion);

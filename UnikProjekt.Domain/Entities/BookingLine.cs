@@ -29,9 +29,11 @@ namespace UnikProjekt.Domain.Entities
         {
             if (bookingItem == null) throw new ArgumentNullException(nameof(bookingItem));
 
-            
-
             var bookingLine = new BookingLine(Guid.NewGuid(), bookingItem, bookingStart, bookingEnd);
+            if (!bookingLine.ValidateBookingDates(bookingStart, bookingEnd))
+            {
+                throw new ArgumentException("Start of booking must be before end of booking");
+            }
 
             return bookingLine;
         }
@@ -44,11 +46,26 @@ namespace UnikProjekt.Domain.Entities
             this.BookingStart = bookingStart;
             this.BookingEnd = bookingEnd;
             this.ItemPrice = bookingItem.Price;
+
+            if (!this.ValidateBookingDates(bookingStart, bookingEnd))
+            {
+                throw new ArgumentException("Start of booking must be before end of booking");
+            }
         }
 
-        private void ValidateBookingDates(DateTime bookingStart, DateTime bookingEnd)
+        private bool ValidateBookingDates(DateTime bookingStart, DateTime bookingEnd)
         {
-            if (bookingStart > bookingEnd) throw new ArgumentException("Start of booking must be before end of booking");
+            if (bookingStart > bookingEnd)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsBookingOverlapping(List<BookingLine> bookingLines)
+        {
+            //TODO: SORT THIS OUT
+            return true;
         }
     }
 }

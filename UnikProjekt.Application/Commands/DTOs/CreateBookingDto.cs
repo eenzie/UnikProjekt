@@ -13,6 +13,5 @@ namespace UnikProjekt.Application.Commands.DTOs
         public Guid UserId { get; set; }
         public DateTime DateBooked { get; set; }
         public List<CreateBookingLineDto> Items { get; set; }
-        public string BookingComment { get; set; }
     }
 } 

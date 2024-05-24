@@ -77,7 +77,6 @@ namespace UnikProjekt.Api.Controller
                 UserId = createBookingDto.UserId,
                 DateBooked = createBookingDto.DateBooked,
                 Items = createBookingDto.Items,
-                BookingComment = createBookingDto.BookingComment
             };
 
             var bookingId = _bookingCommand.CreateBooking(bookingToCreate);
@@ -105,7 +104,6 @@ namespace UnikProjekt.Api.Controller
                 UserId = updateBookingDto.UserId,
                 DateBooked = updateBookingDto.DateBooked,
                 Items = updateBookingDto.Items,
-                BookingComment = updateBookingDto.BookingComment,
                 RowVersion = updateBookingDto.RowVersion
             };
 

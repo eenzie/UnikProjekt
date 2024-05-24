@@ -13,7 +13,6 @@ namespace UnikProjekt.Application.Queries.DTOs
         public UserDto User { get; set; }
         public DateTime DateBooked { get; set; }
         public List<BookingLineDto> Items { get; set; }
-        public string BookingComment { get; set; }
         public decimal SubTotal { get; set; }
         public decimal TotalPrice { get; set; }
         public byte[] RowVersion { get; set; }
