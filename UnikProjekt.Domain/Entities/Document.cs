@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using UnikProjekt.Domain.Shared;
-using UnikProjekt.Domain.Value;
+﻿using UnikProjekt.Domain.Shared;
 
 namespace UnikProjekt.Domain.Entities
 {
     public class Document : Entity
     {
-        internal Document()
+        internal Document() : base(Guid.NewGuid())
         {
 
         }
 
-        internal Document(Guid guid, byte[] documentContent, string documentTitle, User author, DateTime dateModified)
+        internal Document(Guid id, byte[] documentContent, string documentTitle, User author, DateTime dateModified) : base(id)
         {
             DocumentContent = documentContent;
             DocumentTitle = documentTitle;

@@ -41,11 +41,32 @@ namespace UnikProjekt.Api.Controller
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        // PUT UserRole/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT UserRole
+        [HttpPut(Name = "UpdateUserRole")]
+        public IActionResult UpdateUserRole([FromBody] UpdateUserRoleDto user)
         {
-            throw new NotImplementedException();  //TODO: INA: Implement Edit UserRole
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var userRoleToUpdate = new UpdateUserRoleDto
+            {
+                UserId = user.UserId,
+                RoleId = user.RoleId,
+                StartDate = user.StartDate,
+                EndDate = user.EndDate,
+                RowVersion = user.RowVersion
+            };
+
+            var userId = _userRoleCommand.UpdateUserRole(userRoleToUpdate);
+
+            if (userId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction("GetUserRoleByUserId", new { UserId = userId }, userRoleToUpdate);
         }
     }
 }

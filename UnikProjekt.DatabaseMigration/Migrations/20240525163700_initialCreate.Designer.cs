@@ -12,8 +12,8 @@ using UnikProjekt.Infrastructure.Database;
 namespace UnikProjekt.DatabaseMigration.Migrations
 {
     [DbContext(typeof(UnikDbContext))]
-    [Migration("20240524082241_documentAdded")]
-    partial class documentAdded
+    [Migration("20240525163700_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,12 +67,46 @@ namespace UnikProjekt.DatabaseMigration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4a4f1a6b-9c38-4a64-91f8-37008dd9a6b4"),
+                            RoleName = "Beboer"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b5f2a7c-9d49-4b75-92f9-47019dd9b7c5"),
+                            RoleName = "Menig"
+                        },
+                        new
+                        {
+                            Id = new Guid("6c6f3a8d-9e50-4c86-93fa-57020dd9c8d6"),
+                            RoleName = "Sekretær"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d7f4a9e-9f61-4d97-94fb-67031dd9d9e7"),
+                            RoleName = "Kassér"
+                        },
+                        new
+                        {
+                            Id = new Guid("8e8f5aaf-a072-4ea8-95fc-77042ddaead8"),
+                            RoleName = "Næstformand"
+                        },
+                        new
+                        {
+                            Id = new Guid("9f9f6ab0-b183-4fb9-96fd-87053ddbedf9"),
+                            RoleName = "Formand"
+                        });
                 });
 
             modelBuilder.Entity("UnikProjekt.Domain.Entities.User", b =>
@@ -99,6 +133,12 @@ namespace UnikProjekt.DatabaseMigration.Migrations
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("UserId", "RoleId");
 
