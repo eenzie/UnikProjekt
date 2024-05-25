@@ -35,20 +35,6 @@ public class ProjectReferenceTests
         Assert.True(result.IsSuccessful);
     }
 
-    //[Fact]  //TODO: INA: Fix the test, as can't make it pass?
-    //public void Application_ShouldReference_Domain()
-    //{
-    //    var result = Types
-    //        .InAssembly(typeof(UserDto).Assembly)
-    //        .That()
-    //        .ResideInNamespace("UnikProjekt.Application")
-    //        .Should()
-    //        .HaveDependencyOn("UnikProjekt.Domain")
-    //        .GetResult();
-
-    //    Assert.True(result.IsSuccessful);
-    //}
-
     [Fact]
     public void Infrastructure_ShouldNotReference_Api()
     {

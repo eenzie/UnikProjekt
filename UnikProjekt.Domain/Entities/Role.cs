@@ -4,16 +4,17 @@ namespace UnikProjekt.Domain.Entities;
 
 public class Role : Entity
 {
-    internal Role()
+    internal Role() : base(Guid.NewGuid())
     {
     }
 
-    public Role(Guid id, string rolename)
+    public Role(Guid id, string rolename) : base(id)
     {
+        Id = id;
         RoleName = rolename;
     }
 
-    public string RoleName { get; private set; }
+    public string RoleName { get; set; }
     public List<UserRole>? UserRoles { get; set; }
 
     public static Role Create(string roleName)

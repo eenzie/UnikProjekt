@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace UnikProjekt.DatabaseMigration.Migrations
 {
     /// <inheritdoc />
-    public partial class inital : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,7 +75,8 @@ namespace UnikProjekt.DatabaseMigration.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RoleDates_StartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    RoleDates_EndDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    RoleDates_EndDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,6 +93,19 @@ namespace UnikProjekt.DatabaseMigration.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "RoleName" },
+                values: new object[,]
+                {
+                    { new Guid("4a4f1a6b-9c38-4a64-91f8-37008dd9a6b4"), "Beboer" },
+                    { new Guid("5b5f2a7c-9d49-4b75-92f9-47019dd9b7c5"), "Menig" },
+                    { new Guid("6c6f3a8d-9e50-4c86-93fa-57020dd9c8d6"), "Sekretær" },
+                    { new Guid("7d7f4a9e-9f61-4d97-94fb-67031dd9d9e7"), "Kassér" },
+                    { new Guid("8e8f5aaf-a072-4ea8-95fc-77042ddaead8"), "Næstformand" },
+                    { new Guid("9f9f6ab0-b183-4fb9-96fd-87053ddbedf9"), "Formand" }
                 });
 
             migrationBuilder.CreateIndex(

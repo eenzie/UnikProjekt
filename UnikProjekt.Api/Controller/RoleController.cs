@@ -115,7 +115,7 @@ namespace UnikProjekt.Api.Controller
         [HttpDelete("{id}")]
         public void DeleteRole(int id)
         {
-            //TODO: INA: DeleteRole to be implemented
+            throw new NotImplementedException();
         }
     }
 }
