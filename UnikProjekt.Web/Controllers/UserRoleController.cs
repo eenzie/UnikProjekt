@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Web.Models.DTOs;
-using UnikProjekt.Web.ProxyServices;
+using UnikProjekt.Web.Services;
 
 namespace UnikProjekt.Web.Controllers
 {
     public class UserRoleController : Controller
     {
-        private readonly IUserServiceProxy _userServiceProxy;
+        private readonly UserRoleService _userRoleService;
 
-        public UserRoleController(IUserServiceProxy userServiceProxy)
+
+        public UserRoleController(UserRoleService userRoleService)
         {
-            _userServiceProxy = userServiceProxy;
+            _userRoleService = userRoleService;
         }
 
         // GET: UserRoleController
@@ -34,17 +35,17 @@ namespace UnikProjekt.Web.Controllers
         // POST: UserRoleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormCollection collection, CreateUserRoleDto createUserRoleDto)
+        public async Task<IActionResult> Create(CreateUserRoleDto createUserRoleDto)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await _userServiceProxy.CreateUserRoleAsync(createUserRoleDto);
-                return RedirectToAction(nameof(Index));
+                var userRole = await _userRoleService.CreateUserRoleAsync(createUserRoleDto);
+                if (userRole != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(createUserRoleDto);
         }
 
         // GET: UserRoleController/Edit/5

@@ -1,20 +1,27 @@
 ﻿namespace UnikProjekt.Web.Models.DTOs
 {
-    public class CreateUserDto
+    public class EditUserDto
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string MobileNumber { get; set; }
+        public string FullAddress
+        {
+            get
+            {
+                return $"{Street} {StreetNumber}, {PostCode} {City}";
+            }
+        }
         public string Street { get; set; }
         public string StreetNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public List<UserRoleDto> UserRoles { get; set; } = new List<UserRoleDto>();
+        public List<string> UserRoles { get; set; }
 
         public byte[] RowVersion { get; set; }
+
+
     }
 }

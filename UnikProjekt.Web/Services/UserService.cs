@@ -4,64 +4,101 @@ using UnikProjekt.Web.ProxyServices;
 
 namespace UnikProjekt.Web.Services
 {
-    public class UserService : IUserServiceProxy
+    public class UserService
     {
-        private readonly HttpClient _httpClient;
-        public UserService(HttpClient httpClient)
+        private readonly IUserServiceProxy _userServiceProxy;
+
+        public UserService(IUserServiceProxy userServiceProxy)
         {
-            _httpClient = httpClient;
+            _userServiceProxy = userServiceProxy;
         }
 
-        async Task<IEnumerable<UserViewModel>?> IUserServiceProxy.GetAllUsersAsync()
+        public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>($"User");
+            var userDtos = await _userServiceProxy.GetAllUsersAsync();
+            if (userDtos == null)
+            {
+                return null;
+            }
+
+            var userViewModels = userDtos.Select(userDto => new UserViewModel
+            {
+                Id = userDto.Id,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                MobileNumber = userDto.MobileNumber,
+                Street = userDto.Street,
+                StreetNumber = userDto.StreetNumber,
+                PostCode = userDto.PostCode,
+                City = userDto.City,
+                UserRoles = userDto.UserRoles,
+            });
+
+            return userViewModels;
         }
 
-        async Task<UserViewModel?> IUserServiceProxy.GetUserByIdAsync(Guid id)
+        public async Task<UserViewModel> GetUserByIdAsync(Guid id)
         {
-            return await _httpClient.GetFromJsonAsync<UserViewModel>($"User/{id}");
+            var userDto = await _userServiceProxy.GetUserByIdAsync(id);
+            if (userDto == null)
+            {
+                return null;
+            }
+            return new UserViewModel
+            {
+                Id = userDto.Id,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                MobileNumber = userDto.MobileNumber,
+                Street = userDto.Street,
+                StreetNumber = userDto.StreetNumber,
+                PostCode = userDto.PostCode,
+                City = userDto.City,
+                UserRoles = userDto.UserRoles,
+            };
         }
 
-        async Task<IEnumerable<UserViewModel>> IUserServiceProxy.GetUserByNameAsync(string name)
+        public async Task<IEnumerable<UserViewModel>> GetUserByNameAsync(string name)
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>($"User/{name}");
+            var userDto = await _userServiceProxy.GetUserByNameAsync(name);
+            return userDto.Select(userDto => new UserViewModel
+            {
+                Id = userDto.Id,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                MobileNumber = userDto.MobileNumber,
+                Street = userDto.Street,
+                StreetNumber = userDto.StreetNumber,
+                PostCode = userDto.PostCode,
+                City = userDto.City,
+                UserRoles = userDto.UserRoles,
+            });
         }
 
-        async Task<UserViewModel> IUserServiceProxy.CreateUserAsync(CreateUserDto createUserDto)
+        public async Task<Guid> CreateUserAsync(CreateUserDto createUserDto)
         {
-            var response = await _httpClient.PostAsJsonAsync("User/Create", createUserDto);
+            var userDto = await _userServiceProxy.CreateUserAsync(createUserDto);
+            if (userDto == null)
+            {
+                return Guid.Empty;
+            }
 
-            //Exception
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<UserViewModel>();
+            return userDto.Id;
         }
 
-        async Task<UserViewModel> IUserServiceProxy.EditUserAsync(Guid id, UserViewModel updatedUser)
+
+        public async Task<Guid> EditUserAsync(Guid id, EditUserDto editUserDto)
         {
-            var response = await _httpClient.PutAsJsonAsync("User/Edit", updatedUser);
+            var editedUserDto = await _userServiceProxy.EditUserAsync(id, editUserDto);
+            if (editedUserDto == null)
+            {
+                return Guid.Empty;
+            }
+            return editedUserDto.Id;
 
-            //Exception
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<UserViewModel>();
-
-        }
-
-        async Task<DocumentViewModel> IUserServiceProxy.CreateDocumentAsync(CreateDocumentDto createDocumentDto)
-        {
-            var response = await _httpClient.PostAsJsonAsync("Document/Create", createDocumentDto);
-            return await response.Content.ReadFromJsonAsync<DocumentViewModel>();
-        }
-
-        async Task<UserRoleViewModel> IUserServiceProxy.CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto)
-        {
-            var response = await _httpClient.PostAsJsonAsync("UserRole/Create", createUserRoleDto);
-
-            //Exception
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<UserRoleViewModel>();
         }
     }
 }

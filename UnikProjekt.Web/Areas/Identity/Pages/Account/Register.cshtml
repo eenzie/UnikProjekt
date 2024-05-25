@@ -58,13 +58,13 @@
                 <span asp-validation-for="Input.City" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <label asp-for="Input.Role">Vælg en rolle</label>
-                <select asp-for="Input.Role" class="form-select" aria-required="true">
+                <label asp-for="Input.UserRoles">Vælg en rolle</label>
+                <select asp-for="Input.UserRoles" class="form-select" aria-required="true">
                     <option disabled selected>Vælg en rolle</option>
                     <option value="Beboer">Beboer</option>
                     <option value="Admin">Admin</option>
                 </select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
+                <span asp-validation-for="Input.UserRoles" class="text-danger"></span>
             </div>
            
             <div class="form-floating mb-3">
