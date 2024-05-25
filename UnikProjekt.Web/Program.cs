@@ -39,10 +39,28 @@ builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
     client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
 });
 
+builder.Services.AddHttpClient<IUserRoleServiceProxy, UserRoleServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
+builder.Services.AddHttpClient<IDocumentServiceProxy, DocumentServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
+builder.Services.AddHttpClient<IRoleServiceProxy, RoleServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
 
 builder.Services.AddScoped<UserClaimsService>();
 
-
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<UserRoleService>();
+builder.Services.AddScoped<DocumentService>();
 
 //builder.Services.AddAuthorization(options =>
 //{

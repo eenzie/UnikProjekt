@@ -4,6 +4,9 @@ namespace UnikProjekt.Web.Models
 {
     public class DocumentViewModel
     {
+        [Required(ErrorMessage = "Bruger ID er påkrævet")]
+        public Guid UserId { get; set; }
+
         [Display(Name = "Document indhold")]
         public IFormFile DocumentContent { get; set; } // IFormFile bruges til filupload i ASP.NET Core
 

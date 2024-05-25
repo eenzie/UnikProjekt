@@ -23,27 +23,50 @@
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="LastName" />
+                <label asp-for="Input.LastName">Efternavn</label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.MobileNumber" class="form-control" aria-required="true" placeholder="MobileNumber" />
+                <label asp-for="Input.MobileNumber">Mobilnummer</label>
+                <span asp-validation-for="Input.MobileNumber" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.Address" class="form-control" aria-required="true" placeholder="Address" />
                 <label asp-for="Input.Address">Adresse</label>
                 <span asp-validation-for="Input.Address" class="text-danger"></span>
             </div>
-            @* <div class="form-floating mb-3">
-                <select asp-for="Input.Role" asp-items="@Model.Input.Role." class="form-select" aria-required="true" placeholder="Rolle" >
-                <option disabled selected>Vælg en rolle</option>
-                </select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
-                </div> *@
             <div class="form-floating mb-3">
-                <select asp-for="Input.Role" class="form-select" aria-required="true" placeholder="Rolle">
-                    <option disabled selected>Vælg en Claimrolle</option>
-                    <option value="Admin">Admin</option>
-                    <option value="SuperAdmin">SuperAdmin</option>
-                    <option value="User">User</option>
-                    <option value="Reader">Reader</option>
-                </select>
-                <label asp-for="Input.Role">Rolle</label>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
+                  <input asp-for="Input.Street" class="form-control" aria-required="true" placeholder="Street" />
+                <label asp-for="Input.Street">Gadenavn</label>
+                <span asp-validation-for="Input.Street" class="text-danger"></span>
             </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.StreetNumber" class="form-control" aria-required="true" placeholder="StreetNumber" />
+                <label asp-for="Input.StreetNumber">Husnummer</label>
+                <span asp-validation-for="Input.StreetNumber" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PostCode" class="form-control" aria-required="true" placeholder="PostCode" />
+                <label asp-for="Input.PostCode">Postnummer</label>
+                <span asp-validation-for="Input.PostCode" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.City" class="form-control" aria-required="true" placeholder="City" />
+                <label asp-for="Input.City">By</label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <label asp-for="Input.UserRoles">Vælg en rolle</label>
+                <select asp-for="Input.UserRoles" class="form-select" aria-required="true">
+                    <option disabled selected>Vælg en rolle</option>
+                    <option value="Beboer">Beboer</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <span asp-validation-for="Input.UserRoles" class="text-danger"></span>
+            </div>
+           
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Kode</label>

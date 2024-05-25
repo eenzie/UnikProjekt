@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Web.Models.DTOs;
-using UnikProjekt.Web.ProxyServices;
+using UnikProjekt.Web.Services;
 
 namespace UnikProjekt.Web.Controllers
 {
     public class DocumentsController : Controller
     {
-        private readonly IUserServiceProxy _userServiceProxy;
-        public DocumentsController(IUserServiceProxy userServiceProxy)
+        private readonly DocumentService _documentService;
+        public DocumentsController(DocumentService documentService)
         {
-            _userServiceProxy = userServiceProxy;
+            _documentService = documentService;
         }
 
         // GET: DocumentsController
@@ -37,7 +37,7 @@ namespace UnikProjekt.Web.Controllers
         {
             try
             {
-                await _userServiceProxy.CreateDocumentAsync(createDocumentDto);
+                await _documentService.CreateDocumentAsync(createDocumentDto);
                 return RedirectToAction(nameof(Index));
             }
             catch
