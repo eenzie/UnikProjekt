@@ -54,6 +54,11 @@ builder.Services.AddHttpClient<IRoleServiceProxy, RoleServiceProxy>(client =>
     client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
 });
 
+builder.Services.AddHttpClient<IEmailServiceProxy, EmailServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
 
 builder.Services.AddScoped<UserClaimsService>();
 
