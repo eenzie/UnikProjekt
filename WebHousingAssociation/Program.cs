@@ -19,6 +19,12 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+
+builder.Services.AddLogging(builder =>
+{
+    builder.AddConsole();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

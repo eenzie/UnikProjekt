@@ -8,10 +8,12 @@ namespace UnikProjekt.Web.Controllers
     public class UsersController : Controller
     {
         private readonly UserService _userService;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(UserService userService)
+        public UsersController(UserService userService, ILogger<UsersController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         //GET: UsersController
@@ -77,11 +79,43 @@ namespace UnikProjekt.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
+            //var user = await _userService.GetUserByIdAsync(id);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var editUserDto = new EditUserDto
+            //{
+            //    Id = user.Id,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Email = user.Email,
+            //    MobileNumber = user.MobileNumber,
+            //    Street = user.Street,
+            //    StreetNumber = user.StreetNumber,
+            //    PostCode = user.PostCode,
+            //    City = user.City,
+            //    RowVersion = user.RowVersion ?? new byte[] { 1, 2, 3, 4 },
+            //};
+
+            //return View(editUserDto);
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
+
+            // Check if RowVersion is not null
+            if (user.RowVersion != null)
+            {
+                Console.WriteLine("Fetched RowVersion: " + BitConverter.ToString(user.RowVersion));
+            }
+            else
+            {
+                Console.WriteLine("Fetched RowVersion is null");
+            }
+
             var editUserDto = new EditUserDto
             {
                 Id = user.Id,
@@ -95,6 +129,17 @@ namespace UnikProjekt.Web.Controllers
                 City = user.City,
                 RowVersion = user.RowVersion,
             };
+
+            // Check if RowVersion is correctly assigned to DTO
+            if (editUserDto.RowVersion != null)
+            {
+                Console.WriteLine("DTO RowVersion: " + BitConverter.ToString(editUserDto.RowVersion));
+            }
+            else
+            {
+                Console.WriteLine("DTO RowVersion is null");
+            }
+
             return View(editUserDto);
         }
 
@@ -132,23 +177,77 @@ namespace UnikProjekt.Web.Controllers
             //        }
             //    }
             //    return View(editUserDto);
+
+
+
+            //Console.WriteLine("Edit POST method called");
+
+            //if (id != editUserDto.Id)
+            //{
+            //    return BadRequest();
+            //}
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(editUserDto);
+            //}
+            //var userId = await _userService.EditUserAsync(id, editUserDto);
+            //if (userId != Guid.Empty)
+            //{
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            //else
+            //{
+            //    Console.WriteLine("Failed to update user");
+            //}
+            //return View(editUserDto);
+
+            _logger.LogInformation("RowVersion value: {RowVersion}", editUserDto.RowVersion);
             Console.WriteLine("Edit POST method called");
 
             if (id != editUserDto.Id)
             {
+                Console.WriteLine($"Id mismatch: Route Id {id}, DTO Id {editUserDto.Id}");
                 return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("Model state is not valid");
+                foreach (var state in ModelState)
+                {
+                    Console.WriteLine($"Property: {state.Key}");
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Error: {error.ErrorMessage}");
+                    }
+                }
+                return View(editUserDto);
+            }
+
+            try
             {
                 var userId = await _userService.EditUserAsync(id, editUserDto);
                 if (userId != Guid.Empty)
                 {
+                    Console.WriteLine($"User updated successfully: {userId}");
                     return RedirectToAction(nameof(Index));
                 }
+                else
+                {
+                    Console.WriteLine("Failed to update user");
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+            }
+
             return View(editUserDto);
         }
+
+
 
         public async Task<IActionResult> Search(string name)
         {

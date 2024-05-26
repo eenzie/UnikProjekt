@@ -32,7 +32,6 @@ namespace UnikProjekt.Web.Services
                 StreetNumber = userDto.StreetNumber,
                 PostCode = userDto.PostCode,
                 City = userDto.City,
-                UserRoles = userDto.UserRoles,
             });
 
             return userViewModels;
@@ -56,7 +55,6 @@ namespace UnikProjekt.Web.Services
                 StreetNumber = userDto.StreetNumber,
                 PostCode = userDto.PostCode,
                 City = userDto.City,
-                UserRoles = userDto.UserRoles,
             };
         }
 
@@ -74,7 +72,6 @@ namespace UnikProjekt.Web.Services
                 StreetNumber = userDto.StreetNumber,
                 PostCode = userDto.PostCode,
                 City = userDto.City,
-                UserRoles = userDto.UserRoles,
             });
         }
 
@@ -92,12 +89,28 @@ namespace UnikProjekt.Web.Services
 
         public async Task<Guid> EditUserAsync(Guid id, EditUserDto editUserDto)
         {
-            var editedUserDto = await _userServiceProxy.EditUserAsync(id, editUserDto);
-            if (editedUserDto == null)
+            //var editedUserDto = await _userServiceProxy.EditUserAsync(id, editUserDto);
+            //if (editedUserDto == null)
+            //{
+            //    return Guid.Empty;
+            //}
+            //return editedUserDto.Id;
+
+            try
             {
+                var editedUserDto = await _userServiceProxy.EditUserAsync(id, editUserDto);
+                if (editedUserDto == null)
+                {
+                    Console.WriteLine("No data returned from API");
+                    return Guid.Empty;
+                }
+                return editedUserDto.Id;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in EditUserAsync: {ex.Message}");
                 return Guid.Empty;
             }
-            return editedUserDto.Id;
 
         }
     }
