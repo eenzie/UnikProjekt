@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UnikProjekt.Web.Models;
 using UnikProjekt.Web.Models.DTOs;
 using UnikProjekt.Web.Services;
 
@@ -102,51 +101,71 @@ namespace UnikProjekt.Web.Controllers
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, UserViewModel userViewModel)
+        public async Task<IActionResult> Edit(Guid id, EditUserDto editUserDto)
         {
-            if (id != userViewModel.Id)
+            //    if (id != editUserDto.Id)
+            //    {
+            //        return BadRequest();
+            //    }
+
+            //    if (ModelState.IsValid)
+            //    {
+            //        // Create a new EditUserDto object using the values from the incoming editUserDto
+            //        var editUserDtoConverted = new EditUserDto
+            //        {
+            //            Id = editUserDto.Id,
+            //            FirstName = editUserDto.FirstName,
+            //            LastName = editUserDto.LastName,
+            //            Email = editUserDto.Email,
+            //            MobileNumber = editUserDto.MobileNumber,
+            //            Street = editUserDto.Street,
+            //            StreetNumber = editUserDto.StreetNumber,
+            //            PostCode = editUserDto.PostCode,
+            //            City = editUserDto.City,
+            //            RowVersion = editUserDto.RowVersion
+            //        };
+
+            //        var roleId = await _userService.EditUserAsync(id, editUserDtoConverted);
+            //        if (roleId != Guid.Empty)
+            //        {
+            //            return RedirectToAction(nameof(Index));
+            //        }
+            //    }
+            //    return View(editUserDto);
+            Console.WriteLine("Edit POST method called");
+
+            if (id != editUserDto.Id)
             {
                 return BadRequest();
             }
 
             if (ModelState.IsValid)
             {
-                // Konverter UserViewModel til EditUserDto
-                var editUserDto = new EditUserDto
-                {
-                    Id = userViewModel.Id,
-                    FirstName = userViewModel.FirstName,
-                    LastName = userViewModel.LastName,
-                    Email = userViewModel.Email,
-                    MobileNumber = userViewModel.MobileNumber,
-                    Street = userViewModel.Street,
-                    StreetNumber = userViewModel.StreetNumber,
-                    PostCode = userViewModel.PostCode,
-                    City = userViewModel.City,
-                    RowVersion = userViewModel.RowVersion
-                };
-
-                var roleId = await _userService.EditUserAsync(id, editUserDto);
-                if (roleId != Guid.Empty)
+                var userId = await _userService.EditUserAsync(id, editUserDto);
+                if (userId != Guid.Empty)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
-            return View(userViewModel);
+            return View(editUserDto);
         }
 
-        //[HttpGet]
-        public ActionResult Search(string id)
+        public async Task<IActionResult> Search(string name)
         {
-            if (Guid.TryParse(id, out Guid userId))
-            {
-                var user = _userService.GetUserByIdAsync(userId);
-                return View("EditDetails", user);
-            }
-            else
+            // Validere navnet, om det er gyldigt eller ej.
+            if (string.IsNullOrEmpty(name))
             {
                 return RedirectToAction(nameof(Index));
             }
+
+            var users = await _userService.GetUserByNameAsync(name);
+
+            if (users == null || !users.Any())
+            {
+                return NotFound("Brugeren findes ikke i listen.");
+            }
+
+            return View("SearchResults", users);
         }
 
 
