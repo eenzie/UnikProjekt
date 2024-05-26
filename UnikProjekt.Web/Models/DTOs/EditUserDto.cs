@@ -18,9 +18,8 @@
         public string StreetNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        public List<string> UserRoles { get; set; }
-
         public byte[] RowVersion { get; set; }
+
 
 
     }
