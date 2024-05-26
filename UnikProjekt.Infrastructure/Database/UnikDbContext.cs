@@ -15,10 +15,7 @@ public class UnikDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
-
     public DbSet<Document> Documents { get; set; }
-
-    //TODO: HUSK at tilføje DBSets!!!
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,5 +25,8 @@ public class UnikDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+
+        //Calls the SeedData method in DataSeeder (for Roles seeding)
+        DataSeeder.SeedData(modelBuilder);
     }
 }

@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using UnikProjekt.Application;
 using UnikProjekt.Infrastructure;
+using UnikProjekt.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,14 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<UnikDbContext>();
+    context.Database.Migrate();   // Ensures database is migrated (and created)
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

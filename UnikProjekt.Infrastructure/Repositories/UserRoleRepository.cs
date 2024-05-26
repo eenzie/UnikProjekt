@@ -24,7 +24,19 @@ public class UserRoleRepository : IUserRoleRepository
         return result;
     }
 
+    UserRole IUserRoleRepository.GetUserRoleByIds(Guid userId, Guid RoleId)
+    {
+        var result = _context.UserRoles.First(x => x.UserId == userId && x.RoleId == RoleId);
+        return result;
+    }
+
     void IUserRoleRepository.AddUserRole(UserRole userRole)
+    {
+        _context.UserRoles.Add(userRole);
+        _context.SaveChanges();
+    }
+
+    void IUserRoleRepository.UpdateUserRole(UserRole userRole, byte[] rowVersion)
     {
         _context.UserRoles.Add(userRole);
         _context.SaveChanges();
