@@ -4,7 +4,6 @@ namespace UnikProjekt.Web.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        //public Guid id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MobileNumber { get; set; }
@@ -12,9 +11,5 @@ namespace UnikProjekt.Web.Models
         public string StreetNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        //public DateTime StartDate { get; set; }
-
-        //public DateTime EndDate { get; set; }
-
     }
 }

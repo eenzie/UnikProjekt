@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UnikProjekt.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class initalCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +31,12 @@ namespace UnikProjekt.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StreetNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -156,6 +162,16 @@ namespace UnikProjekt.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "4168e58b-93c8-4b67-b447-2388f29ba0e3", null, "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "City", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MobileNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostCode", "SecurityStamp", "Street", "StreetNumber", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "f6c55cd7-bf4b-45dc-a86c-819b211a321c", 0, "NotApplicable", "89470bab-bf06-4f64-80af-197bb370fb41", "admin@admin.dk", false, "Admin", "Admin", false, null, "NotApplicable", null, null, "AQAAAAIAAYagAAAAEPh1yTwXOSdFJNU/dOhrJM6FVdoQNUb+TG7FrojO6gPrrcqRzEOA+G+ACLZYiHQFGA==", null, false, "NotApplicable", "15b75505-670d-4d56-8abc-03818505be19", "NotApplicable", "NotApplicable", false, "admin@admin.dk" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

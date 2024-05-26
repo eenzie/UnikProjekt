@@ -55,6 +55,7 @@ namespace UnikProjekt.Web.Services
                 StreetNumber = userDto.StreetNumber,
                 PostCode = userDto.PostCode,
                 City = userDto.City,
+                RowVersion = userDto.RowVersion
             };
         }
 
@@ -98,7 +99,7 @@ namespace UnikProjekt.Web.Services
 
             try
             {
-                var editedUserDto = await _userServiceProxy.EditUserAsync(id, editUserDto);
+                var editedUserDto = await _userServiceProxy.EditUserAsync(editUserDto);
                 if (editedUserDto == null)
                 {
                     Console.WriteLine("No data returned from API");

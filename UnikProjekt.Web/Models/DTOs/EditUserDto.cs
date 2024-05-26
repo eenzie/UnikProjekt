@@ -19,8 +19,5 @@
         public string PostCode { get; set; }
         public string City { get; set; }
         public byte[] RowVersion { get; set; }
-
-
-
     }
 }

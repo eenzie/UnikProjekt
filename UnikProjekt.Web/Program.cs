@@ -26,11 +26,6 @@ builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddControllersWithViews();
-
 
 //IHttpClientFactory
 builder.Services.AddControllersWithViews();
@@ -94,6 +89,14 @@ else
     app.UseHsts();
 }
 
+// Ensures database is migrated (and created)
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

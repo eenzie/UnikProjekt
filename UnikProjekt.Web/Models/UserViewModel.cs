@@ -35,8 +35,6 @@ namespace UnikProjekt.Web.Models
         [Display(Name = "By")]
         public string City { get; set; }
 
-        [Display(Name = "Brugerroller")]
-        public List<string> UserRoles { get; set; }
         public byte[] RowVersion { get; set; }
     }
 }

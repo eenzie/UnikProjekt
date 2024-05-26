@@ -57,9 +57,9 @@ namespace UnikProjekt.Web.ProxyServices
             return await httpResponseMessage.Content.ReadFromJsonAsync<UserDto>();
         }
 
-        async Task<UserDto> IUserServiceProxy.EditUserAsync(Guid id, EditUserDto editUserDto)
+        async Task<UserDto> IUserServiceProxy.EditUserAsync(EditUserDto editUserDto)
         {
-            var httpResponseMessage = await _httpClient.PutAsJsonAsync($"User/{id}", editUserDto);
+            var httpResponseMessage = await _httpClient.PutAsJsonAsync($"User", editUserDto);
             httpResponseMessage.EnsureSuccessStatusCode();
             return await httpResponseMessage.Content.ReadFromJsonAsync<UserDto>();
         }

@@ -8,9 +8,6 @@ namespace UnikProjekt.Web.ProxyServices
         Task<UserDto?> GetUserByIdAsync(Guid id);
         Task<IEnumerable<UserDto>> GetUserByNameAsync(string name);
         Task<UserDto> CreateUserAsync(CreateUserDto createUserDto);
-        Task<UserDto> EditUserAsync(Guid id, EditUserDto editUserDto);
-
+        Task<UserDto> EditUserAsync(EditUserDto editUserDto);
     }
-
-
 }

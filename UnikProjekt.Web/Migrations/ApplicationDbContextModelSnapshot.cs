@@ -47,6 +47,14 @@ namespace UnikProjekt.Web.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4168e58b-93c8-4b67-b447-2388f29ba0e3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -167,6 +175,10 @@ namespace UnikProjekt.Web.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -182,11 +194,19 @@ namespace UnikProjekt.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MobileNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -205,7 +225,19 @@ namespace UnikProjekt.Web.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -226,6 +258,29 @@ namespace UnikProjekt.Web.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f6c55cd7-bf4b-45dc-a86c-819b211a321c",
+                            AccessFailedCount = 0,
+                            City = "NotApplicable",
+                            ConcurrencyStamp = "89470bab-bf06-4f64-80af-197bb370fb41",
+                            Email = "admin@admin.dk",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            MobileNumber = "NotApplicable",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPh1yTwXOSdFJNU/dOhrJM6FVdoQNUb+TG7FrojO6gPrrcqRzEOA+G+ACLZYiHQFGA==",
+                            PhoneNumberConfirmed = false,
+                            PostCode = "NotApplicable",
+                            SecurityStamp = "15b75505-670d-4d56-8abc-03818505be19",
+                            Street = "NotApplicable",
+                            StreetNumber = "NotApplicable",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.dk"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
