@@ -57,6 +57,8 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             _userRoleServiceProxy = userRoleServiceProxy;
             _roleServiceProxy = roleServiceProxy;
             _userClaimsService = userClaimsService;
+
+            Input = new InputModel();
         }
 
         /// <summary>
@@ -155,13 +157,15 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             [Required]
             public List<UserRoleDto> UserRoles { get; set; } = new List<UserRoleDto>();
 
-            [Required]
-            [Display(Name = "Start Date")]
-            public DateTime StartDate { get; set; }
+            public IEnumerable<RoleDto> Roles { get; set; }
 
-            [Required]
-            [Display(Name = "End Date")]
-            public DateTime EndDate { get; set; }
+            //[Required]
+            //[Display(Name = "Start Date")]
+            //public DateTime StartDate { get; set; }
+
+            //[Required]
+            //[Display(Name = "End Date")]
+            //public DateTime EndDate { get; set; }
 
         }
 
@@ -170,15 +174,22 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            var roles = await _roleServiceProxy.GetAllRolesAsync();
+            if (roles != null)
+            {
+                Input.Roles = roles;
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                //var user = CreateUser();
+                var roles = Input.Roles;
 
                 var user = new ApplicationUser
                 {
@@ -191,9 +202,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
                     StreetNumber = Input.StreetNumber,
                     PostCode = Input.PostCode,
                     City = Input.City,
-                    UserRoles = Input.UserRoles,
-                    StartDate = Input.StartDate,
-                    EndDate = Input.EndDate
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -206,159 +214,116 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
 
                     foreach (var userRoleDto in Input.UserRoles)
                     {
-                        var roleExists = await _roleManager.RoleExistsAsync(userRoleDto.RoleName);
-                        if (roleExists)
+                        //henter rollen fra API ved hjælp af RoleId'en
+                        var role = await _roleServiceProxy.GetRoleByIdAsync(userRoleDto.RoleId);
+
+                        if (role != null)
                         {
-                            await _userManager.AddToRoleAsync(user, userRoleDto.RoleName);
-                            _logger.LogInformation($"Added user to role: {userRoleDto.RoleName}");
+                            await _userManager.AddToRoleAsync(user, role.RoleName);
+                            _logger.LogInformation($"Added user to role: {role.RoleName}");
                         }
                         else
                         {
-                            _logger.LogError($"Role '{userRoleDto.RoleName}' does not exist.");
+                            _logger.LogError($"Role with RoleId '{userRoleDto.RoleId}' does not exist.");
                         }
+                    }
+
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userIdGuid = Guid.Parse(userId);
+
+                    var createUserDto = new CreateUserDto
+                    {
+                        Id = userIdGuid,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        Email = Input.Email,
+                        MobileNumber = Input.MobileNumber,
+                        Street = Input.Street,
+                        StreetNumber = Input.StreetNumber,
+                        PostCode = Input.PostCode,
+                        City = Input.City
+                    };
+
+                    var apiUserResponse = await _userServiceProxy.CreateUserAsync(createUserDto);
+
+                    if (apiUserResponse != null)
+                    {
+                        var apiRoleResponse = await _roleServiceProxy.GetAllRolesAsync();
+
+                        if (apiRoleResponse != null && apiRoleResponse.Any())
+                        {
+                            foreach (var userRoleDto in Input.UserRoles)
+                            {
+                                var role = await _roleServiceProxy.GetRoleByIdAsync(userRoleDto.RoleId);
+
+                                if (role != null)
+                                {
+                                    var createUserRoleDto = new CreateUserRoleDto
+                                    {
+                                        UserId = userIdGuid,
+                                        RoleId = role.Id,
+                                        StartDate = DateOnly.FromDateTime(userRoleDto.StartDate),
+                                        EndDate = DateOnly.FromDateTime(userRoleDto.EndDate)
+                                    };
+
+                                    var apiUserRoleResponse = await _userRoleServiceProxy.CreateUserRoleAsync(createUserRoleDto);
+
+                                    if (apiUserRoleResponse != null)
+                                    {
+                                        _logger.LogInformation("User role assigned successfully.");
+                                        await _userClaimsService.AssignClaimsAsync(user, role.RoleName, isNewUser: true);
+                                    }
+                                    else
+                                    {
+                                        _logger.LogError("Failed to assign user role.");
+                                    }
+                                }
+                                else
+                                {
+                                    _logger.LogError($"Role '{userRoleDto.RoleId}' not found.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            _logger.LogError("Failed to retrieve roles from the API.");
+                        }
+                    }
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new
+                        {
+                            email = Input.Email,
+                            returnUrl = returnUrl
+                        });
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 else
                 {
-                    // Hvis oprettelsen af brugeren mislykkes, tilføj fejlbeskeder til ModelState
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
-
-                    // Returner siden med fejlmeddelelser
                     return Page();
                 }
-
-
-                //If the role exist in our ClaimsTypes, add the role
-                //if (ClaimsTypes.UserTypeList.Equals(Input.Role))
-                //{
-                //    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, Input.Role));
-                //}
-                //else
-                //{
-                //    _logger.LogWarning($"Role {Input.Role} is not recognized.");
-                //}
-
-                //// Gets the user Id of the newly created Identity
-                var userId = await _userManager.GetUserIdAsync(user);
-                ////D betyder Guid formatere til 32 digits med bindestreng
-                ////var userIdGuid = Guid.ParseExact(userId, "D");
-                var userIdGuid = Guid.Parse(userId);
-
-                var createUserDto = new CreateUserDto
-                {
-                    Id = userIdGuid,
-                    FirstName = Input.FirstName,
-                    LastName = Input.LastName,
-                    Email = Input.Email,
-                    MobileNumber = Input.MobileNumber,
-                    Street = Input.Street,
-                    StreetNumber = Input.StreetNumber,
-                    PostCode = Input.PostCode,
-                    City = Input.City,
-                    StartDate = Input.StartDate,
-                    EndDate = Input.EndDate,
-                    UserRoles = Input.UserRoles
-                };
-
-
-                //// Map til CreateUserDto hvor userId (identity userId) sættes som Id
-                ////Calling our API through UserServiceProxy - sending createUserDto to our API
-                var apiUserResponse = await _userServiceProxy.CreateUserAsync(createUserDto);
-
-                ////TODO: ANH: Tjek om det var en succes, hvis ja, opret så UserRole med UserId og RoleId
-                //// roller er fx beboer, formand osv. 
-
-                ////kald på alle get all roles
-
-
-                ////TODO:ANH: UserRoleReturneres og er succes? Hvis ja, så asign claim (beboer, formand) ud fra det?
-
-                ////Adding claims based on the users role
-                //await _userClaimsService.AssignClaimsAsync(user, Input.UserRoles, isNewUser: true);
-
-                if (apiUserResponse != null)
-                {
-                    // Kald API'en for at få alle roller
-                    var apiRoleResponse = await _roleServiceProxy.GetAllRolesAsync();
-
-                    if (apiRoleResponse != null && apiRoleResponse.Any())
-                    {
-                        // Går igennem UserRoleDto i UserRoles og få adgang til alle vores rolleinformationer
-                        foreach (var userRole in Input.UserRoles)
-                        {
-                            //Finder den tilsvarende roleId baseret på rolle-navnet fra UserRoleDto
-                            var role = apiRoleResponse.FirstOrDefault(x => x.RoleName == userRole.RoleName);
-
-                            if (role != null)
-                            {
-                                var createUserRoleDto = new CreateUserRoleDto
-                                {
-                                    UserId = userIdGuid,
-                                    RoleId = role.Id,
-                                    StartDate = DateOnly.FromDateTime(userRole.StartDate),
-                                    EndDate = DateOnly.FromDateTime(userRole.EndDate)
-                                };
-
-                                // Kalder vores API for at oprette brugerens rolle
-                                var apiUserRoleResponse = await _userRoleServiceProxy.CreateUserRoleAsync(createUserRoleDto);
-
-                                if (apiUserRoleResponse != null)
-                                {
-                                    _logger.LogInformation("User role assigned successfully.");
-
-                                    // Tildel claims baseret på brugerens rolle
-                                    await _userClaimsService.AssignClaimsAsync(user, role.RoleName, isNewUser: true);
-                                }
-                                else
-                                {
-                                    _logger.LogError("Failed to assign user role.");
-                                }
-                            }
-                            else
-                            {
-                                _logger.LogError($"Role '{userRole.RoleName}' not found.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        _logger.LogError("Failed to retrieve roles from the API.");
-                    }
-                }
-
-
-
-
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    protocol: Request.Scheme);
-
-                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                {
-                    return RedirectToPage("RegisterConfirmation", new
-                    {
-                        email = Input.Email,
-                        returnUrl = returnUrl
-                    });
-                }
-                else
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
-                }
             }
-
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 

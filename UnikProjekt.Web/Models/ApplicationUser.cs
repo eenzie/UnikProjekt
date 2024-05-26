@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using UnikProjekt.Web.Models.DTOs;
 
 namespace UnikProjekt.Web.Models
 {
@@ -13,10 +12,9 @@ namespace UnikProjekt.Web.Models
         public string StreetNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        public List<UserRoleDto> UserRoles { get; set; } = new List<UserRoleDto>();
-        public DateTime StartDate { get; set; }
+        //public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        //public DateTime EndDate { get; set; }
 
     }
 }
