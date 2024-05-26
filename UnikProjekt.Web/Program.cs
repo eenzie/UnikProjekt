@@ -62,6 +62,8 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<UserRoleService>();
 builder.Services.AddScoped<DocumentService>();
 
+builder.Services.AddScoped<EmailService>();
+
 //builder.Services.AddAuthorization(options =>
 //{
 //    options.AddPolicy(
