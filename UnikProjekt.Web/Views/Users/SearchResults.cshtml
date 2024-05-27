@@ -1,0 +1,42 @@
+﻿@model IEnumerable<UnikProjekt.Web.Models.UserViewModel>
+
+<h1>Search Results</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fornavn</th>
+                <th>Efternavn</th>
+                <th>Email</th>
+                <th>Mobil</th>
+                <th>Adresse</th>
+
+     
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@user.MobileNumber </td>
+                    <td>@user.FullAddress</td>
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Index" class="btn btn-primary">Gå tilbage til brugeroversigt</a>
+}
+else
+{
+    <p>Kunne ikke finde bruger.</p>
+    <a asp-action="Index" class="btn btn-primary">Gå tilbage til brugeroversigt</a>
+}

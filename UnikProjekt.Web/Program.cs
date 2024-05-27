@@ -26,11 +26,6 @@ builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddControllersWithViews();
-
 
 //IHttpClientFactory
 builder.Services.AddControllersWithViews();
@@ -39,10 +34,35 @@ builder.Services.AddHttpClient<IUserServiceProxy, UserServiceProxy>(client =>
     client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
 });
 
+builder.Services.AddHttpClient<IUserRoleServiceProxy, UserRoleServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
+builder.Services.AddHttpClient<IDocumentServiceProxy, DocumentServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
+builder.Services.AddHttpClient<IRoleServiceProxy, RoleServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
+builder.Services.AddHttpClient<IEmailServiceProxy, EmailServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
 
 builder.Services.AddScoped<UserClaimsService>();
 
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<UserRoleService>();
+builder.Services.AddScoped<DocumentService>();
 
+builder.Services.AddScoped<EmailService>();
 
 //builder.Services.AddAuthorization(options =>
 //{
@@ -69,6 +89,14 @@ else
     app.UseHsts();
 }
 
+// Ensures database is migrated (and created)
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

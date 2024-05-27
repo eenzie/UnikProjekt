@@ -10,5 +10,7 @@ internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
     {
         builder.HasKey(e => new { e.UserId, e.RoleId });
         builder.OwnsOne(e => e.RoleDates);
+
+        builder.Property(e => e.RowVersion).IsRowVersion();
     }
 }

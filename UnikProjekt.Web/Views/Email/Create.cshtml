@@ -1,0 +1,45 @@
+﻿@model UnikProjekt.Web.Models.EmailViewModel
+
+@{
+    ViewData["Title"] = "Email";
+}
+
+<h1>Email</h1>
+
+<h4>Send email</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RecipientEmail" class="control-label"></label>
+                <input asp-for="RecipientEmail" class="form-control" />
+                <span asp-validation-for="RecipientEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -24,10 +24,14 @@ public class UserQueries : IUserQueries
             .Select(x => new UserDto
             {
                 Id = x.Id,
-                Name = x.Name.ToString(),
-                Email = x.Email.ToString(),
-                MobileNumber = x.MobileNumber.ToString(),
-                Address = x.Address.ToString(),
+                FirstName = x.Name.FirstName.ToString(),
+                LastName = x.Name.LastName.ToString(),
+                Email = x.Email.Value.ToString(),
+                MobileNumber = x.MobileNumber.Value.ToString(),
+                Street = x.Address.Street.ToString(),
+                StreetNumber = x.Address.StreetNumber.ToString(),
+                PostCode = x.Address.PostCode.ToString(),
+                City = x.Address.City.ToString(),
                 RowVersion = x.RowVersion
             })
             .ToList();
@@ -46,10 +50,14 @@ public class UserQueries : IUserQueries
             .Select(x => new UserDto  //TRANSFORM
             {
                 Id = x.Id,
-                Name = x.Name.ToString(),
-                Email = x.Email.ToString(),
-                MobileNumber = x.MobileNumber.ToString(),
-                Address = x.Address.ToString(),
+                FirstName = x.Name.FirstName.ToString(),
+                LastName = x.Name.LastName.ToString(),
+                Email = x.Email.Value.ToString(),
+                MobileNumber = x.MobileNumber.Value.ToString(),
+                Street = x.Address.Street.ToString(),
+                StreetNumber = x.Address.StreetNumber.ToString(),
+                PostCode = x.Address.PostCode.ToString(),
+                City = x.Address.City.ToString(),
                 RowVersion = x.RowVersion
             })
             .FirstOrDefault();
@@ -71,10 +79,14 @@ public class UserQueries : IUserQueries
             .Select(x => new UserDto
             {
                 Id = x.Id,
-                Name = x.Name.ToString(),
-                Email = x.Email.ToString(),
-                MobileNumber = x.MobileNumber.ToString(),
-                Address = x.Address.ToString(),
+                FirstName = x.Name.FirstName.ToString(),
+                LastName = x.Name.LastName.ToString(),
+                Email = x.Email.Value.ToString(),
+                MobileNumber = x.MobileNumber.Value.ToString(),
+                Street = x.Address.Street.ToString(),
+                StreetNumber = x.Address.StreetNumber.ToString(),
+                PostCode = x.Address.PostCode.ToString(),
+                City = x.Address.City.ToString(),
                 RowVersion = x.RowVersion
             })
             .ToList();

@@ -9,6 +9,16 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<!-- Search form -->
+<form asp-action="Search" method="get">
+    <div class="form-group">
+        <label for="search">Søg på navn:</label>
+        <input type="text" id="search" name="name" class="form-control" placeholder="Indtast navn" />
+    </div>
+    <button type="submit" class="btn btn-primary">Søg</button>
+</form>
+
 @if (Model != null)
 {
 <table class="table">

@@ -4,7 +4,8 @@ namespace UnikProjekt.Domain.Entities;
 
 public class User
 {
-    //Note: User entity arver ikke fra Entity, da Guid bliver oprettet af Identity i UI
+    //Note: User entity arver ikke fra Entity,
+    //da Guid bliver oprettet af Identity i UI
     //og overdrages ved CreateUser
     internal User()
     {
@@ -24,7 +25,7 @@ public class User
     public MobileNumber MobileNumber { get; set; }
     public Address Address { get; set; }
     public List<UserRole> UserRoles { get; set; }
-    public byte[] RowVersion { get; set; }
+    public byte[] RowVersion { get; set; }  //Note: Arver ikke fra Entity
 
     public static User Create(Guid id, Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address)
     {

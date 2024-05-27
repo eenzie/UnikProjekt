@@ -87,7 +87,7 @@ public class UserController : ControllerBase
             Street = user.Street,
             StreetNumber = user.StreetNumber,
             PostCode = user.PostCode,
-            City = user.City
+            City = user.City,
         };
 
         var userId = _userCommand.CreateUser(userToCreate);

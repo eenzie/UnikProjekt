@@ -22,8 +22,6 @@ public class UnikDbContext : DbContext
 
     public DbSet<Document> Documents { get; set; }
 
-    //TODO: HUSK at tilføje DBSets!!!
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -32,6 +30,8 @@ public class UnikDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
-        modelBuilder.ApplyConfiguration(new BookingConfiguration());
+
+        //Calls the SeedData method in DataSeeder (for Roles seeding)
+        DataSeeder.SeedData(modelBuilder);
     }
 }
