@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using UnikProjekt.Domain.DomainService;
+using UnikProjekt.Domain.Value;
 using static UnikProjekt.Domain.Shared.DAWAAddressModel;
 
 namespace UnikProjekt.Infrastructure.DomainServices;
@@ -13,8 +14,13 @@ public class AddressDomainService : IAddressDomainService
         _httpClient = httpClient;
     }
 
-    public bool ValidateAddress(string street, string streetNumber, string postCode, string city)
+    public bool ValidateAddress(Address address)
     {
+        string street = address.Street;
+        string streetNumber = address.StreetNumber;
+        string postCode = address.PostCode;
+        string city = address.City;
+
         var url = $"https://api.dataforsyningen.dk/datavask/adresser?betegnelse={street} {streetNumber}, {postCode} {city}";
 
         using (var httpClient = new HttpClient())
@@ -22,7 +28,8 @@ public class AddressDomainService : IAddressDomainService
             // Make a synchronous HTTP GET request
             var response = httpClient.GetStringAsync(url).Result; // .Result makes it synchronous
 
-            // Deserialize the JSON response into the Root object
+            // Deserialize the JSON response into the Root object of the DAWAAddressModel
+            // (See static using statement)
             var result = JsonConvert.DeserializeObject<Root>(response);
 
             // Check if the result is null (optional error handling)

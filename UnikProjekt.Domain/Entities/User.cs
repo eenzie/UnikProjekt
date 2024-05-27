@@ -1,4 +1,5 @@
-﻿using UnikProjekt.Domain.Value;
+﻿using UnikProjekt.Domain.DomainService;
+using UnikProjekt.Domain.Value;
 
 namespace UnikProjekt.Domain.Entities;
 
@@ -27,12 +28,21 @@ public class User
     public List<UserRole> UserRoles { get; set; }
     public byte[] RowVersion { get; set; }  //Note: Arver ikke fra Entity
 
-    public static User Create(Guid id, Name name, EmailAddress emailAddress, MobileNumber mobileNumber, Address address)
+    public static User Create(Guid id, Name name, EmailAddress emailAddress, MobileNumber mobileNumber,
+                                Address address, IUserDomainService userDomainService, IAddressDomainService addressDomainService)
     {
-        if (name == null) throw new ArgumentNullException(nameof(name));
-        if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
-        if (mobileNumber == null) throw new ArgumentNullException(nameof(mobileNumber));
-        if (address == null) throw new ArgumentNullException(nameof(address));
+        if (name == null)
+            throw new ArgumentNullException(nameof(name));
+        if (emailAddress == null)
+            throw new ArgumentNullException(nameof(emailAddress));
+        if (userDomainService.UserExistsWithEmail(emailAddress.ToString()))
+            throw new ArgumentException("Email address must be unique", nameof(emailAddress));
+        if (mobileNumber == null)
+            throw new ArgumentNullException(nameof(mobileNumber));
+        if (address == null)
+            throw new ArgumentNullException(nameof(address));
+        if (!addressDomainService.ValidateAddress(address))
+            throw new Exception($"Invalid address");
 
         var user = new User(id, name, emailAddress, mobileNumber, address);
 
