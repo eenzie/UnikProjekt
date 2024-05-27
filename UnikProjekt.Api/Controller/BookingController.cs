@@ -3,13 +3,12 @@ using UnikProjekt.Application.Commands;
 using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
-using UnikProjekt.Infrastructure.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace UnikProjekt.Api.Controller
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BookingController : ControllerBase
     {
@@ -22,9 +21,9 @@ namespace UnikProjekt.Api.Controller
             _bookingCommand = bookingCommand;
         }
 
-        // GET: api/<BookingController>
-        [HttpGet]
-        public ActionResult<IEnumerable<BookingDto>> Get()
+        // GET: <BookingController>
+        [HttpGet(Name = "GetAllBookings")]
+        public ActionResult<IEnumerable<BookingDto>> GetAllBookings()
         {
             var result = _bookingQueries.GetAllBookings();
 
@@ -36,8 +35,8 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        // GET api/<BookingController>/5
-        [HttpGet("{id:guid}", Name = "GetBookingById")]
+        // GET <BookingController>/5
+        [HttpGet("ById/{id:guid}", Name = "GetBookingById")]
         public ActionResult<BookingDto> GetBookingById(Guid id)
         {
             var result = _bookingQueries.GetBookingById(id);
@@ -50,7 +49,7 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        [HttpGet("{id:guid}", Name = "GetBookingByUser")]
+        [HttpGet("ByUser/{userId:guid}", Name = "GetBookingByUser")]
         public ActionResult<BookingDto> GetBookingByUser(Guid userId)
         {
             var result = _bookingQueries.GetBookingByUser(userId);
@@ -63,9 +62,9 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        // POST api/<BookingController>
+        // POST <BookingController>
         [HttpPost(Name = "CreateBooking")]
-        public IActionResult Post([FromBody] CreateBookingDto createBookingDto)
+        public IActionResult CreateBooking([FromBody] CreateBookingDto createBookingDto)
         {
             if (!ModelState.IsValid)
             {
@@ -89,9 +88,9 @@ namespace UnikProjekt.Api.Controller
             return CreatedAtAction("CreateBooking", new { Id = bookingId }, bookingToCreate);
         }
 
-        // PUT api/<BookingController>/5
+        // PUT <BookingController>/5
         [HttpPut(Name = "UpdateBooking")]
-        public IActionResult Put([FromBody] UpdateBookingDto updateBookingDto)
+        public IActionResult UpdateBooking([FromBody] UpdateBookingDto updateBookingDto)
         {
             if (!ModelState.IsValid)
             {
@@ -117,31 +116,31 @@ namespace UnikProjekt.Api.Controller
             return CreatedAtAction("UpdateBooking", new { Id = bookingId }, bookingToUpdate);
         }
 
-        [HttpPut(Name = "DeleteSelectedBookingLines")]
-        public IActionResult DeleteSelectedBookingLines([FromBody] UpdateBookingDto updateBookingDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPut(Name = "DeleteSelectedBookingLines")]
+        //public IActionResult DeleteSelectedBookingLines([FromBody] UpdateBookingDto updateBookingDto)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var bookingToUpdate = new UpdateBookingDto
-            {
-                Id = updateBookingDto.Id,
-                UserId = updateBookingDto.UserId,
-                DateBooked = updateBookingDto.DateBooked,
-                Items = updateBookingDto.Items,
-                RowVersion = updateBookingDto.RowVersion
-            };
+        //    var bookingToUpdate = new UpdateBookingDto
+        //    {
+        //        Id = updateBookingDto.Id,
+        //        UserId = updateBookingDto.UserId,
+        //        DateBooked = updateBookingDto.DateBooked,
+        //        Items = updateBookingDto.Items,
+        //        RowVersion = updateBookingDto.RowVersion
+        //    };
 
-            var bookingId = _bookingCommand.DeleteSelectedBookingLines(bookingToUpdate);
+        //    var bookingId = _bookingCommand.DeleteSelectedBookingLines(bookingToUpdate);
 
-            if (bookingId == Guid.Empty)
-            {
-                return NotFound();
-            }
-            //Http Status code '201 Created'
-            return CreatedAtAction("DeleteSelectedBookingLines", new { Id = bookingId }, bookingToUpdate);
-        }
+        //    if (bookingId == Guid.Empty)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //Http Status code '201 Created'
+        //    return CreatedAtAction("DeleteSelectedBookingLines", new { Id = bookingId }, bookingToUpdate);
+        //}
     }
 }

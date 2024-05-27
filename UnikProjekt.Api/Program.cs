@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register HttpClient
+// Register HttpClient (for DAWA)
 builder.Services.AddHttpClient();
 
 builder.Services.AddApplication();

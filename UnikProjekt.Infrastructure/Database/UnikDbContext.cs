@@ -11,25 +11,24 @@ public class UnikDbContext : DbContext
     {
     }
 
-    //TODO: HUSK at tilføje DBSets!!!
-    //TODO: Tilføj Configuration til Bookings
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingLine> BookingLines { get; set; }
     public DbSet<BookingItem> BookingItems { get; set; }
-
     public DbSet<Document> Documents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        // TODO: HUSK at tilføje ApplyConfiguration for hver configuration!!
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingLineConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingItemConfiguration());
 
         //Calls the SeedData method in DataSeeder (for Roles seeding)
         DataSeeder.SeedData(modelBuilder);

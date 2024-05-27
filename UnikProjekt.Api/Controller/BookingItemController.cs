@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Application.Commands;
 using UnikProjekt.Application.Commands.DTOs;
-using UnikProjekt.Application.Commands.Implementation;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
-using UnikProjekt.Infrastructure.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace UnikProjekt.Api.Controller
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BookingItemController : ControllerBase
     {
@@ -23,9 +21,9 @@ namespace UnikProjekt.Api.Controller
             _bookingItemCommand = bookingItemCommand;
         }
 
-        // GET: api/<BookingItemController>
-        [HttpGet]
-        public ActionResult<IEnumerable<BookingItemDto>> Get()
+        // GET: <BookingItemController>
+        [HttpGet(Name = "GetAllBookingItems")]
+        public ActionResult<IEnumerable<BookingItemDto>> GetAllBookingItems()
         {
             var result = _bookingItemQueries.GetAllBookingItems();
 
@@ -37,7 +35,7 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        // GET api/<BookingItemController>/5
+        // GET <BookingItemController>/5
         [HttpGet("{id:guid}", Name = "GetBookingItemById")]
         public ActionResult<BookingItemDto> GetBookingItemById(Guid id)
         {
@@ -64,9 +62,9 @@ namespace UnikProjekt.Api.Controller
             return Ok(result);
         }
 
-        // POST api/<BookingItemController>
+        // POST <BookingItemController>
         [HttpPost(Name = "CreateBookingItem")]
-        public IActionResult Post([FromBody] CreateBookingItemDto createBookingItemDto)
+        public IActionResult CreateBookingItem([FromBody] CreateBookingItemDto createBookingItemDto)
         {
             if (!ModelState.IsValid)
             {
@@ -93,9 +91,9 @@ namespace UnikProjekt.Api.Controller
             return CreatedAtAction("CreateBookingItem", new { Id = bookingItemId }, bookingItemToCreate);
         }
 
-        // PUT api/<BookingItemController>/5
+        // PUT <BookingItemController>/5
         [HttpPut(Name = "UpdateBookingItem")]
-        public IActionResult Put([FromBody] UpdateBookingItemDto updateBookingItemDto)
+        public IActionResult UpdateBookingItem([FromBody] UpdateBookingItemDto updateBookingItemDto)
         {
             if (!ModelState.IsValid)
             {

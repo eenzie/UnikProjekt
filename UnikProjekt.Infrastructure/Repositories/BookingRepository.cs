@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnikProjekt.Application.Repository;
+﻿using UnikProjekt.Application.Repository;
 using UnikProjekt.Domain.Entities;
 using UnikProjekt.Infrastructure.Database;
 
@@ -22,6 +17,7 @@ namespace UnikProjekt.Infrastructure.Repositories
         {
             return _context.Bookings.Find(bookingId) ?? throw new Exception("Booking not found");
         }
+
         Guid IBookingRepository.AddBooking(Booking booking)
         {
             _context.Bookings.Add(booking);
