@@ -7,4 +7,5 @@ public interface IBookingRepository
     Booking GetBooking(Guid id);
     Guid AddBooking(Booking booking);
     void UpdateBooking(Booking booking, byte[] rowVersion);
+    //void DeleteSelectedBookingItems(Booking booking);
 }

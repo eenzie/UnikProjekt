@@ -14,7 +14,7 @@ namespace UnikProjekt.Infrastructure.Database.EntityConfiguration
         public void Configure(EntityTypeBuilder<Booking> builder)
         {
             builder.HasOne(e => e.User);
-            builder.HasMany(e => e.Items).WithOne(e => e.Booking);
+            builder.HasMany(e => e.Items);
         }
     }
 }

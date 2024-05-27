@@ -4,5 +4,5 @@ namespace UnikProjekt.Domain.DomainService;
 
 public interface IBookingDomainService
 {
-    IEnumerable<BookingLine> OtherBookings(Booking booking);
+    bool IsBookingLineOverlapping(BookingLine bookingLine);
 }

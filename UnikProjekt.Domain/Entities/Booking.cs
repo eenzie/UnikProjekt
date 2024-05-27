@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,9 +13,11 @@ namespace UnikProjekt.Domain.Entities
 {
     public class Booking : Entity
     {
-        internal Booking() { }
+        internal Booking() : base(Guid.NewGuid()) 
+        { 
+        }
 
-        public Booking(Guid id, User user, DateTime dateBooked, List<BookingLine> items)
+        internal Booking(Guid id, User user, DateTime dateBooked, List<BookingLine> items) : base(id)
         {
             // Pre-conditions
             
@@ -40,14 +43,13 @@ namespace UnikProjekt.Domain.Entities
         public decimal SubTotal { get; set; }
         public decimal TotalPrice { get; set; }
 
-        public static Booking Create(User user, DateTime dateBooked, List<BookingLine> items, IServiceProvider services)
+        public static Booking Create(User user, DateTime dateBooked, List<BookingLine> items)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (services == null) throw new ArgumentNullException(nameof(services));
             //var domainService = services.GetService<IBookingDomainService>();
 
             var booking = new Booking(Guid.NewGuid(), user, dateBooked, items);
-
+            
             return booking;
         }
 
@@ -62,6 +64,11 @@ namespace UnikProjekt.Domain.Entities
             this.Items = items;
             this.SubTotal = CalculateSubTotal(Items);
             this.TotalPrice = SubTotal * moms;
+        }
+
+        public void DeleteSelectedBookingItems(IEnumerable<Guid> bookingLineIds)
+        {
+            Items.RemoveAll(x => bookingLineIds.Contains(x.Id));
         }
 
         private decimal CalculateSubTotal(List<BookingLine> items)

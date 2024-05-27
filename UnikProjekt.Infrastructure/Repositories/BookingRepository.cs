@@ -35,5 +35,6 @@ namespace UnikProjekt.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
+        //TODO: Add DeleteSelectedBookingItems
     }
 }

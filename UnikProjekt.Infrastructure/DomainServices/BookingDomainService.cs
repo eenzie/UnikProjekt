@@ -19,15 +19,13 @@ public class BookingDomainService : IBookingDomainService
         _context = context;
     }
 
-    public IEnumerable<BookingLine> OtherBookings(Booking booking)
+    public bool IsBookingLineOverlapping(BookingLine bookingLine)
     {
-        //TODO: Check how this works, this can't possibly be correct
-        //Check for BookingItem Id specifically in Where
-        //Booking is not set in BookingLine
-        //return _context.Bookings.AsNoTracking()
-        //    .SelectMany(x => x.Items).Where(x => x.Booking.Id != booking.Id && x.BookingItem.Id == booking.Items).ToList();
-
-        return new List<BookingLine>();
+        return _context.BookingLines.AsNoTracking()
+            .Any(other => bookingLine.BookingItem.Id == other.BookingItem.Id
+                && (bookingLine.BookingStart >= other.BookingStart && bookingLine.BookingStart <= other.BookingEnd
+                ||  bookingLine.BookingEnd <= other.BookingEnd && bookingLine.BookingEnd >= other.BookingStart
+                ||  bookingLine.BookingStart <= other.BookingStart && bookingLine.BookingEnd >= other.BookingEnd));
     }
 }
 

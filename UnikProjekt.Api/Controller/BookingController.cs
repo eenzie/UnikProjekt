@@ -116,5 +116,32 @@ namespace UnikProjekt.Api.Controller
             //Http Status code '201 Created'
             return CreatedAtAction("UpdateBooking", new { Id = bookingId }, bookingToUpdate);
         }
+
+        [HttpPut(Name = "DeleteSelectedBookingLines")]
+        public IActionResult DeleteSelectedBookingLines([FromBody] UpdateBookingDto updateBookingDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var bookingToUpdate = new UpdateBookingDto
+            {
+                Id = updateBookingDto.Id,
+                UserId = updateBookingDto.UserId,
+                DateBooked = updateBookingDto.DateBooked,
+                Items = updateBookingDto.Items,
+                RowVersion = updateBookingDto.RowVersion
+            };
+
+            var bookingId = _bookingCommand.DeleteSelectedBookingLines(bookingToUpdate);
+
+            if (bookingId == Guid.Empty)
+            {
+                return NotFound();
+            }
+            //Http Status code '201 Created'
+            return CreatedAtAction("DeleteSelectedBookingLines", new { Id = bookingId }, bookingToUpdate);
+        }
     }
 }

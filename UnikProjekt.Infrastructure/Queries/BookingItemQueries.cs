@@ -72,7 +72,7 @@ namespace UnikProjekt.Infrastructure.Queries
                     ServiceName = x.ServiceName,
                     Price = x.Price,
                     Deposit = x.Deposit,
-                    IntervalStart = x.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                    IntervalStart = x.IntervalStart, 
                     IntervalEnd = x.IntervalEnd,
                     BookingTimeInMinutes = x.BookingTimeInMinutes,
                     TimeSlots = x.TimeSlots,

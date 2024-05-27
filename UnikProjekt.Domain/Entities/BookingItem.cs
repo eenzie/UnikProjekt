@@ -12,9 +12,12 @@ namespace UnikProjekt.Domain.Entities
 {
     public class BookingItem : Entity
     {
-        internal BookingItem() { }
+        internal BookingItem() : base(Guid.NewGuid()) 
+        { 
+        }
 
-        public BookingItem(Guid id, string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
+        internal BookingItem(Guid id, string serviceName, decimal price, decimal deposit, 
+                             TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes) : base(id)
         {
             // Pre-conditions
             
@@ -42,14 +45,14 @@ namespace UnikProjekt.Domain.Entities
         public int BookingTimeInMinutes { get; set; }
         public int TimeSlots { get; set; }
 
-        public static BookingItem Create(string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes)
+        public static BookingItem Create(string serviceName, decimal price, decimal deposit, TimeOnly intervalStart, TimeOnly intervalEnd, int bookingTimeInMinutes)
         {
             if (serviceName == null) throw new ArgumentNullException(nameof(serviceName));
             if (price == null) throw new ArgumentNullException(nameof(price));
             if (deposit == null) throw new ArgumentNullException(nameof(deposit));
-            if (maximumBookingTimeInMinutes == null) throw new ArgumentNullException(nameof(maximumBookingTimeInMinutes));
+            if (bookingTimeInMinutes == null) throw new ArgumentNullException(nameof(bookingTimeInMinutes));
             
-            var bookingItem = new BookingItem(Guid.NewGuid(), serviceName, price, deposit, intervalStart, intervalEnd, maximumBookingTimeInMinutes);
+            var bookingItem = new BookingItem(Guid.NewGuid(), serviceName, price, deposit, intervalStart, intervalEnd, bookingTimeInMinutes);
             if (!bookingItem.ValidateIntervals(intervalStart, intervalEnd))
             {
                 throw new ArgumentException("Start of service interval must be before end of service interval");
@@ -83,7 +86,7 @@ namespace UnikProjekt.Domain.Entities
 
         private bool ValidateIntervals(TimeOnly intervalStart, TimeOnly intervalEnd) 
         {
-            if (intervalStart > intervalEnd)
+            if (intervalStart >= intervalEnd)
             {
                 return false;
             }

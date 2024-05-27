@@ -6,4 +6,5 @@ public interface IBookingCommand
 {
     Guid CreateBooking(CreateBookingDto createBookingDto);
     Guid UpdateBooking(UpdateBookingDto updateBookingDto);
+    Guid DeleteSelectedBookingLines(UpdateBookingDto updateBookingDto);
 }

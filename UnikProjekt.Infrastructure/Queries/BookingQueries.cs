@@ -29,32 +29,36 @@ namespace UnikProjekt.Infrastructure.Queries
                 .Select(x => new BookingDto
                 {
                     Id = x.Id,
-                    User = new UserDto() 
-                        {
-                            Id = x.User.Id,
-                            Name = x.User.Name.ToString(),
-                            Email = x.User.Email.ToString(),
-                            MobileNumber = x.User.MobileNumber.ToString(),
-                            Address = x.User.Address.ToString(),
-                            RowVersion = x.User.RowVersion
-                        },
+                    User = new UserDto()
+                    {
+                        Id = x.User.Id,
+                        FirstName = x.User.Name.FirstName.ToString(),
+                        LastName = x.User.Name.LastName.ToString(),
+                        Email = x.User.Email.ToString(),
+                        MobileNumber = x.User.MobileNumber.ToString(),
+                        Street = x.User.Address.Street.ToString(),
+                        StreetNumber = x.User.Address.StreetNumber.ToString(),
+                        PostCode = x.User.Address.PostCode.ToString(),
+                        City = x.User.Address.City.ToString(),
+                        RowVersion = x.User.RowVersion
+                    },
                     DateBooked = x.DateBooked,
-                    Items = x.Items.Select(x => new BookingLineDto 
-                        { 
-                            Id = x.Id,
-                            BookingItem = new BookingItemDto()
-                            {
-                                Id = x.BookingItem.Id,
-                                ServiceName = x.BookingItem.ServiceName,
-                                Price = x.BookingItem.Price,
-                                Deposit = x.BookingItem.Deposit,
-                                IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
-                                IntervalEnd = x.BookingItem.IntervalEnd,
-                                BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
-                                TimeSlots = x.BookingItem.TimeSlots,
-                                RowVersion = x.BookingItem.RowVersion
-                            }
-                        }).ToList(),
+                    Items = x.Items.Select(x => new BookingLineDto
+                    {
+                        Id = x.Id,
+                        BookingItem = new BookingItemDto()
+                        {
+                            Id = x.BookingItem.Id,
+                            ServiceName = x.BookingItem.ServiceName,
+                            Price = x.BookingItem.Price,
+                            Deposit = x.BookingItem.Deposit,
+                            IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                            IntervalEnd = x.BookingItem.IntervalEnd,
+                            BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
+                            TimeSlots = x.BookingItem.TimeSlots,
+                            RowVersion = x.BookingItem.RowVersion
+                        }
+                    }).ToList(),
                     SubTotal = x.SubTotal,
                     TotalPrice = x.TotalPrice,
                     RowVersion = x.RowVersion
@@ -77,10 +81,14 @@ namespace UnikProjekt.Infrastructure.Queries
                    User = new UserDto()
                    {
                        Id = x.User.Id,
-                       Name = x.User.Name.ToString(),
+                       FirstName = x.User.Name.FirstName.ToString(),
+                       LastName = x.User.Name.LastName.ToString(),
                        Email = x.User.Email.ToString(),
                        MobileNumber = x.User.MobileNumber.ToString(),
-                       Address = x.User.Address.ToString(),
+                       Street = x.User.Address.Street.ToString(),
+                       StreetNumber = x.User.Address.StreetNumber.ToString(),
+                       PostCode = x.User.Address.PostCode.ToString(),
+                       City = x.User.Address.City.ToString(),
                        RowVersion = x.User.RowVersion
                    },
                    DateBooked = x.DateBooked,
@@ -122,10 +130,14 @@ namespace UnikProjekt.Infrastructure.Queries
                    User = new UserDto()
                    {
                        Id = x.User.Id,
-                       Name = x.User.Name.ToString(),
+                       FirstName = x.User.Name.FirstName.ToString(),
+                       LastName = x.User.Name.LastName.ToString(),
                        Email = x.User.Email.ToString(),
                        MobileNumber = x.User.MobileNumber.ToString(),
-                       Address = x.User.Address.ToString(),
+                       Street = x.User.Address.Street.ToString(),
+                       StreetNumber = x.User.Address.StreetNumber.ToString(),
+                       PostCode = x.User.Address.PostCode.ToString(),
+                       City = x.User.Address.City.ToString(),
                        RowVersion = x.User.RowVersion
                    },
                    DateBooked = x.DateBooked,
