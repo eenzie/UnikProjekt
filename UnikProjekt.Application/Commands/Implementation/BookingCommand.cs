@@ -1,6 +1,4 @@
-﻿
-using System.Security.Cryptography.X509Certificates;
-using UnikProjekt.Application.Commands.DTOs;
+﻿using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Helpers;
 using UnikProjekt.Application.Repository;
 using UnikProjekt.Domain.DomainService;
@@ -84,7 +82,7 @@ public class BookingCommand : IBookingCommand
                                                                                 updateBookingDto.Items.Select(x => x.BookingStart).FirstOrDefault(),
                                                                                 updateBookingDto.Items.Select(x => x.BookingEnd).FirstOrDefault()));
 
-            booking.Update(user, updateBookingDto.DateBooked, booking.Items, _services);
+            booking.Update(user, updateBookingDto.DateBooked, booking.Items);
             booking.RowVersion = updateBookingDto.RowVersion;
 
             _bookingRepository.UpdateBooking(booking, booking.RowVersion);
@@ -121,11 +119,7 @@ public class BookingCommand : IBookingCommand
 
             var user = _userRepository.GetUser(updateBookingDto.UserId);
 
-            //var selectedBookingLines = booking.Items.Where(x => )
-
-            //booking.DeleteSelectedBookingItems(selectedBookingLines);
-
-            booking.Update(user, updateBookingDto.DateBooked, booking.Items, _services);
+            booking.Update(user, updateBookingDto.DateBooked, booking.Items);
             booking.RowVersion = updateBookingDto.RowVersion;
 
             _bookingRepository.UpdateBooking(booking, booking.RowVersion);

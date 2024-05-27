@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using UnikProjekt.Domain.Shared;
-using UnikProjekt.Domain.Value;
+﻿using UnikProjekt.Domain.Shared;
 
 namespace UnikProjekt.Domain.Entities
 {
     public class BookingItem : Entity
     {
-        internal BookingItem() : base(Guid.NewGuid()) 
-        { 
+        internal BookingItem() : base(Guid.NewGuid())
+        {
         }
 
-        internal BookingItem(Guid id, string serviceName, decimal price, decimal deposit, 
+        public BookingItem(Guid id, string serviceName, decimal price, decimal deposit,
                              TimeOnly intervalStart, TimeOnly intervalEnd, int maximumBookingTimeInMinutes) : base(id)
         {
             // Pre-conditions
-            
+
             ServiceName = serviceName;
             Price = price;
             Deposit = deposit;
@@ -51,7 +43,7 @@ namespace UnikProjekt.Domain.Entities
             if (price == null) throw new ArgumentNullException(nameof(price));
             if (deposit == null) throw new ArgumentNullException(nameof(deposit));
             if (bookingTimeInMinutes == null) throw new ArgumentNullException(nameof(bookingTimeInMinutes));
-            
+
             var bookingItem = new BookingItem(Guid.NewGuid(), serviceName, price, deposit, intervalStart, intervalEnd, bookingTimeInMinutes);
             if (!bookingItem.ValidateIntervals(intervalStart, intervalEnd))
             {
@@ -84,7 +76,7 @@ namespace UnikProjekt.Domain.Entities
             return 1;
         }
 
-        private bool ValidateIntervals(TimeOnly intervalStart, TimeOnly intervalEnd) 
+        private bool ValidateIntervals(TimeOnly intervalStart, TimeOnly intervalEnd)
         {
             if (intervalStart >= intervalEnd)
             {
