@@ -4,13 +4,10 @@ using UnikProjekt.Domain.Entities;
 
 namespace UnikProjekt.Infrastructure.Database.EntityConfiguration;
 
-internal class RoleConfiguration : IEntityTypeConfiguration<Role>
+public class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<Document> builder)
     {
-        builder.Property(e => e.RoleName).IsRequired();
-        builder.HasMany(e => e.UserRoles);
-
         builder.Property(e => e.RowVersion).IsRowVersion();
     }
 }

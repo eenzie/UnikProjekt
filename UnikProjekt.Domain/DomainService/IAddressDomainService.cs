@@ -1,6 +1,8 @@
-﻿namespace UnikProjekt.Domain.DomainService;
+﻿using UnikProjekt.Domain.Value;
+
+namespace UnikProjekt.Domain.DomainService;
 
 public interface IAddressDomainService
 {
-    bool ValidateAddress(string street, string streetNumber, string postCode, string city);
+    bool ValidateAddress(Address address);
 }

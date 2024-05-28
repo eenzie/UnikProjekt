@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnikProjekt.Domain.DomainService;
+﻿using UnikProjekt.Domain.DomainService;
 using UnikProjekt.Domain.Shared;
 
 namespace UnikProjekt.Domain.Entities
 {
     public class BookingLine : Entity
     {
-        internal BookingLine() : base(Guid.NewGuid()) 
-        { 
+        internal BookingLine() : base(Guid.NewGuid())
+        {
         }
 
-        internal BookingLine(Guid id, BookingItem bookingItem, DateTime bookingStart, DateTime bookingEnd) : base(id)
+        public BookingLine(Guid id, BookingItem bookingItem, DateTime bookingStart, DateTime bookingEnd) : base(id)
         {
             BookingItem = bookingItem;
             BookingStart = bookingStart;

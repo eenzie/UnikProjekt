@@ -33,61 +33,38 @@ public class UserCommand : IUserCommand
     /// <exception cref="Exception"></exception>
     Guid IUserCommand.CreateUser(CreateUserDto createUserDto)
     {
-        //Checks that email is unique
-        var duplicateUserEmail = _userDomainService.UserExistsWithEmail(createUserDto.Email);
-        //var emailIsUnique = true;
-
-        if (duplicateUserEmail)
+        try
         {
-            throw new Exception($"User with that email already exists");
+            _uow.BeginTransaction();   //Isolation level is default: Serialized
+
+            var name = new Name(createUserDto.FirstName,
+                                createUserDto.LastName);
+            var email = new EmailAddress(createUserDto.Email);
+            var mobileNumber = new MobileNumber(createUserDto.MobileNumber);
+            var address = new Address(createUserDto.Street,
+                                      createUserDto.StreetNumber,
+                                      createUserDto.PostCode,
+                                      createUserDto.City);
+
+            var user = User.Create(createUserDto.Id, name, email, mobileNumber, address, _userDomainService, _addressDomainService);
+
+            _userRepository.AddUser(user);
+
+            _uow.Commit();
+
+            return user.Id;
         }
-
-        //Check that address can be validated
-        var addressIsValidated = _addressDomainService.ValidateAddress(createUserDto.Street,
-                                                                       createUserDto.StreetNumber,
-                                                                       createUserDto.PostCode,
-                                                                       createUserDto.City);
-
-        if (!addressIsValidated)
-        {
-            throw new Exception($"Invalid address");
-        }
-
-        else
+        catch (Exception e)
         {
             try
             {
-                _uow.BeginTransaction();   //Isolation level is default: Serialized
-
-                var name = new Name(createUserDto.FirstName,
-                                    createUserDto.LastName);
-                var email = new EmailAddress(createUserDto.Email);
-                var mobileNumber = new MobileNumber(createUserDto.MobileNumber);
-                var address = new Address(createUserDto.Street,
-                                          createUserDto.StreetNumber,
-                                          createUserDto.PostCode,
-                                          createUserDto.City);
-
-                var user = User.Create(createUserDto.Id, name, email, mobileNumber, address);
-
-                _userRepository.AddUser(user);
-
-                _uow.Commit();
-
-                return user.Id;
+                _uow.Rollback();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                try
-                {
-                    _uow.Rollback();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Rollback failed: {ex.Message}", e);
-                }
-                throw;
+                throw new Exception($"Rollback failed: {ex.Message}", e);
             }
+            throw;
         }
     }
 
