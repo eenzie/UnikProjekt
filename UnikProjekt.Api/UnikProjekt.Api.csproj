@@ -29,7 +29,6 @@
     <ProjectReference Include="..\UnikProjekt.Domain\UnikProjekt.Domain.csproj" />
     <ProjectReference Include="..\UnikProjekt.Infrastructure\UnikProjekt.Infrastructure.csproj" />
     <ProjectReference Include="..\UnikProjekt.DatabaseMigration\UnikProjekt.DatabaseMigration.csproj" />
-    <ProjectReference Include="..\UnikProjekt.Web\UnikProjekt.Web.csproj" />
   </ItemGroup>
 
 </Project>

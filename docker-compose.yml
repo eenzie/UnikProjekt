@@ -1,10 +1,33 @@
 services:
   unikprojekt.api:
-    image: ${DOCKER_REGISTRY-}unikprojektapi
-    build:
-      context: ./UnikProjekt.Api
-      dockerfile: UnikProjekt.Api/Dockerfile
+    container_name: "UnikApiContainer"
+    image: trulymoofy/unikprojekt.api:1
+    # build:
+    #   context: .
+    #   dockerfile: UnikProjekt.Api/Dockerfile
+    depends_on: 
+      - unikprojekt.mssql
+    environment:
+     ConnectionsStrings__ApiSqlServer: "Server=unikprojekt.mssql,1433;Database=UnikProjektDb;user id=SA;Password=Admin1!;TrustServerCertificate=True;"
   
-  mssql:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: UnikProjekt-mssql
+  unikprojekt.web:
+    container_name: "UnikWebContainer"
+    image: trulymoofy/unikprojekt.web:version1.0
+    # build:
+    #   context: .
+    #   dockerfile: UnikProjekt.Web/Dockerfile
+    depends_on: 
+      - unikprojekt.api
+    ports:
+      - 5160:8080
+    environment:
+        ClientAddresses__UnikProjekt.Api: "http://unikprojekt.api:8080"
+    
+  unikprojekt.mssql:
+    container_name: "UnikSqlServerContainer"
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin1!"
+    ports:
+      - 1433:1433
