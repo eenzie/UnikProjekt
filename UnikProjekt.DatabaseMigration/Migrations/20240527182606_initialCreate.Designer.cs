@@ -12,8 +12,8 @@ using UnikProjekt.Infrastructure.Database;
 namespace UnikProjekt.DatabaseMigration.Migrations
 {
     [DbContext(typeof(UnikDbContext))]
-    [Migration("20240527090833_initalCreate")]
-    partial class initalCreate
+    [Migration("20240527182606_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,8 +154,10 @@ namespace UnikProjekt.DatabaseMigration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");

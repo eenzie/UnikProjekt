@@ -29,6 +29,7 @@ public class UnikDbContext : DbContext
         modelBuilder.ApplyConfiguration(new BookingConfiguration());
         modelBuilder.ApplyConfiguration(new BookingLineConfiguration());
         modelBuilder.ApplyConfiguration(new BookingItemConfiguration());
+        modelBuilder.ApplyConfiguration(new DocumentConfiguration());
 
         //Calls the SeedData method in DataSeeder (for Roles seeding)
         DataSeeder.SeedData(modelBuilder);
