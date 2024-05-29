@@ -14,7 +14,7 @@ namespace UnikProjekt.Web.UserManagement.Handler
             var hasAddressClaim = context.User.HasClaim(ClaimTypes.StreetAddress, " ");
             var hasUserTypeClaim = context.User.HasClaim("UserType", "Resident");
 
-            // Check if the user has a valid address and UserType is "Resident"
+            // tjekker om brugeren har en valid addresse og UserType er "Resident"
             if (hasAddressClaim && hasUserTypeClaim)
             {
                 context.Succeed(requirement);

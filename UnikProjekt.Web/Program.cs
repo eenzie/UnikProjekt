@@ -54,12 +54,19 @@ builder.Services.AddHttpClient<IRoleServiceProxy, RoleServiceProxy>(client =>
 //    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
 //});
 
+builder.Services.AddHttpClient<IBookingServiceProxy, BookingServiceProxy>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["UnikBaseUrl"]);
+});
+
 
 builder.Services.AddScoped<UserClaimsService>();
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<UserRoleService>();
+builder.Services.AddScoped<BookingService>();
+builder.Services.AddScoped<BookingItemService>();
 builder.Services.AddScoped<DocumentService>();
 
 builder.Services.AddScoped<IEmailService, EmailService>();

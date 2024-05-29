@@ -5,6 +5,7 @@ using UnikProjekt.Web.Services;
 
 namespace UnikProjekt.Web.Controllers
 {
+    //Hvis authentication og authorisation virkede...
     [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
@@ -62,6 +63,11 @@ namespace UnikProjekt.Web.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Kunne ikke oprette en ny rolle");
+
+                }
             }
             return View(createRoleDto);
         }
@@ -101,9 +107,14 @@ namespace UnikProjekt.Web.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Fejl: Kunne ikke redigere rollen. Prøv igen.");
+                }
             }
             return View(editRoleDto);
         }
+
 
         // GET: RolesController/Delete/5
         public async Task<IActionResult> Delete(int id)

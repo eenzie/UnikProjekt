@@ -121,9 +121,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             //[ValidateNever]
             //public IEnumerable<SelectListItem> RoleList { get; set; }
 
-            //[ValidateNever]
-            //public IEnumerable<SelectListItem> RoleList { get; set; }
-
             public Guid Id { get; set; }
 
             [Required]
@@ -158,14 +155,6 @@ namespace UnikProjekt.Web.Areas.Identity.Pages.Account
             public List<UserRoleDto> UserRoles { get; set; } = new List<UserRoleDto>();
 
             public IEnumerable<RoleDto> Roles { get; set; }
-
-            //[Required]
-            //[Display(Name = "Start Date")]
-            //public DateTime StartDate { get; set; }
-
-            //[Required]
-            //[Display(Name = "End Date")]
-            //public DateTime EndDate { get; set; }
 
         }
 
