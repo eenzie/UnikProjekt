@@ -6,28 +6,50 @@ services:
     #   context: .
     #   dockerfile: UnikProjekt.Api/Dockerfile
     depends_on: 
-      - unikprojekt.mssql
+      - unikprojekt.mssql.backend
     environment:
-     ConnectionsStrings__ApiSqlServer: "Server=unikprojekt.mssql,1433;Database=UnikProjektDb;user id=SA;Password=Admin1!;TrustServerCertificate=True;"
+      ConnectionStrings:DefaultConnection: "Server=unikprojekt.mssql.backend,1433;Database=UnikProjektDb;user id=sa;Password=Password1234!;TrustServerCertificate=True;"
   
   unikprojekt.web:
-    container_name: "UnikWebContainer"
+    container_name: "UnikWeb"
     image: trulymoofy/unikprojekt.web:version1.0
     # build:
     #   context: .
     #   dockerfile: UnikProjekt.Web/Dockerfile
     depends_on: 
       - unikprojekt.api
+      - unikprojekt.mssql.frontend
     ports:
-      - 5160:8080
+      - "5160:8080"
     environment:
-        ClientAddresses__UnikProjekt.Api: "http://unikprojekt.api:8080"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ClientAddresses:UnikProjekt.Api: "http://unikprojekt.api:8080"
+      ConnectionStrings:DefaultConnection: "Server=unikprojekt.mssql.frontend,1433;Database=MvcAuth;user id=sa;Password=Password1234!;TrustServerCertificate=True;"
     
-  unikprojekt.mssql:
-    container_name: "UnikSqlServerContainer"
+  unikprojekt.mssql.backend:
+    container_name: "UnikBackendSqlServer"
     image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "Admin1!"
+      MSSQL_SA_PASSWORD: "Password1234!"
     ports:
-      - 1433:1433
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PPassword1234!", "-Q", "select 1"]
+      interval: 1s
+      retries: 20
+  
+  unikprojekt.mssql.frontend:
+    container_name: "UnikFrontendSqlServer"
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Password1234!"
+    ports:
+      - "1434:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PPassword1234!", "-Q", "select 1"]
+      interval: 1s
+      retries: 20
