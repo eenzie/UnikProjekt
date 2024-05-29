@@ -1,4 +1,5 @@
 ﻿using NetArchTest.Rules;
+using UnikProjekt.Application.Commands.Implementation;
 using UnikProjekt.Application.Queries.DTOs;
 using UnikProjekt.Domain.Entities;
 using UnikProjekt.Infrastructure.Repositories;
@@ -43,6 +44,19 @@ public class ProjectReferenceTests
             .ResideInNamespace("UnikProjekt.Infrastructure")
             .ShouldNot()
             .HaveDependencyOn("UnikProjekt.Api")
+            .GetResult();
+
+        Assert.True(result.IsSuccessful);
+    }
+
+    [Fact]
+    public void Api_ShouldNotReference_Web()
+    {
+        var result = Types.InAssembly(typeof(UserCommand).Assembly)
+            .That()
+            .ResideInNamespace("UnikProjekt.Api")
+            .ShouldNot()
+            .HaveDependencyOn("UnikProjekt.Web")
             .GetResult();
 
         Assert.True(result.IsSuccessful);

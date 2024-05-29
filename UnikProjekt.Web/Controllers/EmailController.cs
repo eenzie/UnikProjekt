@@ -7,17 +7,21 @@ namespace UnikProjekt.Web.Controllers
     public class EmailController : Controller
     {
         private readonly IEmailService _emailService;
+        private readonly ILogger<EmailController> _logger;
 
-        public EmailController(IEmailService emailService)
+        public EmailController(IEmailService emailService, ILogger<EmailController> logger)
         {
             _emailService = emailService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var emailForm = new EmailViewModel();
+            _logger.LogInformation($"{nameof(Index)}");
             return View(emailForm);
+
         }
 
         [HttpPost]

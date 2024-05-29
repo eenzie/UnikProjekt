@@ -2,20 +2,22 @@ services:
   unikprojekt.api:
     container_name: "UnikApiContainer"
     image: trulymoofy/unikprojekt.api:1
-    # build:
-    #   context: .
-    #   dockerfile: UnikProjekt.Api/Dockerfile
+    build:
+      context: .
+      dockerfile: UnikProjekt.Api/Dockerfile
     depends_on: 
       - unikprojekt.mssql.backend
+    ports:
+      - "18082:8080"
     environment:
       ConnectionStrings:DefaultConnection: "Server=unikprojekt.mssql.backend,1433;Database=UnikProjektDb;user id=sa;Password=Password1234!;TrustServerCertificate=True;"
   
   unikprojekt.web:
     container_name: "UnikWeb"
     image: trulymoofy/unikprojekt.web:version1.0
-    # build:
-    #   context: .
-    #   dockerfile: UnikProjekt.Web/Dockerfile
+    build:
+      context: .
+      dockerfile: UnikProjekt.Web/Dockerfile
     depends_on: 
       - unikprojekt.api
       - unikprojekt.mssql.frontend
@@ -23,6 +25,7 @@ services:
       - "5160:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
+      UnikBaseUrl: "http://unikprojekt.api:8080"
       ClientAddresses:UnikProjekt.Api: "http://unikprojekt.api:8080"
       ConnectionStrings:DefaultConnection: "Server=unikprojekt.mssql.frontend,1433;Database=MvcAuth;user id=sa;Password=Password1234!;TrustServerCertificate=True;"
     
@@ -34,7 +37,7 @@ services:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "Password1234!"
     ports:
-      - "1433:1433"
+      - "11433:1433"
     healthcheck:
       test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PPassword1234!", "-Q", "select 1"]
       interval: 1s

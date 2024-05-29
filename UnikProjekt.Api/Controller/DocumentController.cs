@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UnikProjekt.Application.Commands;
 using UnikProjekt.Application.Commands.DTOs;
-using UnikProjekt.Application.Commands.Implementation;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
-using UnikProjekt.Infrastructure.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -86,10 +84,11 @@ namespace UnikProjekt.Api.Controller
 
             if (documentId == Guid.Empty)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating the document");
             }
 
-            return CreatedAtAction("GetUserById", new { Id = documentId }, documentToCreate);
+            //Http Status code '201 Created'
+            return StatusCode(StatusCodes.Status201Created);
         }
     }
 }

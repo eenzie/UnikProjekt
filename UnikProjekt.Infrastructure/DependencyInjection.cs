@@ -13,7 +13,6 @@ using UnikProjekt.Infrastructure.DomainServices;
 using UnikProjekt.Infrastructure.Queries;
 using UnikProjekt.Infrastructure.Repositories;
 
-
 namespace UnikProjekt.Infrastructure;
 
 public static class DependencyInjection
@@ -24,7 +23,6 @@ public static class DependencyInjection
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
         x => x.MigrationsAssembly("UnikProjekt.DatabaseMigration")));
 
-        //TODO: HUSK at tilføje domain services her når et interface er lavet
         services.AddScoped<IUserCommand, UserCommand>();
         services.AddScoped<IRoleCommand, RoleCommand>();
         services.AddScoped<IUserRoleCommand, UserRoleCommand>();
