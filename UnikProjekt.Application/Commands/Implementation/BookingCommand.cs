@@ -77,7 +77,6 @@ public class BookingCommand : IBookingCommand
 
             var user = _userRepository.GetUser(updateBookingDto.UserId);
 
-            //TODO: Figure out logic for updating lines in booking
             booking.Items.ForEach(x => x.Update(_bookingItemRepository.GetBookingItem(updateBookingDto.Items.Select(x => x.BookingItemId).FirstOrDefault()),
                                                                                 updateBookingDto.Items.Select(x => x.BookingStart).FirstOrDefault(),
                                                                                 updateBookingDto.Items.Select(x => x.BookingEnd).FirstOrDefault()));

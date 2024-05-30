@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
 using UnikProjekt.Infrastructure.Database;
@@ -28,7 +23,7 @@ namespace UnikProjekt.Infrastructure.Queries
                     ServiceName = x.ServiceName,
                     Price = x.Price,
                     Deposit = x.Deposit,
-                    IntervalStart = x.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                    IntervalStart = x.IntervalStart,
                     IntervalEnd = x.IntervalEnd,
                     BookingTimeInMinutes = x.BookingTimeInMinutes,
                     TimeSlots = x.TimeSlots,
@@ -50,7 +45,7 @@ namespace UnikProjekt.Infrastructure.Queries
                     ServiceName = x.ServiceName,
                     Price = x.Price,
                     Deposit = x.Deposit,
-                    IntervalStart = x.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                    IntervalStart = x.IntervalStart,
                     IntervalEnd = x.IntervalEnd,
                     BookingTimeInMinutes = x.BookingTimeInMinutes,
                     TimeSlots = x.TimeSlots,
@@ -72,7 +67,7 @@ namespace UnikProjekt.Infrastructure.Queries
                     ServiceName = x.ServiceName,
                     Price = x.Price,
                     Deposit = x.Deposit,
-                    IntervalStart = x.IntervalStart, 
+                    IntervalStart = x.IntervalStart,
                     IntervalEnd = x.IntervalEnd,
                     BookingTimeInMinutes = x.BookingTimeInMinutes,
                     TimeSlots = x.TimeSlots,

@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Queries.DTOs;
-using UnikProjekt.Domain.Entities;
 using UnikProjekt.Infrastructure.Database;
 
 namespace UnikProjekt.Infrastructure.Queries
@@ -52,7 +46,7 @@ namespace UnikProjekt.Infrastructure.Queries
                             ServiceName = x.BookingItem.ServiceName,
                             Price = x.BookingItem.Price,
                             Deposit = x.BookingItem.Deposit,
-                            IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                            IntervalStart = x.BookingItem.IntervalStart,
                             IntervalEnd = x.BookingItem.IntervalEnd,
                             BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
                             TimeSlots = x.BookingItem.TimeSlots,
@@ -101,7 +95,7 @@ namespace UnikProjekt.Infrastructure.Queries
                            ServiceName = x.BookingItem.ServiceName,
                            Price = x.BookingItem.Price,
                            Deposit = x.BookingItem.Deposit,
-                           IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                           IntervalStart = x.BookingItem.IntervalStart,
                            IntervalEnd = x.BookingItem.IntervalEnd,
                            BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
                            TimeSlots = x.BookingItem.TimeSlots,
@@ -150,7 +144,7 @@ namespace UnikProjekt.Infrastructure.Queries
                            ServiceName = x.BookingItem.ServiceName,
                            Price = x.BookingItem.Price,
                            Deposit = x.BookingItem.Deposit,
-                           IntervalStart = x.BookingItem.IntervalStart, //TODO: Add TimeOnly.FromTimeSpan when tables are created
+                           IntervalStart = x.BookingItem.IntervalStart,
                            IntervalEnd = x.BookingItem.IntervalEnd,
                            BookingTimeInMinutes = x.BookingItem.BookingTimeInMinutes,
                            TimeSlots = x.BookingItem.TimeSlots,
