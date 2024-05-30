@@ -15,11 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnikProjekt.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnikProjekt.DatabaseMigration", "UnikProjekt.DatabaseMigration\UnikProjekt.DatabaseMigration.csproj", "{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHousingAssociation", "WebHousingAssociation\WebHousingAssociation.csproj", "{3D47E285-5989-43AB-83C5-E91A216C4426}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnikProjekt.Web", "UnikProjekt.Web\UnikProjekt.Web.csproj", "{DC1213C4-F240-4229-88D1-082817EAE6DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnikProjekt.Web", "UnikProjekt.Web\UnikProjekt.Web.csproj", "{DC1213C4-F240-4229-88D1-082817EAE6DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +49,6 @@ Global
 		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EE7986C-3F95-4F30-8262-1CBFAAE482D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D47E285-5989-43AB-83C5-E91A216C4426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D47E285-5989-43AB-83C5-E91A216C4426}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D47E285-5989-43AB-83C5-E91A216C4426}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D47E285-5989-43AB-83C5-E91A216C4426}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DDC9AD4-2F24-4E01-A97C-24B15560EB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
