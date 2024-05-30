@@ -30,7 +30,7 @@ public class BookingCommand : IBookingCommand
 
         try
         {
-            _uow.BeginTransaction();
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             var user = _userRepository.GetUser(createBookingDto.UserId);
 
@@ -66,7 +66,7 @@ public class BookingCommand : IBookingCommand
     {
         try
         {
-            _uow.BeginTransaction();
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             var booking = _bookingRepository.GetBooking(updateBookingDto.Id);
 
@@ -108,7 +108,7 @@ public class BookingCommand : IBookingCommand
     {
         try
         {
-            _uow.BeginTransaction();
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             var booking = _bookingRepository.GetBooking(updateBookingDto.Id);
 

@@ -26,7 +26,7 @@ public class UserRoleCommand : IUserRoleCommand
     {
         try
         {
-            _uow.BeginTransaction();   //Isolation level is default: Serialized
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             var roleDates = new RoleDates(createUserRoleDto.StartDate, createUserRoleDto.EndDate);
 
@@ -55,7 +55,7 @@ public class UserRoleCommand : IUserRoleCommand
     {
         try
         {
-            _uow.BeginTransaction(); //Isolation level is default: Serialized
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             //READ
             var userRole = _userRoleRepository.GetUserRoleByIds(updateUserRoleDto.UserId, updateUserRoleDto.RoleId);

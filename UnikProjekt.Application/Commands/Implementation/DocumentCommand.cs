@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnikProjekt.Application.Commands.DTOs;
+﻿using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Helpers;
-using UnikProjekt.Application.Queries;
 using UnikProjekt.Application.Repository;
 using UnikProjekt.Domain.Entities;
 
@@ -28,7 +22,7 @@ namespace UnikProjekt.Application.Commands.Implementation
             {
                 //byte[] pdfInBytes = System.IO.File.ReadAllBytes(filePath);
 
-                _uow.BeginTransaction();
+                _uow.BeginTransaction();   //Default isolation level: Serializable
 
                 var user = _userRepository.GetUser(createDocumentDto.UserId);
 

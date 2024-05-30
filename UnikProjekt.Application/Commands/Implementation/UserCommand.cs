@@ -35,7 +35,7 @@ public class UserCommand : IUserCommand
     {
         try
         {
-            _uow.BeginTransaction();   //Isolation level is default: Serialized
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             var name = new Name(createUserDto.FirstName,
                                 createUserDto.LastName);
@@ -78,7 +78,7 @@ public class UserCommand : IUserCommand
     {
         try
         {
-            _uow.BeginTransaction(); //Isolation level is default: Serialized
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             //READ
             var user = _userRepository.GetUser(updateUserDto.Id);

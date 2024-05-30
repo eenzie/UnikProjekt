@@ -22,7 +22,7 @@ public class RoleCommand : IRoleCommand
     {
         try
         {
-            _uow.BeginTransaction();   //Isolation level is default: Serialized
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             var role = Role.Create(createRoleDto.RoleName);
 
@@ -50,7 +50,7 @@ public class RoleCommand : IRoleCommand
     {
         try
         {
-            _uow.BeginTransaction(); //Isolation level is default: Serialized
+            _uow.BeginTransaction();   //Default isolation level: Serializable
 
             //READ
             var role = _roleRepository.GetRole(updateRoleDto.Id);

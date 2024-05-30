@@ -21,7 +21,7 @@ namespace UnikProjekt.Api.Controller
 
         // POST UserRole
         [HttpPost(Name = "CreateUserRole")]
-        public IActionResult Create([FromBody] CreateUserRoleDto userRole)
+        public IActionResult CreateUserRole([FromBody] CreateUserRoleDto userRole)
         {
             if (!ModelState.IsValid)
             {

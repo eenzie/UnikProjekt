@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="UnikProjekt.Domain.Entities.Booking">
+    <Position X="7" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IAQBAAQAAAAACAAAAAAAAAAAAIAAQEAAAAABAAAAAAA=</HashCode>
+      <FileName>Entities\Booking.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Entities.BookingItem">
+    <Position X="14.5" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAwAAAAAAIBAAAABAAAAAAEAAAAAAAAEABAI=</HashCode>
+      <FileName>Entities\BookingItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Entities.BookingLine">
+    <Position X="11.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAAABAAAgAgAAAAAAAAAAAAAAEAAAAIAAAAAAAA=</HashCode>
+      <FileName>Entities\BookingLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Entities.Document">
+    <Position X="1" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAAAAAAAAAAAAAwAAAIAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Document.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Entities.Role">
+    <Position X="4.75" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAEAAAAAA=</HashCode>
+      <FileName>Entities\Role.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserRoles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Entities.User">
+    <Position X="0.5" Y="6.25" Width="2.5" />
+    <AssociationLine Name="UserRoles" Type="UnikProjekt.Domain.Entities.UserRole">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.11" Y="0.051" Height="0.182" Width="1.798" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQCCAAAACAAAAAAAAAABAQAAAAAAEgCAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserRoles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Entities.UserRole">
+    <Position X="4.75" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAIAAAAIAAAAEAAABAgAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\UserRole.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UnikProjekt.Domain.Shared.Entity">
+    <Position X="7.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Shared\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnikProjekt.Application.Commands.DTOs;
+﻿using UnikProjekt.Application.Commands.DTOs;
 using UnikProjekt.Application.Helpers;
 using UnikProjekt.Application.Repository;
 using UnikProjekt.Domain.Entities;
@@ -27,9 +22,9 @@ namespace UnikProjekt.Application.Commands.Implementation
         {
             try
             {
-                _uow.BeginTransaction();
+                _uow.BeginTransaction();   //Default isolation level: Serializable
 
-                var bookingItem = BookingItem.Create(createBookingItemDto.ServiceName, 
+                var bookingItem = BookingItem.Create(createBookingItemDto.ServiceName,
                                                      createBookingItemDto.Price,
                                                      createBookingItemDto.Deposit,
                                                      createBookingItemDto.IntervalStart,
@@ -60,7 +55,7 @@ namespace UnikProjekt.Application.Commands.Implementation
         {
             try
             {
-                _uow.BeginTransaction();
+                _uow.BeginTransaction();   //Default isolation level: Serializable
 
                 var bookingItem = _bookingItemRepository.GetBookingItem(updateBookingItemDto.Id);
                 bookingItem.Update(updateBookingItemDto.ServiceName,
