@@ -12,7 +12,6 @@ namespace UnikProjekt.Web.Data
         {
         }
 
-        //public DbSet<ApplicationUser> applicationUser { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,13 +44,7 @@ namespace UnikProjekt.Web.Data
             // Add user to database
             builder.Entity<ApplicationUser>().HasData(adminUser);
 
-            // Assign admin role to superadmin user
-            //builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            //{
-            //    UserId = adminUser.Id,
-            //    RoleId = "9C99994C-621C-4717-A38B-08DC7D19E651"
 
-            //});
         }
 
     }

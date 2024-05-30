@@ -15,14 +15,6 @@ namespace UnikProjekt.Web.Services
 
         public async Task<DocumentViewModel> CreateDocumentAsync(CreateDocumentDto createDocumentDto)
         {
-            //var documentDto = await _documentServiceProxy.CreateDocumentAsync(createDocumentDto);
-            //return new DocumentViewModel
-            //{
-            //    DocumentContent = documentDto.DocumentContent,
-            //    DocumentTitle = documentDto.DocumentTitle,
-            //    UserId = documentDto.UserId,
-            //    DateModified = documentDto.DateModified,
-            //};
 
             // Konverter IFormFile til byte-array
             byte[] documentBytes;

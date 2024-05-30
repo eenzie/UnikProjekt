@@ -1,0 +1,71 @@
+﻿@model IEnumerable<UnikProjekt.Web.Models.BookingItemViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Opret ny</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deposit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IntervalStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IntervalEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingTimeInMinutes)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deposit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IntervalStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IntervalEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingTimeInMinutes)
+                </td>
+               
+                
+            </tr>
+        }
+    </tbody>
+</table>

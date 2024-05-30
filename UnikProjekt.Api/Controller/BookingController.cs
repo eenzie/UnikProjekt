@@ -85,7 +85,7 @@ namespace UnikProjekt.Api.Controller
                 return NotFound();
             }
             //Http Status code '201 Created'
-            return CreatedAtAction("CreateBooking", new { Id = bookingId }, bookingToCreate);
+            return CreatedAtAction("GetBookingById", new { Id = bookingId }, bookingToCreate);
         }
 
         // PUT <BookingController>/5

@@ -27,8 +27,7 @@ namespace UnikProjekt.Web.ProxyServices
             }
             else
             {
-                Console.WriteLine($"Error: {httpResponseMessage.StatusCode}");
-                return null;
+                throw new Exception("Failed to get role by id");
             }
         }
 
@@ -42,8 +41,7 @@ namespace UnikProjekt.Web.ProxyServices
             }
             else
             {
-                Console.WriteLine($"Error: {httpResponseMessage.StatusCode}");
-                return null;
+                throw new Exception("Failed to get role by name");
             }
         }
 

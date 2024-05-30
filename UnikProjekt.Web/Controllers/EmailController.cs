@@ -19,7 +19,7 @@ namespace UnikProjekt.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var emailForm = new EmailViewModel();
-            _logger.LogInformation($"{nameof(Index)}");
+            _logger.LogInformation("Email retrieved in {ActionName}", nameof(Index));
             return View(emailForm);
 
         }
@@ -29,12 +29,12 @@ namespace UnikProjekt.Web.Controllers
         {
             if (string.IsNullOrEmpty(recipientEmail) || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(message))
             {
+                _logger.LogWarning("Email failed due to missing fields in {ActionName}", nameof(Create));
                 return BadRequest("Modtagerens e-mail, emne og besked skal udfyldes.");
             }
 
             await _emailService.SendEmailAsync(recipientEmail, subject, message);
 
-            //Omdiriger til en bekræftelsesside eller vis en bekræftelsesbesked
             return RedirectToAction("EmailSent");
         }
 

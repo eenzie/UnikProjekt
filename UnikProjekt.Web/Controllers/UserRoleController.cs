@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnikProjekt.Web.Models;
 using UnikProjekt.Web.Models.DTOs;
 using UnikProjekt.Web.Services;
 
@@ -44,8 +45,19 @@ namespace UnikProjekt.Web.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Kunne ikke oprette en ny rolle til brugeren");
+
+                }
             }
-            return View(createUserRoleDto);
+            var userRoleViewModel = new UserRoleViewModel
+            {
+                StartDate = createUserRoleDto.StartDate,
+                EndDate = createUserRoleDto.EndDate
+            };
+
+            return View(userRoleViewModel);
         }
 
         // GET: UserRoleController/Edit/5

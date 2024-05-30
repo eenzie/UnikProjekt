@@ -15,7 +15,6 @@ namespace UnikProjekt.Web.Services
 
         public async Task<Guid> CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto)
         {
-            //calling backend method _userRoleServiceProxy.CreateUserRoleAsync
             var userRoleDto = await _userRoleServiceProxy.CreateUserRoleAsync(createUserRoleDto);
             if (userRoleDto == null)
             {

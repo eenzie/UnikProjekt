@@ -29,8 +29,7 @@ namespace UnikProjekt.Web.ProxyServices
             }
             else
             {
-                Console.WriteLine($"Error: {httpResponseMessage.StatusCode}");
-                return null;
+                throw new Exception("Failed to get user by id");
             }
 
         }
@@ -45,23 +44,38 @@ namespace UnikProjekt.Web.ProxyServices
             }
             else
             {
-                Console.WriteLine($"Error: {httpResponseMessage.StatusCode}");
-                return null;
+                throw new Exception("Failed to get user by name");
             }
         }
 
         async Task<UserDto> IUserServiceProxy.CreateUserAsync(CreateUserDto createUserDto)
         {
-            var httpResponseMessage = await _httpClient.PostAsJsonAsync("User", createUserDto);
-            httpResponseMessage.EnsureSuccessStatusCode();
-            return await httpResponseMessage.Content.ReadFromJsonAsync<UserDto>();
+            try
+            {
+                var httpResponseMessage = await _httpClient.PostAsJsonAsync("User", createUserDto);
+                httpResponseMessage.EnsureSuccessStatusCode();
+                return await httpResponseMessage.Content.ReadFromJsonAsync<UserDto>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to create user");
+
+            }
         }
 
         async Task<UserDto> IUserServiceProxy.EditUserAsync(EditUserDto editUserDto)
         {
-            var httpResponseMessage = await _httpClient.PutAsJsonAsync($"User", editUserDto);
-            httpResponseMessage.EnsureSuccessStatusCode();
-            return await httpResponseMessage.Content.ReadFromJsonAsync<UserDto>();
+            try
+            {
+                var httpResponseMessage = await _httpClient.PutAsJsonAsync($"User", editUserDto);
+                httpResponseMessage.EnsureSuccessStatusCode();
+                return await httpResponseMessage.Content.ReadFromJsonAsync<UserDto>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to edit user");
+
+            }
         }
 
     }

@@ -1,0 +1,65 @@
+﻿@model UnikProjekt.Web.Models.BookingItemViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="RowVersion" type="hidden" />
+            <div class="form-group">
+                <label asp-for="ServiceName" class="control-label"></label>
+                <input asp-for="ServiceName" class="form-control" />
+                <span asp-validation-for="ServiceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deposit" class="control-label"></label>
+                <input asp-for="Deposit" class="form-control" />
+                <span asp-validation-for="Deposit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IntervalStart" class="control-label"></label>
+                <input asp-for="IntervalStart" class="form-control" />
+                <span asp-validation-for="IntervalStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IntervalEnd" class="control-label"></label>
+                <input asp-for="IntervalEnd" class="form-control" />
+                <span asp-validation-for="IntervalEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookingTimeInMinutes" class="control-label"></label>
+                <input asp-for="BookingTimeInMinutes" class="form-control" />
+                <span asp-validation-for="BookingTimeInMinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="RowVersion" type="hidden" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Opret" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Gå tilbage til listen</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
