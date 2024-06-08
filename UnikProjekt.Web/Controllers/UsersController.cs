@@ -68,6 +68,8 @@ namespace UnikProjekt.Web.Controllers
             }
 
             return View(createUserDto);
+
+
         }
 
         // GET: UsersController/Edit/5
@@ -109,8 +111,8 @@ namespace UnikProjekt.Web.Controllers
 
             try
             {
-                var userId = await _userService.EditUserAsync(id, editUserDto);
-                if (userId != Guid.Empty)
+                var editedUserViewModel = await _userService.EditUserAsync(editUserDto);
+                if (editedUserViewModel != null)
                 {
                     return RedirectToAction(nameof(Index));
                 }
