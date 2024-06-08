@@ -88,14 +88,27 @@ namespace UnikProjekt.Web.Services
         }
 
 
-        public async Task<Guid> EditUserAsync(Guid id, EditUserDto editUserDto)
+        public async Task<UserViewModel> EditUserAsync(EditUserDto editUserDto)
         {
             var editedUserDto = await _userServiceProxy.EditUserAsync(editUserDto);
             if (editedUserDto == null)
             {
-                return Guid.Empty;
+                return null;
             }
-            return editedUserDto.Id;
+
+            return new UserViewModel
+            {
+                Id = editedUserDto.Id,
+                FirstName = editedUserDto.FirstName,
+                LastName = editedUserDto.LastName,
+                Email = editedUserDto.Email,
+                MobileNumber = editedUserDto.MobileNumber,
+                Street = editedUserDto.Street,
+                StreetNumber = editedUserDto.StreetNumber,
+                PostCode = editedUserDto.PostCode,
+                City = editedUserDto.City,
+                RowVersion = editedUserDto.RowVersion
+            };
 
         }
     }

@@ -114,5 +114,34 @@ namespace UnikProjekt.Web.Services
             return bookingDto.Id;
 
         }
+
+        public async Task<BookingViewModel> EditBookingAsync(EditBookingDto editBookingDto)
+        {
+            var bookingDto = await _bookingServiceProxy.EditBookingAsync(editBookingDto);
+            if (bookingDto == null)
+            {
+                return null;
+            }
+
+            var bookingViewModel = new BookingViewModel
+            {
+                Id = bookingDto.Id,
+                User = bookingDto.User,
+                DateBooked = bookingDto.DateBooked,
+                SubTotal = bookingDto.SubTotal,
+                TotalPrice = bookingDto.TotalPrice,
+                Items = bookingDto.Items.Select(item => new BookingLineViewModel
+                {
+                    Id = item.Id,
+                    BookingItem = item.BookingItem,
+                    BookingStart = item.BookingStart,
+                    BookingEnd = item.BookingEnd,
+                    ItemPrice = item.ItemPrice
+                }).ToList(),
+                RowVersion = bookingDto.RowVersion
+            };
+
+            return bookingViewModel;
+        }
     }
 }
