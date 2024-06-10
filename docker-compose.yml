@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: UnikProjekt.Api/Dockerfile
     depends_on: 
-      - unikprojekt.mssql.backend
+      unikprojekt.mssql.backend:
+        condition: service_healthy
     ports:
       - "18082:8080"
     environment:
@@ -19,8 +20,10 @@ services:
       context: .
       dockerfile: UnikProjekt.Web/Dockerfile
     depends_on: 
-      - unikprojekt.api
-      - unikprojekt.mssql.frontend
+      unikprojekt.api:
+        condition: service_started
+      unikprojekt.mssql.frontend:
+        condition: service_healthy
     ports:
       - "5160:8080"
     environment:
@@ -51,7 +54,7 @@ services:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "Password1234!"
     ports:
-      - "1434:1433"
+      - "11434:1433"
     healthcheck:
       test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PPassword1234!", "-Q", "select 1"]
       interval: 1s
